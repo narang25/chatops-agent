@@ -1,0 +1,16 @@
+# Person A (agent + RAG). Add pinned versions as you install them.
+langchain
+langchain-core
+langchain-community
+langchain-aws
+langchain-ollama
+langchain-huggingface
+langgraph
+chromadb
+sentence-transformers
+python-frontmatter
+pyyaml
+mcp
+typer
+rich
+python-dotenv

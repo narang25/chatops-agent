@@ -1,0 +1,9 @@
+# Person B (sample apps, tools, infra). Add pinned versions as you install them.
+fastapi
+uvicorn
+prometheus-client
+psutil
+httpx
+docker
+mcp
+python-dotenv

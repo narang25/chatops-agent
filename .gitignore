@@ -1,0 +1,20 @@
+# secrets
+.env
+.env.*
+!.env.*.example
+
+# python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+
+# local data stores / logs
+chroma_db/
+*.log
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store

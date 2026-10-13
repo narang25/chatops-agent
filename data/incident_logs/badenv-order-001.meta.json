@@ -1,0 +1,14 @@
+{
+  "scenario_id": "badenv-order-001",
+  "service": "order-service",
+  "failure_type": "bad_config",
+  "root_cause": "PAYMENT_SERVICE_URL environment variable is missing; order-service fails startup check",
+  "expected_fix": "Provide PAYMENT_SERVICE_URL in the environment configuration and restart the container",
+  "signals": [
+    "exit_code=1",
+    "container_status=exited",
+    "missing_env_var=PAYMENT_SERVICE_URL",
+    "level=CRITICAL"
+  ],
+  "how_to_reproduce": "python infra/failures/bad_env.py"
+}

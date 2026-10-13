@@ -1,0 +1,1 @@
+{"timestamp": "2026-10-13T11:46:57.855Z", "service": "order-service", "level": "CRITICAL", "message": "PAYMENT_SERVICE_URL environment variable is required but not set"}

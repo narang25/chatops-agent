@@ -1,0 +1,26 @@
+# LLM Configuration for ChatOps Agent
+# Person A ownership (agent/)
+
+# Active LLM provider: "bedrock" or "ollama"
+# Switching between AWS Bedrock and local Ollama is a one-line change here.
+provider: bedrock
+
+# Amazon Bedrock Settings
+bedrock:
+  # Model ID or cross-region inference profile ID
+  # Default guess: qwen.qwen3-235b-a22b-2507-v1:0
+  # Note: confirm exact available model ID using `python agent/scripts/list_models.py`
+  model_id: qwen.qwen3-235b-a22b-2507-v1:0
+  # AWS region (can also be overridden by AWS_REGION environment variable)
+  region: us-east-1
+
+# Ollama Settings (local fallback)
+ollama:
+  # Small local model name
+  model: llama3.2:1b
+  # Base URL (can also be overridden by OLLAMA_BASE_URL environment variable)
+  base_url: http://localhost:11434
+
+# Generation parameters
+temperature: 0
+max_tokens: 2048

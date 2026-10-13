@@ -8,9 +8,9 @@ provider: bedrock
 # Amazon Bedrock Settings
 bedrock:
   # Model ID or cross-region inference profile ID
-  # Default guess: qwen.qwen3-235b-a22b-2507-v1:0
-  # Note: confirm exact available model ID using `python agent/scripts/list_models.py`
-  model_id: qwen.qwen3-235b-a22b-2507-v1:0
+  # Candidate default: qwen.qwen3-next-80b-a3b
+  # Note: if a model requires a regional inference profile, llm.py automatically retries with "us." prefix
+  model_id: qwen.qwen3-next-80b-a3b
   # AWS region (can also be overridden by AWS_REGION environment variable)
   region: us-east-1
 

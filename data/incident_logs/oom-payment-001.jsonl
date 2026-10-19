@@ -1,0 +1,4 @@
+{"timestamp": "2026-10-13T11:47:44.257Z", "service": "payment-service", "level": "WARNING", "message": "Memory leak: allocated 10 MB, total leaked: 10 MB"}
+{"timestamp": "2026-10-13T11:47:44.403Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=306 amount=16.03"}
+{"timestamp": "2026-10-13T11:47:45.471Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=307 amount=77.61"}
+{"timestamp": "2026-10-13T11:47:45.668Z", "service": "payment-service", "level": "WARNING", "message": "Memory leak: allocated 10 MB, total leaked: 20 MB"}

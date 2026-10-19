@@ -1,0 +1,14 @@
+{
+  "scenario_id": "oom-payment-001",
+  "service": "payment-service",
+  "failure_type": "out_of_memory",
+  "root_cause": "Container memory limit (64MB) too low; /leak endpoint allocates unbounded memory",
+  "expected_fix": "Raise memory limit to 256MB and fix the leak",
+  "signals": [
+    "oom_killed=false",
+    "exit_code=0",
+    "restart_count increased from 0 to 1",
+    "memory limit exceeded (64MB)"
+  ],
+  "how_to_reproduce": "python infra/failures/oom.py"
+}

@@ -1,0 +1,13 @@
+{"timestamp": "2026-10-13T11:46:16.534Z", "service": "inventory-service", "level": "INFO", "message": "Fault toggles updated: {'health_fail': True}"}
+{"timestamp": "2026-10-13T11:46:16.555Z", "service": "inventory-service", "level": "WARNING", "message": "Health check failed (fault injected)"}
+{"timestamp": "2026-10-13T11:46:16.559Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: doohickey"}
+{"timestamp": "2026-10-13T11:46:16.576Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=doohickey quantity=200"}
+{"timestamp": "2026-10-13T11:46:17.152Z", "service": "inventory-service", "level": "WARNING", "message": "Health check failed (fault injected)"}
+{"timestamp": "2026-10-13T11:46:17.879Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: doohickey"}
+{"timestamp": "2026-10-13T11:46:17.901Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=doohickey quantity=200"}
+{"timestamp": "2026-10-13T11:46:20.975Z", "service": "inventory-service", "level": "WARNING", "message": "Health check failed (fault injected)"}
+{"timestamp": "2026-10-13T11:46:22.701Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: gadget"}
+{"timestamp": "2026-10-13T11:46:22.720Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=gadget quantity=50"}
+{"timestamp": "2026-10-13T11:46:23.688Z", "service": "inventory-service", "level": "WARNING", "message": "Health check failed (fault injected)"}
+{"timestamp": "2026-10-13T11:46:26.151Z", "service": "inventory-service", "level": "WARNING", "message": "Health check failed (fault injected)"}
+{"timestamp": "2026-10-13T11:46:26.255Z", "service": "inventory-service", "level": "WARNING", "message": "Health check failed (fault injected)"}

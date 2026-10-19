@@ -61,3 +61,27 @@ questions:
     expected_runbook: "cpu_saturation-any.md"
     failure_type: "cpu_saturation"
     service: "any"
+
+  - id: 11
+    question: "Application log shows: Failed to write transaction log: [Errno 28] No space left on device"
+    expected_runbook: "disk_full-any.md"
+    failure_type: "disk_full"
+    service: "any"
+
+  - id: 12
+    question: "inventory-service restart count is 8 and docker ps shows it is restarting every 10 seconds"
+    expected_runbook: "crash_loop-inventory.md"
+    failure_type: "crash_loop"
+    service: "inventory-service"
+
+  - id: 13
+    question: "payment-service is logging Timeout calling fraud-check service after 3s on every /pay request"
+    expected_runbook: "network_timeout-payment.md"
+    failure_type: "network_timeout"
+    service: "payment-service"
+
+  - id: 14
+    question: "order-service app_errors_total is spiking and logs show Unhandled exception in POST /order with ValueError traceback"
+    expected_runbook: "high_error_rate-order.md"
+    failure_type: "high_error_rate"
+    service: "order-service"

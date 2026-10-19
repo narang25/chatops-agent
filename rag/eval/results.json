@@ -1,9 +1,9 @@
 {
-  "evaluation_timestamp": 1792408217.714093,
-  "total_questions": 10,
-  "hit_rate_at_1": 90.0,
+  "evaluation_timestamp": 1792428935.7455711,
+  "total_questions": 14,
+  "hit_rate_at_1": 85.71428571428571,
   "hit_rate_at_3": 100.0,
-  "mean_reciprocal_rank": 0.95,
+  "mean_reciprocal_rank": 0.9285714285714286,
   "records": [
     {
       "id": 1,
@@ -27,8 +27,8 @@
       "top_match": "out_of_memory-payment.md",
       "retrieved_sources": [
         "out_of_memory-payment.md",
-        "out_of_memory-payment.md",
-        "out_of_memory-payment.md"
+        "disk_full-any.md",
+        "crash_loop-inventory.md"
       ],
       "rank": 1,
       "hit_at_1": true,
@@ -54,16 +54,16 @@
       "id": 4,
       "question": "Order container exits immediately with exit code 1 and status exited",
       "expected_runbook": "bad_config-order.md",
-      "top_match": "bad_config-order.md",
+      "top_match": "high_error_rate-order.md",
       "retrieved_sources": [
+        "high_error_rate-order.md",
         "bad_config-order.md",
-        "bad_config-order.md",
-        "dependency_failure-order.md"
+        "crash_loop-inventory.md"
       ],
-      "rank": 1,
-      "hit_at_1": true,
+      "rank": 2,
+      "hit_at_1": false,
       "hit_at_3": true,
-      "reciprocal_rank": 1.0
+      "reciprocal_rank": 0.5
     },
     {
       "id": 5,
@@ -102,8 +102,8 @@
       "top_match": "db_timeout-payment.md",
       "retrieved_sources": [
         "db_timeout-payment.md",
-        "db_timeout-payment.md",
-        "db_timeout-payment.md"
+        "network_timeout-payment.md",
+        "network_timeout-payment.md"
       ],
       "rank": 1,
       "hit_at_1": true,
@@ -149,6 +149,66 @@
         "cpu_saturation-any.md",
         "cpu_saturation-any.md",
         "cpu_saturation-any.md"
+      ],
+      "rank": 1,
+      "hit_at_1": true,
+      "hit_at_3": true,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": 11,
+      "question": "Application log shows: Failed to write transaction log: [Errno 28] No space left on device",
+      "expected_runbook": "disk_full-any.md",
+      "top_match": "disk_full-any.md",
+      "retrieved_sources": [
+        "disk_full-any.md",
+        "disk_full-any.md",
+        "disk_full-any.md"
+      ],
+      "rank": 1,
+      "hit_at_1": true,
+      "hit_at_3": true,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": 12,
+      "question": "inventory-service restart count is 8 and docker ps shows it is restarting every 10 seconds",
+      "expected_runbook": "crash_loop-inventory.md",
+      "top_match": "crash_loop-inventory.md",
+      "retrieved_sources": [
+        "crash_loop-inventory.md",
+        "crash_loop-inventory.md",
+        "crash_loop-inventory.md"
+      ],
+      "rank": 1,
+      "hit_at_1": true,
+      "hit_at_3": true,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": 13,
+      "question": "payment-service is logging Timeout calling fraud-check service after 3s on every /pay request",
+      "expected_runbook": "network_timeout-payment.md",
+      "top_match": "network_timeout-payment.md",
+      "retrieved_sources": [
+        "network_timeout-payment.md",
+        "db_timeout-payment.md",
+        "network_timeout-payment.md"
+      ],
+      "rank": 1,
+      "hit_at_1": true,
+      "hit_at_3": true,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": 14,
+      "question": "order-service app_errors_total is spiking and logs show Unhandled exception in POST /order with ValueError traceback",
+      "expected_runbook": "high_error_rate-order.md",
+      "top_match": "high_error_rate-order.md",
+      "retrieved_sources": [
+        "high_error_rate-order.md",
+        "high_error_rate-order.md",
+        "high_error_rate-order.md"
       ],
       "rank": 1,
       "hit_at_1": true,

@@ -1,0 +1,63 @@
+# Benchmark evaluation questions for ChatOps RAG runbook retrieval
+# Used by rag/eval/run_eval.py to calculate Hit Rate @ 1 and Hit Rate @ 3
+
+questions:
+  - id: 1
+    question: "Why did payment-service get killed with exit code 137?"
+    expected_runbook: "out_of_memory-payment.md"
+    failure_type: "out_of_memory"
+    service: "payment-service"
+
+  - id: 2
+    question: "Container memory usage keeps climbing monotonically until the process restarts"
+    expected_runbook: "out_of_memory-payment.md"
+    failure_type: "out_of_memory"
+    service: "payment-service"
+
+  - id: 3
+    question: "order-service fails on startup with CRITICAL error: PAYMENT_SERVICE_URL environment variable is required but not set"
+    expected_runbook: "bad_config-order.md"
+    failure_type: "bad_config"
+    service: "order-service"
+
+  - id: 4
+    question: "Order container exits immediately with exit code 1 and status exited"
+    expected_runbook: "bad_config-order.md"
+    failure_type: "bad_config"
+    service: "order-service"
+
+  - id: 5
+    question: "GET /health on inventory-service returns 500 internal server error and docker status unhealthy"
+    expected_runbook: "health_check_failure-inventory.md"
+    failure_type: "health_check_failure"
+    service: "inventory-service"
+
+  - id: 6
+    question: "How do I reset the health_fail fault injection toggle on inventory service?"
+    expected_runbook: "health_check_failure-inventory.md"
+    failure_type: "health_check_failure"
+    service: "inventory-service"
+
+  - id: 7
+    question: "Payment-service is logging Database connection timed out after 5s during /pay transactions"
+    expected_runbook: "db_timeout-payment.md"
+    failure_type: "db_timeout"
+    service: "payment-service"
+
+  - id: 8
+    question: "Payment application cannot connect to postgres database container on port 5432"
+    expected_runbook: "db_timeout-payment.md"
+    failure_type: "db_timeout"
+    service: "payment-service"
+
+  - id: 9
+    question: "Failed to call payment-service: ConnectError Connection refused from order-service"
+    expected_runbook: "dependency_failure-order.md"
+    failure_type: "dependency_failure"
+    service: "order-service"
+
+  - id: 10
+    question: "cAdvisor shows container CPU usage at 100% and p95 request latency exceeds 2000ms"
+    expected_runbook: "cpu_saturation-any.md"
+    failure_type: "cpu_saturation"
+    service: "any"

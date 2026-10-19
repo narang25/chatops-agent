@@ -1,0 +1,159 @@
+{
+  "evaluation_timestamp": 1792408217.714093,
+  "total_questions": 10,
+  "hit_rate_at_1": 90.0,
+  "hit_rate_at_3": 100.0,
+  "mean_reciprocal_rank": 0.95,
+  "records": [
+    {
+      "id": 1,
+      "question": "Why did payment-service get killed with exit code 137?",
+      "expected_runbook": "out_of_memory-payment.md",
+      "top_match": "dependency_failure-order.md",
+      "retrieved_sources": [
+        "dependency_failure-order.md",
+        "out_of_memory-payment.md",
+        "out_of_memory-payment.md"
+      ],
+      "rank": 2,
+      "hit_at_1": false,
+      "hit_at_3": true,
+      "reciprocal_rank": 0.5
+    },
+    {
+      "id": 2,
+      "question": "Container memory usage keeps climbing monotonically until the process restarts",
+      "expected_runbook": "out_of_memory-payment.md",
+      "top_match": "out_of_memory-payment.md",
+      "retrieved_sources": [
+        "out_of_memory-payment.md",
+        "out_of_memory-payment.md",
+        "out_of_memory-payment.md"
+      ],
+      "rank": 1,
+      "hit_at_1": true,
+      "hit_at_3": true,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": 3,
+      "question": "order-service fails on startup with CRITICAL error: PAYMENT_SERVICE_URL environment variable is required but not set",
+      "expected_runbook": "bad_config-order.md",
+      "top_match": "bad_config-order.md",
+      "retrieved_sources": [
+        "bad_config-order.md",
+        "bad_config-order.md",
+        "bad_config-order.md"
+      ],
+      "rank": 1,
+      "hit_at_1": true,
+      "hit_at_3": true,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": 4,
+      "question": "Order container exits immediately with exit code 1 and status exited",
+      "expected_runbook": "bad_config-order.md",
+      "top_match": "bad_config-order.md",
+      "retrieved_sources": [
+        "bad_config-order.md",
+        "bad_config-order.md",
+        "dependency_failure-order.md"
+      ],
+      "rank": 1,
+      "hit_at_1": true,
+      "hit_at_3": true,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": 5,
+      "question": "GET /health on inventory-service returns 500 internal server error and docker status unhealthy",
+      "expected_runbook": "health_check_failure-inventory.md",
+      "top_match": "health_check_failure-inventory.md",
+      "retrieved_sources": [
+        "health_check_failure-inventory.md",
+        "health_check_failure-inventory.md",
+        "health_check_failure-inventory.md"
+      ],
+      "rank": 1,
+      "hit_at_1": true,
+      "hit_at_3": true,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": 6,
+      "question": "How do I reset the health_fail fault injection toggle on inventory service?",
+      "expected_runbook": "health_check_failure-inventory.md",
+      "top_match": "health_check_failure-inventory.md",
+      "retrieved_sources": [
+        "health_check_failure-inventory.md",
+        "health_check_failure-inventory.md",
+        "health_check_failure-inventory.md"
+      ],
+      "rank": 1,
+      "hit_at_1": true,
+      "hit_at_3": true,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": 7,
+      "question": "Payment-service is logging Database connection timed out after 5s during /pay transactions",
+      "expected_runbook": "db_timeout-payment.md",
+      "top_match": "db_timeout-payment.md",
+      "retrieved_sources": [
+        "db_timeout-payment.md",
+        "db_timeout-payment.md",
+        "db_timeout-payment.md"
+      ],
+      "rank": 1,
+      "hit_at_1": true,
+      "hit_at_3": true,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": 8,
+      "question": "Payment application cannot connect to postgres database container on port 5432",
+      "expected_runbook": "db_timeout-payment.md",
+      "top_match": "db_timeout-payment.md",
+      "retrieved_sources": [
+        "db_timeout-payment.md",
+        "db_timeout-payment.md",
+        "db_timeout-payment.md"
+      ],
+      "rank": 1,
+      "hit_at_1": true,
+      "hit_at_3": true,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": 9,
+      "question": "Failed to call payment-service: ConnectError Connection refused from order-service",
+      "expected_runbook": "dependency_failure-order.md",
+      "top_match": "dependency_failure-order.md",
+      "retrieved_sources": [
+        "dependency_failure-order.md",
+        "db_timeout-payment.md",
+        "dependency_failure-order.md"
+      ],
+      "rank": 1,
+      "hit_at_1": true,
+      "hit_at_3": true,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": 10,
+      "question": "cAdvisor shows container CPU usage at 100% and p95 request latency exceeds 2000ms",
+      "expected_runbook": "cpu_saturation-any.md",
+      "top_match": "cpu_saturation-any.md",
+      "retrieved_sources": [
+        "cpu_saturation-any.md",
+        "cpu_saturation-any.md",
+        "cpu_saturation-any.md"
+      ],
+      "rank": 1,
+      "hit_at_1": true,
+      "hit_at_3": true,
+      "reciprocal_rank": 1.0
+    }
+  ]
+}

@@ -6,8 +6,8 @@ severity: high
 ---
 
 ## Symptoms
-- Container restarts suddenly or enters a crash-restart cycle.
-- Docker inspect reveals `OOMKilled: true` or exit code `137` (SIGKILL).
+- Container killed or terminated with exit code `137` (SIGKILL) due to out of memory.
+- Docker inspect reveals `OOMKilled: true` or exit code `137`.
 - Application logs show rapid memory allocation before termination:
   `{"timestamp": "2026-10-13T11:47:45.668Z", "service": "payment-service", "level": "WARNING", "message": "Memory leak: allocated 10 MB, total leaked: 20 MB"}`
 - Prometheus metric `app_memory_bytes{service="payment-service"}` increases monotonically until process dies.

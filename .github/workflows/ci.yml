@@ -1,0 +1,127 @@
+name: CI
+
+on:
+  push:
+    branches: ["main", "feat/**", "fix/**"]
+  pull_request:
+    branches: ["main"]
+
+env:
+  PYTHON_VERSION: "3.11"
+
+jobs:
+  # ──────────────────────────────────────────────────────────────────────────
+  # Job 1: Lint + compose config validation
+  # ──────────────────────────────────────────────────────────────────────────
+  lint-and-validate:
+    name: Lint & validate
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: "pip"
+
+      - name: Install ruff
+        run: pip install ruff
+
+      - name: Ruff lint (infra sources)
+        run: |
+          ruff check \
+            interfaces/slack/app.py \
+            infra/manage.py \
+            infra/failures/ \
+            mcp_servers/prometheus/server.py \
+            mcp_servers/kubernetes/server.py \
+            mcp_servers/kubernetes/backends/ \
+            --ignore E501,ANN,D
+        # E501 = line length (relaxed in CI), ANN/D = type/docstring annotations optional
+
+      - name: Ruff lint (agent sources — Person A's code, read-only check)
+        run: |
+          ruff check agent/ rag/ --ignore E501,ANN,D || true
+        # Non-blocking: Person A owns these; we flag but don't fail
+
+      - name: Validate docker-compose config
+        run: docker compose -f infra/docker-compose.yml config --quiet
+
+  # ──────────────────────────────────────────────────────────────────────────
+  # Job 2: Unit tests
+  # ──────────────────────────────────────────────────────────────────────────
+  unit-tests:
+    name: Unit tests
+    runs-on: ubuntu-latest
+    # Run even if lint fails so we always see the full picture
+    if: always()
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: "pip"
+
+      - name: Install infra dependencies
+        run: pip install -r requirements-infra.txt
+
+      - name: Install agent dependencies (for agent.api imports)
+        run: pip install -r requirements-agent.txt || true
+        # Non-fatal: agent deps may not be present in a Person-B-only CI
+
+      - name: Install project in editable mode (so imports resolve)
+        run: pip install -e . || true
+
+      - name: Run Prometheus MCP server tests
+        run: pytest mcp_servers/prometheus/test_server.py -v
+
+      - name: Run Kubernetes MCP server tests
+        run: pytest mcp_servers/kubernetes/test_server.py -v
+
+      - name: Run MCP tool integration tests
+        run: pytest infra/tests/test_tools.py -v
+
+      - name: Run agent tests (Person A — non-blocking)
+        run: pytest agent/ -v || true
+
+  # ──────────────────────────────────────────────────────────────────────────
+  # Job 3: Docker image builds
+  # ──────────────────────────────────────────────────────────────────────────
+  docker-build:
+    name: Docker build
+    runs-on: ubuntu-latest
+    if: always()
+
+    strategy:
+      fail-fast: false
+      matrix:
+        service:
+          - name: payment-service
+            context: sample_apps/payment-service
+          - name: order-service
+            context: sample_apps/order-service
+          - name: inventory-service
+            context: sample_apps/inventory-service
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build ${{ matrix.service.name }}
+        uses: docker/build-push-action@v5
+        with:
+          context: ${{ matrix.service.context }}
+          push: false
+          tags: chatops-${{ matrix.service.name }}:ci
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

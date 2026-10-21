@@ -9,3 +9,6 @@ Used in runbook front-matter AND in incident `.meta.json` files.
 - dependency_failure
 - disk_full
 - cpu_saturation
+- crash_loop
+- network_timeout
+- high_error_rate

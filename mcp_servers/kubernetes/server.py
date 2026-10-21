@@ -23,6 +23,7 @@ sys.path.insert(0, str(PROJECT_ROOT))
 
 from mcp.server.mcpserver import MCPServer
 from mcp_servers.kubernetes.backends import get_backend
+from mcp_servers.kubernetes.backends.base import RuntimeBackend
 
 mcp = MCPServer(
     name="chatops-kubernetes",
@@ -30,10 +31,16 @@ mcp = MCPServer(
     description="Container and pod infrastructure inspection MCP server for ChatOps microservices.",
 )
 
-_backend = None
+_backend: RuntimeBackend | None = None
 
 
-def _get_active_backend():
+def set_backend(backend: RuntimeBackend | None):
+    """Set or reset active runtime backend (useful for testing or switching runtimes)."""
+    global _backend
+    _backend = backend
+
+
+def _get_active_backend() -> RuntimeBackend:
     global _backend
     if _backend is None:
         _backend = get_backend()

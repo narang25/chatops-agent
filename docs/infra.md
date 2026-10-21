@@ -77,41 +77,25 @@ Container-level metrics (e.g. `container_memory_usage_bytes`, `container_spec_me
 
 Failure scripts reside in `infra/failures/`. Each script injects a failure, captures valid JSON logs into `data/incident_logs/<scenario_id>.jsonl`, and generates ground truth in `data/incident_logs/<scenario_id>.meta.json`.
 
-### Scenario 1: Out Of Memory (`oom.py`)
-- **Target**: `payment-service`
-- **Mechanism**: Constrains container memory limit to 64MB via `docker update`, then triggers `/leak` until the container is OOM-killed and restarts.
-- **Run command**:
-  ```bash
-  python infra/failures/oom.py
-  ```
-- **Generated artifacts**:
-  - `data/incident_logs/oom-payment-001.jsonl`
-  - `data/incident_logs/oom-payment-001.meta.json`
+All 6 scenarios can be executed via the unified runner:
+```bash
+python infra/failures/run_scenario.py list
+python infra/failures/run_scenario.py run <scenario_id>
+python infra/failures/run_scenario.py restore
+```
 
-### Scenario 2: Misconfiguration (`bad_env.py`)
-- **Target**: `order-service`
-- **Mechanism**: Starts an instance missing the required `PAYMENT_SERVICE_URL` variable. The app logs a `CRITICAL` error on startup and exits with code 1.
-- **Run command**:
-  ```bash
-  python infra/failures/bad_env.py
-  ```
-- **Generated artifacts**:
-  - `data/incident_logs/badenv-order-001.jsonl`
-  - `data/incident_logs/badenv-order-001.meta.json`
+### 4.1 Scenario Reference
 
-### Scenario 3: Health Check Failure (`health_fail.py`)
-- **Target**: `inventory-service`
-- **Mechanism**: Toggles runtime fault `health_fail=true` via `POST /admin/fault`. The service returns HTTP 500 on `/health` and drops `app_up` to 0.
-- **Run command**:
-  ```bash
-  python infra/failures/health_fail.py
-  ```
-- **Generated artifacts**:
-  - `data/incident_logs/healthfail-inventory-001.jsonl`
-  - `data/incident_logs/healthfail-inventory-001.meta.json`
+| Scenario ID | Failure Type | Target Service | Script | Injected Fault | Expected Key Signals |
+|---|---|---|---|---|---|
+| `oom-payment-001` | `out_of_memory` | `payment-service` | `oom.py` | Memory limited to 64MB, calls `/leak` | Container killed (exit 137), restart count increases, memory near limit |
+| `badenv-order-001` | `bad_config` | `order-service` | `bad_env.py` | Starts container missing `PAYMENT_SERVICE_URL` | Critical startup JSON log, exit code 1, container crash loop |
+| `healthfail-inventory-001` | `health_check_failure` | `inventory-service` | `health_fail.py` | Sets `health_fail=true` via `/admin/fault` | `/health` returns 500, Docker status `unhealthy`, `app_up` drops to 0 |
+| `dbtimeout-payment-001` | `db_timeout` | `payment-service` | `db_timeout.py` | Sets `slow_db=true` via `/admin/fault` | Requests delayed >=3s, latency spikes, DB timeouts |
+| `depfail-order-001` | `dependency_failure` | `order-service` | `dependency_failure.py` | Stops `payment-service` container | `order-service` returns HTTP 502, connection refused logs |
+| `cpusat-payment-001` | `cpu_saturation` | `payment-service` | `cpu_saturation.py` | High compute loops via `/burn` (limit 0.5 CPU) | cAdvisor CPU throttled, elevated p95 latency |
 
-### 4.4 How to Restore Everything
-To bring all services back to a normal healthy state:
+### 4.2 Restoring Baseline State
 ```bash
 python infra/failures/restore.py
 # Or on Unix / Git Bash:
@@ -154,3 +138,22 @@ These queries can be used in Prometheus (`http://localhost:9090`) or via MCP too
 Captured incidents are committed under `data/incident_logs/`:
 - `*.jsonl`: Pure JSON-line logs emitted by the affected service during the incident window.
 - `*.meta.json`: Ground truth metadata documenting `scenario_id`, `service`, `failure_type`, `root_cause`, `expected_fix`, and observed `signals`. These files serve as test inputs for Person A's runbooks and Week 4 benchmark validation.
+
+---
+
+## 7. Connecting Person A's Agent to Live MCP Tools
+
+Person A's `agent/api.py` uses stubs by default (`agent/stub_tools.py`). To switch to real MCP tools provided by Person B:
+
+```python
+# In agent/api.py (or via an environment toggle USE_REAL_MCP=true):
+from mcp_servers.prometheus.server import get_metrics as real_get_metrics
+from mcp_servers.kubernetes.server import (
+    get_pod_status as real_get_pod_status,
+    get_events as real_get_events,
+    get_logs as real_get_logs,
+    list_services as real_list_services,
+)
+```
+
+The function signatures and return dictionaries match `agent/stub_tools.py` and `contracts/mcp_tools.md` exactly, allowing transparent plug-and-play.

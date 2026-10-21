@@ -1,16 +1,37 @@
 # Infrastructure, Services, and Monitoring Documentation
 
-This document covers the sample microservices, monitoring stack, failure injection procedures, and Prometheus diagnostic queries for Person B's deliverables (Week 1).
+This document covers the sample microservices, monitoring stack, failure injection procedures, and Prometheus diagnostic queries for Person B's deliverables (Weeks 1 & 2).
 
 ---
 
 ## 1. Quick Start
 
-### 1.1 Starting the Stack
-Ensure Docker Desktop is running, then run:
+### 1.1 Managing the Stack
+Ensure Docker Desktop is running. You can manage the entire environment using either the cross-platform Python CLI or the Makefile:
+
+**Cross-platform CLI (Windows / macOS / Linux):**
+```bash
+python infra/manage.py up        # Start all 8 containers in background
+python infra/manage.py ps        # Check status of all containers
+python infra/manage.py logs [svc]# Tail logs (e.g. python infra/manage.py logs payment-service)
+python infra/manage.py restore   # Reset all fault toggles and memory limits
+python infra/manage.py down      # Stop and tear down stack
+```
+
+**Or using make (Linux / macOS):**
+```bash
+make -C infra up
+make -C infra ps
+make -C infra restore
+make -C infra down
+```
+
+**Or raw docker compose:**
 ```bash
 docker compose -f infra/docker-compose.yml up -d
+docker compose -f infra/docker-compose.yml down
 ```
+
 This launches 8 containers:
 - 3 FastAPI sample microservices (`payment-service`, `order-service`, `inventory-service`)
 - PostgreSQL 15 (`postgres`)
@@ -19,18 +40,13 @@ This launches 8 containers:
 - cAdvisor (`cadvisor`)
 - Background load generator (`loadgen`)
 
-### 1.2 Stopping the Stack
-```bash
-docker compose -f infra/docker-compose.yml down
-```
-
 ---
 
 ## 2. Services and Ports
 
 | Component | Container Name | Host Port | Internal Port | Health URL | Description |
 |---|---|---|---|---|---|
-| **Payment Service** | `payment-service` | `8001` | `8000` | `http://localhost:8001/health` | Payment processing backed by Postgres (`/pay`, `/leak`) |
+| **Payment Service** | `payment-service` | `8001` | `8000` | `http://localhost:8001/health` | Payment processing backed by Postgres (`/pay`, `/leak`, `/burn`) |
 | **Order Service** | `order-service` | `8002` | `8000` | `http://localhost:8002/health` | Order placement, calls `payment-service` (`/orders`) |
 | **Inventory Service** | `inventory-service` | `8003` | `8000` | `http://localhost:8003/health` | Stock lookups and updates (`/stock/{item}`) |
 | **PostgreSQL** | `postgres` | `5432` | `5432` | *(pg_isready check)* | Relational database (`chatops` database) |
@@ -53,7 +69,7 @@ Each service exposes standard Prometheus metrics at `GET /metrics` conforming to
 | `app_memory_bytes{service}` | Gauge | Process RSS memory measured in bytes |
 | `app_up{service}` | Gauge | Service operational health (`1` = healthy, `0` = unhealthy) |
 
-Container-level metrics (e.g. `container_memory_usage_bytes`, `container_spec_memory_limit_bytes`) are scraped directly from cAdvisor.
+Container-level metrics (e.g. `container_memory_usage_bytes`, `container_spec_memory_limit_bytes`, `container_cpu_usage_seconds_total`) are scraped directly from cAdvisor.
 
 ---
 
@@ -100,6 +116,8 @@ To bring all services back to a normal healthy state:
 python infra/failures/restore.py
 # Or on Unix / Git Bash:
 bash infra/failures/restore.sh
+# Or using manage.py:
+python infra/manage.py restore
 ```
 
 ---

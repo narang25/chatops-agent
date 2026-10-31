@@ -18,7 +18,7 @@ import sys
 import time
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 # Add project root to sys.path
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
@@ -27,7 +27,7 @@ sys.path.insert(0, str(PROJECT_ROOT))
 from langchain_core.messages import HumanMessage
 from langchain_core.tools import tool
 
-from agent.llm import get_llm, clean_output, handle_llm_error, find_and_load_env
+from agent.llm import clean_output, find_and_load_env, get_llm, handle_llm_error
 
 # Candidate model IDs specified in task
 CANDIDATE_MODELS: List[str] = [
@@ -83,7 +83,7 @@ def evaluate_model(model_id: str) -> Dict[str, Any]:
     successful_latencies: List[float] = []
 
     # 1. Hello Test
-    print(f"  -> Testing Hello prompt...")
+    print("  -> Testing Hello prompt...")
     try:
         start_time = time.perf_counter()
         response = llm.invoke([HumanMessage(content="Say hello in one sentence.")])
@@ -109,7 +109,7 @@ def evaluate_model(model_id: str) -> Dict[str, Any]:
         print(f"     ✗ Hello Failed: {record['error_summary']}")
 
     # 3. Tool Calling Test
-    print(f"  -> Testing Tool calling...")
+    print("  -> Testing Tool calling...")
     try:
         start_time = time.perf_counter()
         llm_with_tools = llm.bind_tools([get_service_status])
@@ -139,7 +139,7 @@ def evaluate_model(model_id: str) -> Dict[str, Any]:
         else:
             record["tool_call_ok"] = False
             record["tool_call_detail"] = "No tool call generated"
-            print(f"     ✗ No tool call generated")
+            print("     ✗ No tool call generated")
 
     except Exception as e:
         record["tool_call_ok"] = False

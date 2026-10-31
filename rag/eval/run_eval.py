@@ -14,13 +14,14 @@ import sys
 import time
 from pathlib import Path
 from typing import Any, Dict, List
+
 import yaml
 
 # Add project root to sys.path
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
 
-from rag.ingest import query_runbooks, DEFAULT_DB_PATH
+from rag.ingest import query_runbooks
 
 
 def evaluate_retrieval(eval_file: Path) -> Dict[str, Any]:

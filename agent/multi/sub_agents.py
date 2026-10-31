@@ -1,227 +1,319 @@
 """
-Multi-Agent Architecture Skeleton  (Week 3 -- Task A13)
+Parallel Multi-Agent Architecture (Week 4 -- Task A19).
 ========================================================
 
-Architecture Overview
----------------------
-The multi-agent system decomposes the monolithic SRE agent into three
-specialised sub-agents, each expert in one signal domain:
+Decomposes microservice incident diagnosis into three concurrent specialist
+sub-agents, each focused on one telemetry domain:
 
-  LogAgent      -- parses stack traces, error messages, and log patterns
-  MetricsAgent  -- analyses Prometheus CPU/memory/latency/error-rate trends
-  CoordinatorAgent -- synthesises hypotheses from sub-agents + computes confidence
+  1. LogAgent      -- Analyzes error logs, stack traces, and unhandled exceptions
+  2. MetricsAgent  -- Analyzes Prometheus numeric metrics (CPU, memory, latency, errors)
+  3. EventsAgent   -- Analyzes container lifecycle events, restarts, and OOM kills
 
-Coordinator flow:
-  User Query
-      |
-      v
-  CoordinatorAgent
-    |         |         |
-    v         v         v
-  LogAgent  MetricsAgent  (RunbookRAG: already handled via search_runbooks)
-    |         |
-    v         v
-  CoordinatorAgent (synthesis + final answer)
+Concurrent Execution:
+  The three specialists run simultaneously via `asyncio.gather()`, reducing
+  wall-clock time compared to sequential execution.
 
-Why multi-agent?
-  - Parallelism: Log and Metrics agents can run simultaneously.
-  - Specialisation: Each sub-agent has a focused, smaller system prompt → less
-    hallucination, better tool use.
-  - Scalability: New signal domains (traces, cost, SLO budget) can be added as
-    independent agents without touching the coordinator.
+CoordinatorAgent:
+  Synthesizes pre-analyzed reports from all three specialists, validates symptoms
+  against SRE runbooks via `search_runbooks`, and outputs a ranked, evidence-backed
+  incident diagnosis with confidence scoring.
 
-Status: Week 3 skeleton (orchestration logic stubbed).
-        Full parallel execution planned for Week 4.
+Usage:
+  from agent.multi.sub_agents import multi_agent_ask
+  result = multi_agent_ask("Why did payment-service fail?")
 """
 
 from __future__ import annotations
 
+import asyncio
 import json
+import sys
+import time
+from pathlib import Path
 from typing import Any
+
+# Ensure project root is in path
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
 
 from langchain_core.tools import tool
 from langgraph.prebuilt import create_react_agent
 
-from agent.llm import get_llm
-from agent.stub_tools import stub_get_events, stub_get_metrics, stub_get_pod_status
+from agent.api import (
+    _build_tool_trace,
+    _extract_confidence,
+    _extract_failure_type,
+    _extract_sources,
+)
+from agent.llm import clean_output, get_llm
+from agent.stub_tools import (
+    stub_get_events,
+    stub_get_logs,
+    stub_get_metrics,
+    stub_get_pod_status,
+    stub_list_services,
+)
 from mcp_servers.runbooks.server import search_runbooks as _search_runbooks_fn
 
+
+def _extract_target_service(question: str) -> str:
+    """Extracts target microservice name from question if present, defaults to 'payment-service'."""
+    lower = question.lower()
+    for svc in ("payment-service", "order-service", "inventory-service"):
+        if svc in lower or svc.replace("-service", "") in lower:
+            return svc
+    return "payment-service"
+
+
 # ---------------------------------------------------------------------------
-# Sub-Agent 1: Log Agent
+# Specialist 1: LogAgent
 # ---------------------------------------------------------------------------
 
 _LOG_AGENT_PROMPT = """\
-You are a specialist Log Analysis Agent for a microservice SRE system.
-Your ONLY job is to analyse log lines, stack traces, and event sequences.
+You are a specialist Log Analysis SRE Agent for microservices.
+Your ONLY responsibility is to investigate structured application logs and identify error patterns.
 
-Focus on:
-- Exception class names and messages
-- Error codes (HTTP status, exit codes, errno)
-- Repeated patterns or anomalous sequences
-- Timestamps and ordering of events
-
-RULES:
-- Only use get_events to fetch log/event data.
-- Never invent log content.
-- Output a JSON summary with: log_patterns, error_codes, suspicious_events.
+Investigation:
+1. Call get_logs for the target service (request ERROR and CRITICAL lines first).
+2. Look for stack traces, exception classes, HTTP 5xx codes, connection refused, or OOM messages.
+3. Summarize findings concisely:
+   - Primary Error / Exception: Exact error text found.
+   - Frequency / Pattern: How often and when it occurs.
+   - Suspected Root Cause from Logs: What the logs indicate is wrong.
 """
 
 
-@tool
-def get_events_for_logs(service: str, minutes: int = 15) -> str:
-    """Fetch recent events and log lines for a service for log analysis."""
-    return json.dumps(stub_get_events(service, minutes), indent=2)
+def _build_log_agent(model_id: str | None = None) -> Any:
+    @tool
+    def get_logs(service: str, minutes: int = 10, level: str | None = "ERROR") -> str:
+        """Fetch application logs filtered by level (ERROR, CRITICAL, WARNING, INFO)."""
+        return json.dumps(stub_get_logs(service, minutes, level), indent=2)
 
-
-def build_log_agent() -> Any:
-    """Return a compiled LangGraph log analysis sub-agent."""
-    llm = get_llm()
+    llm = get_llm(model_id=model_id)
     return create_react_agent(
         model=llm,
-        tools=[get_events_for_logs],
+        tools=[get_logs],
         prompt=_LOG_AGENT_PROMPT,
     )
 
 
 # ---------------------------------------------------------------------------
-# Sub-Agent 2: Metrics Agent
+# Specialist 2: MetricsAgent
 # ---------------------------------------------------------------------------
 
 _METRICS_AGENT_PROMPT = """\
-You are a specialist Metrics Analysis Agent for a microservice SRE system.
-Your ONLY job is to analyse numeric performance signals: CPU, memory, latency, error rate.
+You are a specialist Metrics Analysis SRE Agent for microservices.
+Your ONLY responsibility is to investigate Prometheus performance telemetry and container runtime state.
 
-Focus on:
-- Whether any metric is above dangerous thresholds (CPU > 80%, error_rate > 5%)
-- Memory usage relative to the container limit
-- Latency spikes (p95 > 500ms is concerning, p99 > 1000ms is critical)
-- Trends: is the metric rising, stable, or improving?
-
-RULES:
-- Only use get_metrics and get_pod_status to fetch data.
-- Never invent metric values.
-- Output a JSON summary with: metric_anomalies, pod_state, thresholds_exceeded.
+Investigation:
+1. Call get_pod_status for the target service to check container state, restart count, and memory limit.
+2. Call get_metrics for key metrics: cpu_usage, memory_usage_mb, error_rate, latency_p95_ms.
+3. Summarize findings concisely:
+   - Pod State & Restarts: Running, exited, oom_killed, or restarting with restart count.
+   - Metric Anomalies: Memory near limit, CPU saturated, high error rate, or elevated latency.
+   - Suspected Root Cause from Metrics: What the metrics indicate.
 """
 
 
-@tool
-def get_metrics_for_analysis(service: str, metric: str, minutes: int = 5) -> str:
-    """Fetch time-series metrics for a service for metrics analysis."""
-    return json.dumps(stub_get_metrics(service, metric, minutes), indent=2)
+def _build_metrics_agent(model_id: str | None = None) -> Any:
+    @tool
+    def get_pod_status(service: str) -> str:
+        """Get container pod status: state, exit_code, oom_killed, restart_count, memory_limit_mb."""
+        return json.dumps(stub_get_pod_status(service), indent=2)
 
+    @tool
+    def get_metrics(service: str, metric: str, minutes: int = 5) -> str:
+        """Get time-series metric samples for a service (cpu_usage, memory_usage_mb, error_rate, latency_p95_ms)."""
+        return json.dumps(stub_get_metrics(service, metric, minutes), indent=2)
 
-@tool
-def get_pod_status_for_analysis(service: str) -> str:
-    """Fetch container/pod status for metrics analysis."""
-    return json.dumps(stub_get_pod_status(service), indent=2)
-
-
-def build_metrics_agent() -> Any:
-    """Return a compiled LangGraph metrics analysis sub-agent."""
-    llm = get_llm()
+    llm = get_llm(model_id=model_id)
     return create_react_agent(
         model=llm,
-        tools=[get_metrics_for_analysis, get_pod_status_for_analysis],
+        tools=[get_pod_status, get_metrics],
         prompt=_METRICS_AGENT_PROMPT,
     )
 
 
 # ---------------------------------------------------------------------------
-# Sub-Agent 3: Coordinator Agent
+# Specialist 3: EventsAgent
 # ---------------------------------------------------------------------------
 
-_COORDINATOR_PROMPT = """\
-You are the Coordinator Agent for a multi-agent ChatOps SRE system.
-You receive pre-processed analysis from specialist sub-agents and runbook search results.
-Your job is to synthesise all signals into a final, evidence-backed incident diagnosis.
+_EVENTS_AGENT_PROMPT = """\
+You are a specialist Events & Lifecycle SRE Agent for microservices.
+Your ONLY responsibility is to inspect Kubernetes and Docker lifecycle events.
 
-Input you will receive:
-  - log_analysis:     Output from the Log Agent (error patterns, exception types)
-  - metrics_analysis: Output from the Metrics Agent (anomalous metrics, pod state)
-  - runbook_results:  Relevant runbooks from the vector search
-
-Your output MUST follow:
-- **Diagnosis**: Root cause with confidence (high / medium / low).
-- **Failure Type**: Exactly one failure type from the approved list.
-- **Evidence**: Synthesised from log + metrics + runbook signals.
-- **Recommended fix**: From runbook, verified against metrics.
-- **Sources**: All runbook titles cited.
-
-RULES:
-- You may call search_runbooks once to validate or supplement sub-agent findings.
-- Never contradict clear tool evidence.
-- Confidence = high only if all three signals agree.
+Investigation:
+1. Call list_services to inspect registered microservices across the stack.
+2. Call get_events for the service to check warnings, kills, backoffs, and restarts.
+3. Summarize findings concisely:
+   - Lifecycle Warning Events: OOM kills, back-offs, unhealthy probes, or container exits.
+   - Blast Radius: Whether other services are affected.
 """
 
 
-@tool
-def search_runbooks_coordinator(query: str, top_k: int = 3) -> str:
-    """Search runbooks from the Coordinator Agent to validate sub-agent findings."""
-    result = _search_runbooks_fn(query=query, top_k=top_k)
-    return json.dumps(result, indent=2)
+def _build_events_agent(model_id: str | None = None) -> Any:
+    @tool
+    def list_services() -> str:
+        """List all microservices and their overall status."""
+        return json.dumps(stub_list_services(), indent=2)
 
+    @tool
+    def get_events(service: str, minutes: int = 15) -> str:
+        """Get recent lifecycle events (warnings, restarts) for a service."""
+        return json.dumps(stub_get_events(service, minutes), indent=2)
 
-def build_coordinator_agent() -> Any:
-    """Return a compiled LangGraph coordinator agent."""
-    llm = get_llm()
+    llm = get_llm(model_id=model_id)
     return create_react_agent(
         model=llm,
-        tools=[search_runbooks_coordinator],
+        tools=[list_services, get_events],
+        prompt=_EVENTS_AGENT_PROMPT,
+    )
+
+
+# ---------------------------------------------------------------------------
+# Coordinator Agent
+# ---------------------------------------------------------------------------
+
+_COORDINATOR_PROMPT = """\
+You are the Lead SRE Coordinator Agent. You receive diagnostic reports from \
+three specialist agents running concurrently (LogAgent, MetricsAgent, EventsAgent).
+
+Your job:
+1. Review the specialists' telemetry findings.
+2. Call search_runbooks with the specific symptoms identified by the specialists to confirm the playbook and remediation.
+3. Synthesize all findings into the standard ChatOps diagnosis format:
+
+OUTPUT FORMAT:
+- **Diagnosis**: Root cause with confidence (high / medium / low).
+- **Failure Type**: Exactly one standard failure type: out_of_memory | bad_config | health_check_failure | db_timeout | dependency_failure | disk_full | cpu_saturation | crash_loop | network_timeout | high_error_rate | other | unknown
+- **Evidence**: Bulleted evidence citing specific log errors, metric numbers, and event warnings.
+- **How to confirm**: Diagnostic commands from runbook.
+- **Recommended fix**: Step-by-step fix from runbook.
+- **Sources**: Runbook titles cited.
+"""
+
+
+def _build_coordinator_agent(model_id: str | None = None) -> Any:
+    @tool
+    def search_runbooks(query: str, top_k: int = 3) -> str:
+        """Search SRE runbooks knowledge base."""
+        res = _search_runbooks_fn(query=query, top_k=top_k, include_external=True)
+        return json.dumps(res, indent=2)
+
+    llm = get_llm(model_id=model_id)
+    return create_react_agent(
+        model=llm,
+        tools=[search_runbooks],
         prompt=_COORDINATOR_PROMPT,
     )
 
 
 # ---------------------------------------------------------------------------
-# Orchestrator (Week 4 target: fully parallel via asyncio)
+# Parallel Orchestrator
 # ---------------------------------------------------------------------------
 
 
-def multi_agent_ask(question: str, service: str) -> dict[str, Any]:
+def _run_sub_agent_sync(agent: Any, prompt: str) -> tuple[str, list[dict]]:
+    """Helper to run a sub-agent synchronously inside an async worker thread."""
+    try:
+        res = agent.invoke({"messages": [{"role": "user", "content": prompt}]})
+        msgs = res.get("messages", [])
+        final_msg = msgs[-1] if msgs else None
+        text = clean_output(final_msg) if final_msg else ""
+        trace = _build_tool_trace(msgs)
+        return text, trace
+    except Exception as exc:
+        return f"Specialist analysis encountered an error: {exc}", []
+
+
+async def multi_agent_ask_async(
+    question: str,
+    service: str | None = None,
+    model_id: str | None = None,
+    stub: bool = True,
+) -> dict[str, Any]:
     """
-    Orchestrate the full multi-agent pipeline (sequential stub for Week 3).
+    Executes parallel multi-agent diagnosis via asyncio.gather().
 
-    Week 4 target: run LogAgent and MetricsAgent in parallel via asyncio.gather,
-    then pass both results to CoordinatorAgent.
-
-    Args:
-        question: Natural-language incident question.
-        service:  Service name to investigate.
-
-    Returns:
-        Final coordinator diagnosis dict.
+    1. Launches LogAgent, MetricsAgent, and EventsAgent concurrently.
+    2. Awaits all 3 specialist analyses.
+    3. Feeds pre-analyzed reports into CoordinatorAgent for synthesis and RAG verification.
     """
-    # Step 1: Log Agent analyses events
-    log_agent = build_log_agent()
-    log_result = log_agent.invoke(
-        {"messages": [{"role": "user", "content": f"Analyse logs for {service}. {question}"}]}
-    )
-    log_summary = log_result["messages"][-1].content if log_result.get("messages") else ""
+    target_service = service or _extract_target_service(question)
+    t0 = time.perf_counter()
 
-    # Step 2: Metrics Agent analyses performance signals
-    metrics_agent = build_metrics_agent()
-    metrics_result = metrics_agent.invoke(
-        {"messages": [{"role": "user", "content": f"Analyse metrics for {service}. {question}"}]}
-    )
-    metrics_summary = metrics_result["messages"][-1].content if metrics_result.get("messages") else ""
+    log_agent = _build_log_agent(model_id=model_id)
+    metrics_agent = _build_metrics_agent(model_id=model_id)
+    events_agent = _build_events_agent(model_id=model_id)
 
-    # Step 3: Coordinator synthesises both analyses
-    coordinator = build_coordinator_agent()
-    synthesis_prompt = (
-        f"Incident question: {question}\n\n"
-        f"LOG ANALYSIS:\n{log_summary}\n\n"
-        f"METRICS ANALYSIS:\n{metrics_summary}\n\n"
-        "Please synthesise the above sub-agent findings into a final diagnosis."
+    log_prompt = f"Target Service: {target_service}\nIncident: {question}\nAnalyze logs for errors and stack traces."
+    metrics_prompt = f"Target Service: {target_service}\nIncident: {question}\nAnalyze pod status and Prometheus metrics."
+    events_prompt = f"Target Service: {target_service}\nIncident: {question}\nInspect lifecycle events and cluster status."
+
+    # Concurrent execution of the 3 specialists
+    (log_text, log_trace), (metrics_text, metrics_trace), (events_text, events_trace) = await asyncio.gather(
+        asyncio.to_thread(_run_sub_agent_sync, log_agent, log_prompt),
+        asyncio.to_thread(_run_sub_agent_sync, metrics_agent, metrics_prompt),
+        asyncio.to_thread(_run_sub_agent_sync, events_agent, events_prompt),
     )
-    coord_result = coordinator.invoke(
-        {"messages": [{"role": "user", "content": synthesis_prompt}]}
+
+    t_specialists = round(time.perf_counter() - t0, 3)
+
+    # Coordinator synthesis
+    coordinator = _build_coordinator_agent(model_id=model_id)
+    coord_prompt = (
+        f"Incident Question: {question}\n"
+        f"Target Service: {target_service}\n\n"
+        f"=== LOG AGENT REPORT ===\n{log_text}\n\n"
+        f"=== METRICS AGENT REPORT ===\n{metrics_text}\n\n"
+        f"=== EVENTS AGENT REPORT ===\n{events_text}\n\n"
+        "Synthesize these findings, consult search_runbooks for the official fix, and provide the final diagnosis."
     )
-    final_answer = coord_result["messages"][-1].content if coord_result.get("messages") else ""
+
+    time.perf_counter()
+    coord_res = await asyncio.to_thread(coordinator.invoke, {"messages": [{"role": "user", "content": coord_prompt}]})
+    t_total = round(time.perf_counter() - t0, 3)
+
+    coord_msgs = coord_res.get("messages", [])
+    final_msg = coord_msgs[-1] if coord_msgs else None
+    diagnosis = clean_output(final_msg) if final_msg else ""
+    coord_trace = _build_tool_trace(coord_msgs)
+
+    combined_trace = log_trace + metrics_trace + events_trace + coord_trace
 
     return {
         "question": question,
-        "service": service,
-        "log_analysis": log_summary,
-        "metrics_analysis": metrics_summary,
-        "final_diagnosis": final_answer,
-        "pipeline": "LogAgent -> MetricsAgent -> CoordinatorAgent",
+        "service": target_service,
+        "diagnosis": diagnosis,
+        "failure_type": _extract_failure_type(diagnosis),
+        "confidence": _extract_confidence(diagnosis),
+        "tool_trace": combined_trace,
+        "sources": _extract_sources(diagnosis),
+        "latency_s": t_total,
+        "specialists_latency_s": t_specialists,
+        "model_id": model_id,
+        "pipeline": "Parallel(LogAgent + MetricsAgent + EventsAgent) -> CoordinatorAgent",
+        "specialist_reports": {
+            "log_agent": log_text,
+            "metrics_agent": metrics_text,
+            "events_agent": events_text,
+        },
     }
+
+
+def multi_agent_ask(
+    question: str,
+    service: str | None = None,
+    model_id: str | None = None,
+    stub: bool = True,
+) -> dict[str, Any]:
+    """Synchronous entry point for parallel multi-agent diagnosis."""
+    return asyncio.run(
+        multi_agent_ask_async(
+            question=question,
+            service=service,
+            model_id=model_id,
+            stub=stub,
+        )
+    )

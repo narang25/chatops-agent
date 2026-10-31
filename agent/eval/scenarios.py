@@ -205,3 +205,41 @@ BENCHMARK_SCENARIOS: list[dict] = [
         "ablation": "full"
     }
 ]
+
+# Surprise / unseen scenarios (Week 4 -- Task A18)
+# These represent failures without a dedicated internal runbook.
+# Correct answer is 'unknown' (or 'other') with useful evidence and safe next steps.
+SURPRISE_SCENARIOS: list[dict] = [
+    {
+        "scenario_id": "surprise-db-auth-001",
+        "service": "payment-service",
+        "question": "payment-service cannot connect to PostgreSQL. Log reports: 'password authentication failed for user payment_user'.",
+        "failure_type": "unknown",
+        "acceptable_failure_types": ["unknown", "bad_config", "other"],
+        "expected_fix_keywords": [
+            "password",
+            "credential",
+            "secret",
+            "auth",
+            "environment"
+        ],
+        "expected_runbook_keywords": [],
+        "ablation": "full"
+    },
+    {
+        "scenario_id": "surprise-pool-exhaust-001",
+        "service": "inventory-service",
+        "question": "inventory-service database connection pool exhausted. Remaining connection slots are reserved for superuser.",
+        "failure_type": "unknown",
+        "acceptable_failure_types": ["unknown", "db_timeout", "other"],
+        "expected_fix_keywords": [
+            "connection",
+            "pool",
+            "slots",
+            "max_connections",
+            "idle"
+        ],
+        "expected_runbook_keywords": [],
+        "ablation": "full"
+    }
+]

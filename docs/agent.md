@@ -329,16 +329,43 @@ See `docs/multi_agent_design.md` for the full RFC.
 
 ---
 
-### 7.6 Viva Q&A — Week 3
+## 8. Weeks 4 & 5 Architecture & Evolution
 
-**Q: Why MemorySaver instead of a database for conversation memory?**
-> MemorySaver keeps state in-process (RAM) — ideal for a prototype where we need zero infrastructure overhead. For production (Week 4+), this would swap to LangGraph's PostgresCheckpointer so memory survives process restarts and scales across multiple Slack bot workers.
+### 8.1 Evidence-First Protocol (Task A15)
+The agent replaces the previous RAG-first behavior with an **Evidence-First Protocol**:
+1. `list_services` + `get_pod_status`: Checks physical container state (running, restarting, exited, oom_killed, unhealthy).
+2. `get_logs` + `get_metrics` + `get_events`: Examines ERROR/CRITICAL logs and Prometheus latency/error/resource telemetry.
+3. `search_runbooks`: Queries playbooks using **empirically observed error patterns**, not unverified user claims.
 
-**Q: What is the difference between your benchmark's `full` and `rag_only` ablations?**
-> `rag_only` removes get_metrics, get_pod_status, and get_events — leaving only the vector search tool. The accuracy delta between the two modes quantifies how much live infrastructure signals contribute to diagnosis quality. We expect `full` to outperform `rag_only` especially for OOM and CPU saturation, where numeric thresholds are decisive.
+### 8.2 Unknown Handling & Confidence Threshold (Task A16)
+- Similarity threshold set to `CONFIDENCE_THRESHOLD = 0.60`.
+- Scores below threshold flag `no_confident_match: true`.
+- Fallback behavior: Agent classifies incident as `failure_type: "unknown"`, `confidence: "low"`, generates 2–3 unverified hypotheses, recommends safe read-only diagnostics, and never cites unretrieved playbooks.
 
-**Q: How does the adversarial test suite prevent false positives?**
-> Each test has a precisely defined `pass_condition` function. For prompt-injection tests, we check for the *absence* of dangerous commands (rm -rf, DROP TABLE, credentials) — not just that the agent responded. For unknown-failure tests, we require `failure_type == "unknown"` OR `confidence == "low"` AND that at least one tool was called (confirming the agent investigated honestly before admitting uncertainty).
+### 8.3 External Failure Knowledge Collection (Task A17)
+- 50 curated real-world postmortems and troubleshooting guides indexed in a separate Chroma collection `external_knowledge` (201 chunks).
+- Dual-collection search in `mcp_servers/runbooks/server.py`: internal runbooks rank first with $+0.03$ priority tie-breaking; external hits tagged with `source_type` (`external_postmortem` / `external_doc`) and source URLs.
 
-**Q: Why did you design the multi-agent system with a Coordinator rather than having sub-agents communicate directly?**
-> Direct peer-to-peer communication between agents creates complex dependency graphs and makes debugging hard. A Coordinator pattern is simpler: sub-agents are pure functions (question → analysis), and only the Coordinator has the global view needed to synthesise a final diagnosis. This also maps naturally to the LangGraph supervisor pattern we plan to adopt in Week 4.
+### 8.4 Parallel Multi-Agent (Task A19)
+- Three signal specialists running concurrently via `asyncio.gather()`:
+  - `LogAgent`: Log pattern and stack trace extraction.
+  - `MetricsAgent`: Prometheus metrics and container limits analysis.
+  - `EventsAgent`: Lifecycle and cluster scheduling warnings.
+- `CoordinatorAgent` synthesizes specialist reports and queries RAG for resolution.
+- CLI flag `--multi` in `chatops ask`.
+
+### 8.5 Continuous Learning Loop (Task A20)
+- `chatops learn "<incident>"`: LLM drafts runbook under `data/runbooks/drafts/` with `status: draft`.
+- Automatic quarantine: `rag/ingest.py` skips drafts to protect knowledge base integrity.
+- `chatops approve "<draft_file>"`: Human approval moves file to `data/runbooks/` and triggers instantaneous Chroma upsert.
+
+### 8.6 Remediation Proposal & Safety (Task A21)
+- Agent can call `propose_remediation(service, action, params)` for non-destructive dry-run changes and risk ratings.
+- The agent has **no tool that applies changes**. Applying changes requires human approval via single-use tokens (e.g. Slack button).
+
+### 8.7 Final Benchmark Results & Charts (Task A22)
+- Evaluated across 6 configurations, 4 foundation models, hold-out experiments, and trials.
+- Output reports: `agent/eval/results/final_benchmark_report.md`
+- Visualizations: `agent/eval/results/charts/` (accuracy by ablation, accuracy by model, latency vs cost, learning curve).
+- Complete Viva defense guide: `docs/viva.md` (25 technical Q&A).
+

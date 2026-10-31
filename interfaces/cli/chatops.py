@@ -22,7 +22,6 @@ from rich.console import Console
 from rich.markdown import Markdown
 from rich.panel import Panel
 from rich.rule import Rule
-from rich.spinner import Spinner
 from rich.status import Status
 from rich.text import Text
 
@@ -119,6 +118,11 @@ def ask(
         help="Override the model ID from agent/config.yaml.",
         show_default=False,
     ),
+    multi: bool = typer.Option(
+        False,
+        "--multi",
+        help="Use parallel multi-agent architecture (LogAgent + MetricsAgent + EventsAgent + Coordinator).",
+    ),
 ) -> None:
     """
     Ask the ChatOps agent an incident question and get a cited diagnosis.
@@ -126,29 +130,46 @@ def ask(
     \b
     Examples:
       chatops ask "Why did payment-service get OOMKilled?"
-      chatops ask "inventory-service is crash-looping"
+      chatops ask "inventory-service is crash-looping" --multi
       chatops ask "disk full on any service"  --no-stub
     """
     # Lazy import to avoid long cold-start on --help
     from agent.agent import ask as _ask
-    from agent.llm import get_llm  # warm-up import
 
     console.print()
+    mode_text = "[bold cyan]ChatOps AI SRE Agent[/bold cyan]"
+    if multi:
+        mode_text += " [bold magenta][Parallel Multi-Agent Mode][/bold magenta]"
     console.print(
         Panel(
-            "[bold cyan]ChatOps AI SRE Agent[/bold cyan]\n"
-            "[dim]Investigating your incident...[/dim]",
-            border_style="cyan",
+            f"{mode_text}\n[dim]Investigating your incident...[/dim]",
+            border_style="magenta" if multi else "cyan",
         )
     )
 
     start = time.perf_counter()
-    with Status("[bold green]Calling tools and reasoning...[/bold green]", console=console, spinner="dots"):
-        try:
-            result = _ask(question=question, stub=stub)
-        except Exception as exc:
-            console.print(f"\n[bold red]Error:[/bold red] {exc}")
-            raise typer.Exit(code=1)
+    if multi:
+        from agent.multi.sub_agents import multi_agent_ask
+        with Status("[bold magenta]Running concurrent specialists (Log + Metrics + Events) & Coordinator...[/bold magenta]", console=console, spinner="dots"):
+            try:
+                ma_res = multi_agent_ask(question=question, model_id=model, stub=stub)
+                result = {
+                    "question": question,
+                    "answer": ma_res.get("diagnosis", ""),
+                    "messages": [
+                        {"type": "assistant", "content": ma_res.get("diagnosis", "")}
+                    ],
+                }
+            except Exception as exc:
+                console.print(f"\n[bold red]Error in multi-agent execution:[/bold red] {exc}")
+                raise typer.Exit(code=1)
+    else:
+        with Status("[bold green]Calling tools and reasoning...[/bold green]", console=console, spinner="dots"):
+            try:
+                result = _ask(question=question, stub=stub)
+            except Exception as exc:
+                console.print(f"\n[bold red]Error:[/bold red] {exc}")
+                raise typer.Exit(code=1)
 
     elapsed = time.perf_counter() - start
     result["stub"] = stub
@@ -190,6 +211,73 @@ def search(
             )
         )
     console.print()
+
+
+@app.command()
+def learn(
+    incident: str = typer.Argument(..., help="Natural-language description of resolved incident."),
+    root_cause: Optional[str] = typer.Option(None, "--cause", "-c", help="Confirmed root cause."),
+    fix: Optional[str] = typer.Option(None, "--fix", "-f", help="Verified remediation procedure."),
+    service: Optional[str] = typer.Option(None, "--service", "-s", help="Affected service."),
+) -> None:
+    """
+    Draft a new SRE runbook from a resolved incident (status: draft).
+    The draft is saved in data/runbooks/drafts/ and is NOT searchable until approved.
+    """
+    from agent.learning.draft_runbook import draft_runbook_from_incident
+
+    console.print()
+    console.print(Rule("[bold cyan]Drafting New SRE Runbook[/bold cyan]"))
+    with Status("[bold green]Synthesizing draft from incident notes...[/bold green]", console=console, spinner="dots"):
+        content, draft_path = draft_runbook_from_incident(
+            incident_description=incident,
+            root_cause=root_cause,
+            fix=fix,
+            service=service,
+        )
+
+    console.print(Markdown(content))
+    console.print()
+    console.print(
+        Panel(
+            f"[bold green]Draft created successfully![/bold green]\n"
+            f"[bold]Location:[/bold] {draft_path}\n"
+            f"[dim]Status: draft (not indexed in Chroma until approved)[/dim]\n\n"
+            f"To approve and publish: [bold cyan]chatops approve {draft_path.name}[/bold cyan]",
+            title="[bold yellow]Human Approval Required[/bold yellow]",
+            border_style="yellow",
+        )
+    )
+
+
+@app.command()
+def approve(
+    draft_file: str = typer.Argument(..., help="Draft runbook filename or path to approve."),
+) -> None:
+    """
+    Approve and publish a draft runbook.
+    Moves the file to data/runbooks/ and immediately indexes it into Chroma.
+    """
+    from agent.learning.draft_runbook import approve_draft
+
+    console.print()
+    with Status("[bold green]Promoting and indexing approved runbook...[/bold green]", console=console, spinner="dots"):
+        try:
+            dest_path, chunks = approve_draft(draft_file)
+        except Exception as exc:
+            console.print(f"[bold red]Approval failed:[/bold red] {exc}")
+            raise typer.Exit(code=1)
+
+    console.print(
+        Panel(
+            f"[bold green]Runbook Approved and Published![/bold green]\n"
+            f"[bold]Published Path:[/bold] {dest_path}\n"
+            f"[bold]Chunks Indexed:[/bold] {chunks} chunk(s) active in Chroma\n"
+            f"[dim]The agent can now retrieve and apply this playbook during live investigations.[/dim]",
+            title="[bold green]Published[/bold green]",
+            border_style="green",
+        )
+    )
 
 
 if __name__ == "__main__":

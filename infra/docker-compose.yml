@@ -28,6 +28,7 @@ services:
     deploy:
       resources:
         limits:
+          cpus: "0.5"
           memory: 128M
     restart: unless-stopped
     healthcheck:
@@ -53,6 +54,7 @@ services:
     deploy:
       resources:
         limits:
+          cpus: "0.5"
           memory: 128M
     restart: unless-stopped
     healthcheck:
@@ -79,6 +81,7 @@ services:
     deploy:
       resources:
         limits:
+          cpus: "0.5"
           memory: 128M
     restart: unless-stopped
     healthcheck:

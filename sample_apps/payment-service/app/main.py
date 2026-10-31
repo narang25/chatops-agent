@@ -6,6 +6,7 @@ Endpoints:
   GET  /metrics       Prometheus metrics (contracts/metrics.md)
   POST /pay           Create a payment record
   GET  /leak          Allocate ~10 MB that is never freed (OOM testing)
+  GET  /burn          Busy-loop to burn CPU (CPU saturation testing)
   POST /admin/fault   Toggle runtime faults
 
 Required env vars:  SERVICE_NAME, DATABASE_URL
@@ -279,6 +280,21 @@ def leak_memory():
         extra={"leaked_mb": total_mb, "chunks": len(_leaked_chunks)},
     )
     return {"leaked_mb": total_mb, "chunks": len(_leaked_chunks)}
+
+
+# -- CPU burn endpoint (payment-service only) ------------------------------
+
+@app.get("/burn")
+def burn_cpu(duration_ms: int = 500):
+    """Busy-loop to burn CPU for specified duration (in ms). Used for cpu_saturation testing."""
+    start = time.perf_counter()
+    while (time.perf_counter() - start) * 1000 < duration_ms:
+        _ = 3.14159 ** 2.71828
+    logger.warning(
+        f"CPU burn completed: {duration_ms}ms",
+        extra={"duration_ms": duration_ms},
+    )
+    return {"burned_ms": duration_ms}
 
 
 # -- Fault injection admin endpoint ----------------------------------------

@@ -5,11 +5,11 @@ Queries local Docker daemon for container state, events, and JSON logs.
 
 import json
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 import docker
-from docker.errors import DockerException, NotFound
+from docker.errors import DockerException
 
 from mcp_servers.kubernetes.backends.base import RuntimeBackend
 
@@ -126,7 +126,7 @@ class DockerBackend(RuntimeBackend):
             for ev in docker_events:
                 action = ev.get("Action", "unknown")
                 timestamp_s = ev.get("time", now_ts)
-                iso_ts = datetime.fromtimestamp(timestamp_s, timezone.utc).isoformat(timespec="seconds")
+                iso_ts = datetime.fromtimestamp(timestamp_s, UTC).isoformat(timespec="seconds")
                 is_warning = action in {"die", "oom", "kill", "health_status: unhealthy"}
                 events_list.append(
                     {
@@ -143,7 +143,7 @@ class DockerBackend(RuntimeBackend):
         # If no events found in window, report current state event
         if not events_list:
             st = self.get_pod_status(service)
-            started_at = st.get("started_at") or datetime.now(timezone.utc).isoformat(timespec="seconds")
+            started_at = st.get("started_at") or datetime.now(UTC).isoformat(timespec="seconds")
             events_list.append(
                 {
                     "timestamp": started_at,

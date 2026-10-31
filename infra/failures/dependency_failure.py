@@ -15,9 +15,8 @@ Workflow:
 import json
 import os
 import subprocess
-import sys
-import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime
+
 import httpx
 
 SCENARIO_ID = "depfail-order-001"
@@ -69,7 +68,7 @@ def main():
     except Exception as e:
         print(f"Warning: could not connect to order-service: {e}, continuing...")
 
-    since_ts = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    since_ts = datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
 
     # 2. Stop dependency container
     print(f"Step 2: Stopping dependency container {DEPENDENCY_CONTAINER}...")
@@ -96,8 +95,7 @@ def main():
     print(f"Step 4: Capturing JSON logs to {JSONL_PATH}...")
     json_lines = extract_json_logs(CONTAINER_NAME, since_ts)
     with open(JSONL_PATH, "w", encoding="utf-8") as f:
-        for line in json_lines:
-            f.write(line + "\n")
+        f.writelines(line + "\n" for line in json_lines)
     print(f"Saved {len(json_lines)} JSON log entries.")
 
     # 5. Write metadata

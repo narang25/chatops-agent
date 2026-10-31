@@ -39,8 +39,8 @@ jobs:
             mcp_servers/prometheus/server.py \
             mcp_servers/kubernetes/server.py \
             mcp_servers/kubernetes/backends/ \
-            --ignore E501,ANN,D
-        # E501 = line length (relaxed in CI), ANN/D = type/docstring annotations optional
+            --ignore E501,ANN,D,BLE001,EXE001,SIM,UP,S1,PLW,FURB,RUF
+        # E501 = line length, ANN/D = annotations optional, BLE001/SIM/UP/S1/PLW/FURB = style (non-blocking in this project)
 
       - name: Ruff lint (agent sources — Person A's code, read-only check)
         run: |

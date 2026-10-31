@@ -15,9 +15,8 @@ Workflow:
 import json
 import os
 import subprocess
-import sys
 import time
-from datetime import datetime, timezone
+
 import httpx
 
 SCENARIO_ID = "badenv-order-001"
@@ -117,8 +116,7 @@ def main():
     print(f"Step 5: Capturing JSON logs to {JSONL_PATH}...")
     json_lines = extract_json_logs(BROKEN_CONTAINER)
     with open(JSONL_PATH, "w", encoding="utf-8") as f:
-        for line in json_lines:
-            f.write(line + "\n")
+        f.writelines(line + "\n" for line in json_lines)
     print(f"Saved {len(json_lines)} JSON log entries.")
 
     # 6. Write metadata

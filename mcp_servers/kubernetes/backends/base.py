@@ -16,7 +16,6 @@ class RuntimeBackend(ABC):
         Get current container/pod status for a service.
         Matches contracts/mcp_tools.md.
         """
-        pass
 
     @abstractmethod
     def get_events(self, service: str, minutes: int = 15) -> dict[str, Any]:
@@ -24,7 +23,6 @@ class RuntimeBackend(ABC):
         Get recent lifecycle events for a service container/pod.
         Matches contracts/mcp_tools.md.
         """
-        pass
 
     @abstractmethod
     def get_logs(
@@ -38,7 +36,6 @@ class RuntimeBackend(ABC):
         Get structured JSON log lines for a service within time window.
         Matches proposed get_logs contract.
         """
-        pass
 
     @abstractmethod
     def list_services(self) -> dict[str, Any]:
@@ -46,4 +43,3 @@ class RuntimeBackend(ABC):
         List all registered services and their current runtime state.
         Matches proposed list_services contract.
         """
-        pass

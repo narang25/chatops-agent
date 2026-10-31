@@ -12,8 +12,8 @@ Usage:
     python infra/manage.py logs [svc]# Stream logs for a service or all services
 """
 
-import sys
 import subprocess
+import sys
 import time
 from pathlib import Path
 

@@ -5,17 +5,18 @@ Retrieves top-k runbook chunks from Chroma DB and prompts the LLM
 to answer strictly from context with precise citations.
 """
 
+import sys
 from pathlib import Path
 from typing import Any, Dict, List, Optional
-import sys
 
 # Ensure project root is in sys.path
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
 
-from langchain_core.messages import SystemMessage, HumanMessage
-from agent.llm import get_llm, clean_output
-from rag.ingest import query_runbooks, DEFAULT_DB_PATH
+from langchain_core.messages import HumanMessage, SystemMessage
+
+from agent.llm import clean_output, get_llm
+from rag.ingest import DEFAULT_DB_PATH, query_runbooks
 
 SYSTEM_PROMPT = """You are an expert AI SRE / ChatOps diagnostic agent.
 Your job is to diagnose microservice incidents and recommend remediations based STRICTLY on the provided runbook snippets.

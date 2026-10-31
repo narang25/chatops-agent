@@ -1,74 +1,137 @@
 """
-ChatOps Agent Benchmark Harness  (Week 3 -- Task A11)
-======================================================
+ChatOps Agent Benchmark Harness v2 (Week 4 -- Task A18).
+=========================================================
 
-Runs the agent against all BENCHMARK_SCENARIOS and measures:
-  - failure_type_match  : exact match of extracted failure type vs ground truth
-  - fix_keyword_match   : fraction of expected_fix_keywords present in diagnosis
-  - runbook_cited       : whether a relevant runbook keyword appears in sources
+Measures agent diagnosis across:
+  - 5 Ablation modes:
+      1. llm_only          : Raw LLM without tools (measures base model knowledge)
+      2. rag_only          : LLM + search_runbooks only (no live tools)
+      3. live_tools_only   : LLM + live inspection tools (no runbooks)
+      4. full              : Full system (live tools + internal runbooks)
+      5. with_external     : Full system + external knowledge (postmortems & docs)
+  - 4 Models (Qwen3 VL 235B, Kimi K2.5, DeepSeek V3.2, Mistral Large 3)
+  - Trials: 1 to 3 repetitions per scenario
+  - Hold-out mode: --hold-out <failure_type> evaluates response when specific runbook is absent
+  - Surprise scenarios: --surprise includes unindexed/unseen failure scenarios
+
+Metrics recorded:
+  - failure_type_match  : exact match against ground truth (or acceptable types for surprise)
+  - fix_keyword_score   : fraction of expected_fix_keywords in recommendation
+  - runbook_cited       : whether appropriate runbook/source was cited
   - tool_calls_used     : number of tool calls made
-  - latency_s           : wall-clock time for the agent response
+  - latency_s           : wall-clock response latency
+  - estimated_cost_usd  : estimated inference cost
 
-Ablation modes
---------------
-  full     : agent with all 4 tools (search_runbooks + 3 live-tool stubs)
-  rag_only : agent with only search_runbooks (no live metrics/events/pod status)
+Outputs:
+  agent/eval/results/<run_id>.json     -- Full structured evaluation records
+  agent/eval/results/<run_id>.md       -- Report-ready Markdown tables
 
-Results are written to:
-  agent/eval/results/<run_id>.json     -- full structured results
-  agent/eval/results/<run_id>.md       -- human-readable markdown table
-
-Usage
------
-    python -m agent.eval.benchmark [--ablation full|rag_only] [--trials N]
+Usage:
+  python -m agent.eval.benchmark --ablation full --trials 1
+  python -m agent.eval.benchmark --ablation all --models all --trials 3
+  python -m agent.eval.benchmark --hold-out out_of_memory
+  python -m agent.eval.benchmark --surprise
 """
 
 from __future__ import annotations
 
 import argparse
 import json
-import re
 import sys
 import time
 from datetime import datetime, timezone
 from pathlib import Path
+from typing import Any
 
-# ---------------------------------------------------------------------------
-# Ensure project root is on sys.path when run as a module
-# ---------------------------------------------------------------------------
-
+# Ensure project root is in path
 _PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 if str(_PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(_PROJECT_ROOT))
 
-from agent.eval.scenarios import BENCHMARK_SCENARIOS
-from agent.api import ask
+from langchain_core.tools import tool
+from langgraph.prebuilt import create_react_agent
+
+from agent.agent import _make_stub_tools
+from agent.api import (
+    AGENT_SYSTEM_PROMPT,
+    _extract_confidence,
+    _extract_failure_type,
+    _extract_sources,
+)
+from agent.eval.scenarios import BENCHMARK_SCENARIOS, SURPRISE_SCENARIOS
+from agent.llm import clean_output, get_llm
+from mcp_servers.runbooks.server import search_runbooks as _search_runbooks_fn
 
 RESULTS_DIR = Path(__file__).parent / "results"
 RESULTS_DIR.mkdir(parents=True, exist_ok=True)
+
+SUPPORTED_ABLATIONS = [
+    "llm_only",
+    "rag_only",
+    "live_tools_only",
+    "full",
+    "with_external",
+    "multi_agent",
+]
+
+DEFAULT_MODELS = [
+    "qwen.qwen3-vl-235b-a22b",
+    "moonshot.kimi-k2.5",
+    "deepseek.deepseek-v3.2",
+    "mistral.mistral-large-3",
+]
+
+# Estimated cost constants ($ per tool call & second of latency)
+COST_PER_TOOL_CALL = 0.0008
+COST_PER_LATENCY_SEC = 0.00015
+
 
 # ---------------------------------------------------------------------------
 # Scoring helpers
 # ---------------------------------------------------------------------------
 
 
-def score_failure_type(predicted: str | None, ground_truth: str) -> int:
-    """1 if exact match (case-insensitive), else 0."""
+def score_failure_type(
+    predicted: str | None,
+    ground_truth: str,
+    acceptable_types: list[str] | None = None,
+) -> int:
+    """1 if exact match or in acceptable_types, else 0."""
     if predicted is None:
         return 0
-    return int(predicted.strip().lower() == ground_truth.strip().lower())
+    pred = predicted.strip().lower()
+    gt = ground_truth.strip().lower()
+    if pred == gt:
+        return 1
+    if acceptable_types:
+        return int(pred in [t.lower() for t in acceptable_types])
+    return 0
 
 
 def score_fix_keywords(diagnosis: str, keywords: list[str]) -> float:
-    """Fraction of expected keywords found in the diagnosis text."""
+    """Fraction of expected keywords present in the diagnosis text."""
     if not keywords:
         return 1.0
-    hits = sum(1 for kw in keywords if kw.lower() in diagnosis.lower())
+    text = diagnosis.lower()
+    hits = sum(1 for kw in keywords if kw.lower() in text)
     return round(hits / len(keywords), 3)
 
 
-def score_runbook_cited(result: dict, keywords: list[str]) -> int:
-    """1 if any expected runbook keyword appears in sources or diagnosis."""
+def score_runbook_cited(
+    result: dict,
+    keywords: list[str],
+    is_unknown: bool = False,
+) -> int:
+    """
+    1 if relevant source cited. If failure is unknown/hold-out,
+    cites 1 if agent correctly acknowledges no confident runbook match.
+    """
+    if is_unknown:
+        text = (result.get("diagnosis", "") + " " + " ".join(result.get("sources", []))).lower()
+        if "no confident" in text or "no matching runbook" in text or "unknown" in text:
+            return 1
+        return 0
+
     combined = " ".join(result.get("sources", [])) + " " + result.get("diagnosis", "")
     for kw in keywords:
         if kw.lower() in combined.lower():
@@ -77,32 +140,89 @@ def score_runbook_cited(result: dict, keywords: list[str]) -> int:
 
 
 # ---------------------------------------------------------------------------
-# RAG-only agent builder (only search_runbooks tool)
+# Dynamic Ablation Agent Builder
 # ---------------------------------------------------------------------------
 
 
-def _build_rag_only_agent():
-    """Build an agent with only the runbook search tool for ablation testing."""
-    from langgraph.checkpoint.memory import MemorySaver
-    from langgraph.prebuilt import create_react_agent
-    from agent.llm import get_llm
-    from agent.api import search_runbooks, AGENT_SYSTEM_PROMPT
+def _build_ablation_agent(
+    ablation: str = "full",
+    model_id: str | None = None,
+    hold_out: str | None = None,
+    stub: bool = True,
+) -> Any:
+    """
+    Constructs an agent specifically tailored to an ablation configuration:
+      - llm_only: pure LLM, no tools
+      - rag_only: only search_runbooks tool
+      - live_tools_only: status, logs, metrics, events (no search_runbooks)
+      - full: live tools + internal runbooks (include_external=False)
+      - with_external: live tools + internal runbooks + external postmortems
+    """
+    llm = get_llm(model_id=model_id)
 
-    llm = get_llm()
+    if ablation == "llm_only":
+        # Pure LLM with system prompt and no tool wrappers
+        return create_react_agent(
+            model=llm,
+            tools=[],
+            prompt=AGENT_SYSTEM_PROMPT,
+        )
+
+    # Search runbooks tool wrapper respecting hold_out and ablation flags
+    include_ext = (ablation == "with_external")
+
+    @tool
+    def search_runbooks(query: str, top_k: int = 3) -> str:
+        """Search SRE runbooks knowledge base."""
+        res = _search_runbooks_fn(query=query, top_k=top_k, include_external=include_ext)
+        if hold_out and isinstance(res, dict) and "results" in res:
+            # Filter out hold-out failure type from search results
+            filtered = [
+                r for r in res["results"]
+                if r.get("failure_type", "").lower() != hold_out.lower()
+            ]
+            res["results"] = filtered
+            res["no_confident_match"] = (
+                len(filtered) == 0 or max((r.get("score", 0.0) for r in filtered), default=0.0) < 0.60
+            )
+        return json.dumps(res, indent=2)
+
+    tools = []
+    if ablation in ("full", "with_external", "live_tools_only"):
+        tools.extend(_make_stub_tools())
+
+    if ablation in ("full", "with_external", "rag_only"):
+        tools.append(search_runbooks)
+
     return create_react_agent(
         model=llm,
-        tools=[search_runbooks],
+        tools=tools,
         prompt=AGENT_SYSTEM_PROMPT,
-        checkpointer=MemorySaver(),
     )
 
 
-def ask_rag_only(question: str) -> dict:
-    """Run the rag-only ablation agent and return a result dict."""
-    from agent.llm import clean_output
-    import time
+def execute_ablation_ask(
+    question: str,
+    ablation: str = "full",
+    model_id: str | None = None,
+    hold_out: str | None = None,
+    stub: bool = True,
+) -> dict[str, Any]:
+    """Executes a diagnostic query under a given ablation configuration."""
+    if ablation == "multi_agent":
+        from agent.multi.sub_agents import multi_agent_ask
+        return multi_agent_ask(
+            question=question,
+            model_id=model_id,
+            stub=stub,
+        )
 
-    agent = _build_rag_only_agent()
+    agent = _build_ablation_agent(
+        ablation=ablation,
+        model_id=model_id,
+        hold_out=hold_out,
+        stub=stub,
+    )
     t0 = time.perf_counter()
     result = agent.invoke({"messages": [{"role": "user", "content": question}]})
     latency = round(time.perf_counter() - t0, 3)
@@ -111,236 +231,283 @@ def ask_rag_only(question: str) -> dict:
     final_msg = messages[-1] if messages else None
     diagnosis = clean_output(final_msg) if final_msg else ""
 
-    # Reuse extractors from api module
-    from agent.api import (
-        _extract_failure_type,
-        _extract_confidence,
-        _extract_sources,
-        _build_tool_trace,
-    )
+    tool_trace = []
+    for msg in messages:
+        if getattr(msg, "type", None) == "tool":
+            name = getattr(msg, "name", "unknown_tool")
+            content = str(getattr(msg, "content", ""))
+            summary = (content[:120] + "...") if len(content) > 120 else content
+            tool_trace.append({"tool": name, "output_summary": summary})
 
     return {
         "question": question,
         "diagnosis": diagnosis,
         "failure_type": _extract_failure_type(diagnosis),
         "confidence": _extract_confidence(diagnosis),
-        "tool_trace": _build_tool_trace(messages),
+        "tool_trace": tool_trace,
         "sources": _extract_sources(diagnosis),
         "latency_s": latency,
-        "thread_id": None,
-        "model_id": None,
+        "model_id": model_id,
+        "ablation": ablation,
     }
 
 
 # ---------------------------------------------------------------------------
-# Single scenario runner
+# Single Scenario Evaluator
 # ---------------------------------------------------------------------------
 
 
-def run_scenario(scenario: dict, ablation: str = "full", trial: int = 1) -> dict:
-    """Run a single scenario and return a structured result record."""
-    question = scenario["question"]
+def evaluate_scenario(
+    scenario: dict,
+    ablation: str = "full",
+    model_id: str | None = None,
+    hold_out: str | None = None,
+    trial: int = 1,
+) -> dict:
+    """Runs a single benchmark scenario and scores output."""
+    sid = scenario["scenario_id"]
     service = scenario["service"]
+    question = scenario["question"]
     ground_truth_ft = scenario["failure_type"]
+    acceptable_fts = scenario.get("acceptable_failure_types")
+    is_surprise = sid.startswith("surprise-") or (hold_out and ground_truth_ft == hold_out)
 
-    print(
-        f"  [Trial {trial}] {scenario['scenario_id']} ({ablation}) ...",
-        end=" ",
-        flush=True,
-    )
+    display_model = (model_id or "default").split("/")[-1]
+    print(f"  [{ablation:15s} | {display_model:18s} | T{trial}] {sid:<24} ...", end=" ", flush=True)
 
     try:
-        if ablation == "rag_only":
-            result = ask_rag_only(question)
-        else:
-            result = ask(question)
+        res = execute_ablation_ask(
+            question=question,
+            ablation=ablation,
+            model_id=model_id,
+            hold_out=hold_out,
+        )
     except Exception as exc:
         print(f"ERROR: {exc}")
         return {
-            "scenario_id": scenario["scenario_id"],
+            "scenario_id": sid,
             "service": service,
-            "trial": trial,
             "ablation": ablation,
+            "model_id": model_id,
+            "trial": trial,
+            "hold_out": hold_out,
             "failure_type_match": 0,
             "fix_keyword_score": 0.0,
             "runbook_cited": 0,
             "tool_calls_used": 0,
-            "latency_s": -1,
+            "latency_s": -1.0,
+            "estimated_cost_usd": 0.0,
             "predicted_failure_type": None,
             "ground_truth_failure_type": ground_truth_ft,
-            "confidence": None,
             "error": str(exc),
         }
 
-    ft_match = score_failure_type(result.get("failure_type"), ground_truth_ft)
-    fix_score = score_fix_keywords(
-        result.get("diagnosis", ""), scenario.get("expected_fix_keywords", [])
-    )
-    rb_cited = score_runbook_cited(result, scenario.get("expected_runbook_keywords", []))
-    tool_calls = len(result.get("tool_trace", []))
-    latency = result.get("latency_s", -1)
+    ft_match = score_failure_type(res.get("failure_type"), ground_truth_ft, acceptable_fts)
+    fix_score = score_fix_keywords(res.get("diagnosis", ""), scenario.get("expected_fix_keywords", []))
+    rb_cited = score_runbook_cited(res, scenario.get("expected_runbook_keywords", []), is_unknown=is_surprise)
+    num_tools = len(res.get("tool_trace", []))
+    lat = res.get("latency_s", -1.0)
+    cost = round((num_tools * COST_PER_TOOL_CALL) + (max(0.0, lat) * COST_PER_LATENCY_SEC), 5)
 
-    print(
-        f"ft={'PASS' if ft_match else 'FAIL'} "
-        f"fix={fix_score:.2f} rb={'Y' if rb_cited else 'N'} "
-        f"tools={tool_calls} lat={latency}s"
-    )
+    print(f"FT={'PASS' if ft_match else 'FAIL':4s} Fix={fix_score:.2f} RB={'Y' if rb_cited else 'N'} Tools={num_tools:2d} Lat={lat:.1f}s Cost=${cost:.4f}")
 
     return {
-        "scenario_id": scenario["scenario_id"],
+        "scenario_id": sid,
         "service": service,
-        "trial": trial,
         "ablation": ablation,
+        "model_id": model_id,
+        "trial": trial,
+        "hold_out": hold_out,
         "failure_type_match": ft_match,
         "fix_keyword_score": fix_score,
         "runbook_cited": rb_cited,
-        "tool_calls_used": tool_calls,
-        "latency_s": latency,
-        "predicted_failure_type": result.get("failure_type"),
+        "tool_calls_used": num_tools,
+        "latency_s": lat,
+        "estimated_cost_usd": cost,
+        "predicted_failure_type": res.get("failure_type"),
         "ground_truth_failure_type": ground_truth_ft,
-        "confidence": result.get("confidence"),
+        "confidence": res.get("confidence"),
         "error": None,
     }
 
 
 # ---------------------------------------------------------------------------
-# Markdown report
+# Aggregation & Report Generation
 # ---------------------------------------------------------------------------
 
 
-def _summarise(records: list[dict]) -> dict:
-    """Aggregate statistics across all records."""
-    if not records:
-        return {}
-    n = len(records)
-    return {
-        "total_scenarios": n,
-        "failure_type_accuracy": round(sum(r["failure_type_match"] for r in records) / n, 3),
-        "avg_fix_keyword_score": round(sum(r["fix_keyword_score"] for r in records) / n, 3),
-        "runbook_citation_rate": round(sum(r["runbook_cited"] for r in records) / n, 3),
-        "avg_tool_calls": round(sum(r["tool_calls_used"] for r in records) / n, 2),
-        "avg_latency_s": round(sum(r["latency_s"] for r in records if r["latency_s"] >= 0) / max(1, sum(1 for r in records if r["latency_s"] >= 0)), 3),
-    }
-
-
-def _write_markdown(run_id: str, records: list[dict], summary_full: dict, summary_rag: dict) -> Path:
-    """Write a human-readable markdown benchmark report."""
+def generate_benchmark_report(
+    run_id: str,
+    records: list[dict],
+    ablations_run: list[str],
+    models_run: list[str | None],
+    hold_out: str | None = None,
+) -> tuple[Path, Path]:
+    """Generates JSON and Markdown summary tables for the benchmark."""
+    json_path = RESULTS_DIR / f"{run_id}.json"
     md_path = RESULTS_DIR / f"{run_id}.md"
-    lines = [
-        f"# ChatOps Agent Benchmark — {run_id}",
-        "",
-        f"**Run timestamp**: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}",
-        f"**Scenarios**: {len(BENCHMARK_SCENARIOS)}  |  **Total records**: {len(records)}",
-        "",
-        "## Summary",
-        "",
-        "| Metric | Full Agent | RAG Only |",
-        "|--------|-----------|---------|",
-    ]
-    metrics = [
-        ("Failure Type Accuracy", "failure_type_accuracy"),
-        ("Avg Fix Keyword Score", "avg_fix_keyword_score"),
-        ("Runbook Citation Rate", "runbook_citation_rate"),
-        ("Avg Tool Calls", "avg_tool_calls"),
-        ("Avg Latency (s)", "avg_latency_s"),
-    ]
-    for label, key in metrics:
-        full_val = summary_full.get(key, "N/A")
-        rag_val = summary_rag.get(key, "N/A")
-        lines.append(f"| {label} | {full_val} | {rag_val} |")
 
-    lines += [
-        "",
-        "## Detailed Results",
-        "",
-        "| Scenario | Ablation | Trial | FT Match | Fix Score | RB Cited | Tools | Latency(s) | Predicted FT |",
-        "|----------|----------|-------|----------|-----------|----------|-------|-----------|--------------|",
-    ]
+    # Write JSON record dump
+    with open(json_path, "w", encoding="utf-8") as f:
+        json.dump({
+            "run_id": run_id,
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "ablations": ablations_run,
+            "models": [m or "default" for m in models_run],
+            "hold_out": hold_out,
+            "total_evaluations": len(records),
+            "records": records,
+        }, f, indent=2)
+
+    # Compute aggregation by (ablation, model)
+    summary_rows = []
+    groups: dict[tuple[str, str], list[dict]] = {}
     for r in records:
-        lines.append(
-            f"| {r['scenario_id']} | {r['ablation']} | {r['trial']} "
-            f"| {'✅' if r['failure_type_match'] else '❌'} "
-            f"| {r['fix_keyword_score']:.2f} "
-            f"| {'✅' if r['runbook_cited'] else '❌'} "
-            f"| {r['tool_calls_used']} "
-            f"| {r['latency_s']} "
-            f"| {r.get('predicted_failure_type', '?')} |"
+        key = (r["ablation"], r["model_id"] or "default")
+        groups.setdefault(key, []).append(r)
+
+    for (abl, mdl), grp in groups.items():
+        n = len(grp)
+        ft_acc = round(sum(r["failure_type_match"] for r in grp) / n * 100, 1)
+        fix_acc = round(sum(r["fix_keyword_score"] for r in grp) / n * 100, 1)
+        rb_cite = round(sum(r["runbook_cited"] for r in grp) / n * 100, 1)
+        avg_tools = round(sum(r["tool_calls_used"] for r in grp) / n, 2)
+        valid_lats = [r["latency_s"] for r in grp if r["latency_s"] >= 0]
+        avg_lat = round(sum(valid_lats) / max(1, len(valid_lats)), 2)
+        avg_cost = round(sum(r["estimated_cost_usd"] for r in grp) / n, 4)
+
+        summary_rows.append({
+            "ablation": abl,
+            "model": mdl.split("/")[-1],
+            "samples": n,
+            "ft_accuracy_pct": ft_acc,
+            "fix_quality_pct": fix_acc,
+            "citation_rate_pct": rb_cite,
+            "avg_tools": avg_tools,
+            "avg_latency_s": avg_lat,
+            "avg_cost_usd": avg_cost,
+        })
+
+    model_labels = ", ".join(f"`{m or 'default'}`" for m in models_run)
+    ablation_labels = ", ".join(f"`{a}`" for a in ablations_run)
+    hold_out_label = hold_out or "None"
+
+    # Render Markdown
+    md_lines = [
+        f"# ChatOps Agent Benchmark Report — `{run_id}`",
+        "",
+        f"- **Timestamp**: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC')}",
+        f"- **Ablations Evaluated**: {ablation_labels}",
+        f"- **Models**: {model_labels}",
+        f"- **Hold-Out Setting**: `{hold_out_label}`",
+        f"- **Total Evaluations**: `{len(records)}`",
+        "",
+        "## Summary Results",
+        "",
+        "| Configuration | Model | FT Accuracy | Fix Quality | Citation Rate | Avg Tools | Avg Latency | Est Cost / Incident |",
+        "|:---|:---|:---:|:---:|:---:|:---:|:---:|:---:|",
+    ]
+
+    for row in summary_rows:
+        md_lines.append(
+            f"| `{row['ablation']}` | `{row['model']}` | "
+            f"**{row['ft_accuracy_pct']}%** | {row['fix_quality_pct']}% | {row['citation_rate_pct']}% | "
+            f"{row['avg_tools']} | {row['avg_latency_s']}s | ${row['avg_cost_usd']} |"
         )
 
-    lines += ["", "---", "_Auto-generated by `agent/eval/benchmark.py`_"]
-    md_path.write_text("\n".join(lines), encoding="utf-8")
-    return md_path
+    md_lines.extend([
+        "",
+        "## Evaluation Details",
+        "",
+        "| Scenario | Ablation | Model | Trial | FT Match | Fix Score | RB Cited | Tools | Latency |",
+        "|:---|:---|:---|:---:|:---:|:---:|:---:|:---:|:---:|",
+    ])
+
+    for r in records:
+        md_lines.append(
+            f"| `{r['scenario_id']}` | `{r['ablation']}` | `{str(r['model_id'] or 'default').split('/')[-1]}` | "
+            f"{r['trial']} | {'✅' if r['failure_type_match'] else '❌'} | {r['fix_keyword_score']:.2f} | "
+            f"{'✅' if r['runbook_cited'] else '❌'} | {r['tool_calls_used']} | {r['latency_s']:.1f}s |"
+        )
+
+    md_lines.extend(["", "---", "_Generated automatically by ChatOps Benchmark Harness v2_"])
+    md_path.write_text("\n".join(md_lines), encoding="utf-8")
+
+    return json_path, md_path
 
 
 # ---------------------------------------------------------------------------
-# Main
+# Runner Entry Point
 # ---------------------------------------------------------------------------
 
 
-def main(ablation: str = "full", trials: int = 1) -> None:
-    run_id = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S") + f"_{ablation}"
-    print(f"\n{'='*60}")
-    print(f" ChatOps Agent Benchmark  |  ablation={ablation}  trials={trials}")
-    print(f" run_id: {run_id}")
-    print(f"{'='*60}\n")
+def run_benchmark(
+    ablations: list[str],
+    models: list[str | None],
+    trials: int = 1,
+    include_surprise: bool = False,
+    hold_out: str | None = None,
+) -> tuple[Path, Path]:
+    """Runs full benchmark matrix across selected ablations, models, and trials."""
+    scenarios = list(BENCHMARK_SCENARIOS)
+    if include_surprise:
+        scenarios.extend(SURPRISE_SCENARIOS)
 
-    all_records: list[dict] = []
-    ablations = ["full", "rag_only"] if ablation == "both" else [ablation]
+    run_id = f"bm_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
+    if hold_out:
+        run_id += f"_holdout_{hold_out}"
 
-    for ab in ablations:
-        print(f"\n--- Ablation: {ab} ---")
-        for scenario in BENCHMARK_SCENARIOS:
-            print(f"\nScenario: {scenario['scenario_id']}")
+    print(f"\n{'='*75}")
+    print(f"  ChatOps SRE Agent Benchmark v2  [{run_id}]")
+    print(f"  Scenarios: {len(scenarios)} | Ablations: {len(ablations)} | Models: {len(models)} | Trials: {trials}")
+    if hold_out:
+        print(f"  Hold-Out Mode: Runbook '{hold_out}' EXCLUDED from retrieval")
+    print(f"{'='*75}\n")
+
+    records: list[dict] = []
+    for abl in ablations:
+        for mdl in models:
             for trial in range(1, trials + 1):
-                rec = run_scenario(scenario, ablation=ab, trial=trial)
-                all_records.append(rec)
+                for sc in scenarios:
+                    rec = evaluate_scenario(
+                        scenario=sc,
+                        ablation=abl,
+                        model_id=mdl,
+                        hold_out=hold_out,
+                        trial=trial,
+                    )
+                    records.append(rec)
 
-    # Separate records by ablation
-    full_records = [r for r in all_records if r["ablation"] == "full"]
-    rag_records = [r for r in all_records if r["ablation"] == "rag_only"]
-
-    summary_full = _summarise(full_records)
-    summary_rag = _summarise(rag_records)
-
-    # Persist JSON
-    json_path = RESULTS_DIR / f"{run_id}.json"
-    json_path.write_text(
-        json.dumps(
-            {
-                "run_id": run_id,
-                "summary_full": summary_full,
-                "summary_rag_only": summary_rag,
-                "records": all_records,
-            },
-            indent=2,
-        ),
-        encoding="utf-8",
+    json_p, md_p = generate_benchmark_report(
+        run_id=run_id,
+        records=records,
+        ablations_run=ablations,
+        models_run=models,
+        hold_out=hold_out,
     )
 
-    # Persist Markdown
-    md_path = _write_markdown(run_id, all_records, summary_full, summary_rag)
+    print(f"\n{'='*75}")
+    print("  Benchmark Complete! Results saved to:")
+    print(f"    Markdown: {md_p}")
+    print(f"    JSON:     {json_p}")
+    print(f"{'='*75}\n")
 
-    print(f"\n{'='*60}")
-    print(f" Results saved:")
-    print(f"   JSON: {json_path}")
-    print(f"   MD:   {md_path}")
-    print(f"\n FULL AGENT SUMMARY:")
-    for k, v in summary_full.items():
-        print(f"   {k}: {v}")
-    if summary_rag:
-        print(f"\n RAG-ONLY SUMMARY:")
-        for k, v in summary_rag.items():
-            print(f"   {k}: {v}")
-    print(f"{'='*60}\n")
+    return json_p, md_p
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="ChatOps Agent Benchmark")
+    parser = argparse.ArgumentParser(description="ChatOps Benchmark Harness v2")
     parser.add_argument(
         "--ablation",
-        choices=["full", "rag_only", "both"],
+        type=str,
         default="full",
-        help="Which ablation mode to run (default: full)",
+        help="Ablation mode: llm_only | rag_only | live_tools_only | full | with_external | all",
+    )
+    parser.add_argument(
+        "--models",
+        type=str,
+        default="default",
+        help="Models: 'default', 'all', or specific comma-separated model IDs",
     )
     parser.add_argument(
         "--trials",
@@ -348,5 +515,38 @@ if __name__ == "__main__":
         default=1,
         help="Number of trials per scenario (default: 1)",
     )
+    parser.add_argument(
+        "--surprise",
+        action="store_true",
+        help="Include surprise unseen failure scenarios",
+    )
+    parser.add_argument(
+        "--hold-out",
+        type=str,
+        default=None,
+        help="Failure type to hold out (exclude from runbook search)",
+    )
+
     args = parser.parse_args()
-    main(ablation=args.ablation, trials=args.trials)
+
+    # Determine ablations
+    if args.ablation == "all":
+        ablations_to_run = SUPPORTED_ABLATIONS
+    else:
+        ablations_to_run = [a.strip() for a in args.ablation.split(",") if a.strip()]
+
+    # Determine models
+    if args.models == "all":
+        models_to_run: list[str | None] = [None] + DEFAULT_MODELS  # None uses default configured model
+    elif args.models == "default":
+        models_to_run = [None]
+    else:
+        models_to_run = [m.strip() for m in args.models.split(",") if m.strip()]
+
+    run_benchmark(
+        ablations=ablations_to_run,
+        models=models_to_run,
+        trials=args.trials,
+        include_surprise=args.surprise,
+        hold_out=args.hold_out,
+    )

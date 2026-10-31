@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 420" width="780" height="420" style="background-color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif;">
+<text x="390.0" y="32" text-anchor="middle" font-size="18" font-weight="bold" fill="#1e293b">Diagnostic Performance Across Evaluated Foundation Models</text>
+<line x1="70" y1="340.0" x2="740" y2="340.0" stroke="#e2e8f0" stroke-width="1" />
+<text x="60" y="344.0" text-anchor="end" font-size="12" fill="#64748b">0</text>
+<line x1="70" y1="284.0" x2="740" y2="284.0" stroke="#e2e8f0" stroke-width="1" />
+<text x="60" y="288.0" text-anchor="end" font-size="12" fill="#64748b">20</text>
+<line x1="70" y1="228.0" x2="740" y2="228.0" stroke="#e2e8f0" stroke-width="1" />
+<text x="60" y="232.0" text-anchor="end" font-size="12" fill="#64748b">40</text>
+<line x1="70" y1="172.0" x2="740" y2="172.0" stroke="#e2e8f0" stroke-width="1" />
+<text x="60" y="176.0" text-anchor="end" font-size="12" fill="#64748b">60</text>
+<line x1="70" y1="116.0" x2="740" y2="116.0" stroke="#e2e8f0" stroke-width="1" />
+<text x="60" y="120.0" text-anchor="end" font-size="12" fill="#64748b">80</text>
+<line x1="70" y1="60.0" x2="740" y2="60.0" stroke="#e2e8f0" stroke-width="1" />
+<text x="60" y="64.0" text-anchor="end" font-size="12" fill="#64748b">100</text>
+<text x="20" y="200.0" text-anchor="middle" font-size="13" font-weight="600" fill="#475569" transform="rotate(-90 20 200.0)">Score (%)</text>
+<rect x="95.1" y="88.0" width="58.6" height="252.0" fill="#6366f1" rx="3" />
+<text x="124.4" y="84.0" text-anchor="middle" font-size="10" font-weight="600" fill="#334155">90%</text>
+<rect x="153.8" y="93.6" width="58.6" height="246.4" fill="#f59e0b" rx="3" />
+<text x="183.1" y="89.6" text-anchor="middle" font-size="10" font-weight="600" fill="#334155">88%</text>
+<text x="153.8" y="362" text-anchor="middle" font-size="11" font-weight="500" fill="#334155">Qwen3 VL 235B</text>
+<rect x="262.6" y="116.0" width="58.6" height="224.0" fill="#6366f1" rx="3" />
+<text x="291.9" y="112.0" text-anchor="middle" font-size="10" font-weight="600" fill="#334155">80%</text>
+<rect x="321.2" y="110.4" width="58.6" height="229.6" fill="#f59e0b" rx="3" />
+<text x="350.6" y="106.4" text-anchor="middle" font-size="10" font-weight="600" fill="#334155">82%</text>
+<text x="321.2" y="362" text-anchor="middle" font-size="11" font-weight="500" fill="#334155">Kimi K2.5</text>
+<rect x="430.1" y="116.0" width="58.6" height="224.0" fill="#6366f1" rx="3" />
+<text x="459.4" y="112.0" text-anchor="middle" font-size="10" font-weight="600" fill="#334155">80%</text>
+<rect x="488.8" y="104.8" width="58.6" height="235.2" fill="#f59e0b" rx="3" />
+<text x="518.1" y="100.8" text-anchor="middle" font-size="10" font-weight="600" fill="#334155">84%</text>
+<text x="488.8" y="362" text-anchor="middle" font-size="11" font-weight="500" fill="#334155">DeepSeek V3.2</text>
+<rect x="597.6" y="88.0" width="58.6" height="252.0" fill="#6366f1" rx="3" />
+<text x="626.9" y="84.0" text-anchor="middle" font-size="10" font-weight="600" fill="#334155">90%</text>
+<rect x="656.2" y="99.2" width="58.6" height="240.8" fill="#f59e0b" rx="3" />
+<text x="685.6" y="95.2" text-anchor="middle" font-size="10" font-weight="600" fill="#334155">86%</text>
+<text x="656.2" y="362" text-anchor="middle" font-size="11" font-weight="500" fill="#334155">Mistral Large 3</text>
+<rect x="270.0" y="385" width="14" height="14" fill="#6366f1" rx="2" />
+<text x="290.0" y="397" font-size="12" font-weight="500" fill="#475569">Failure Type Accuracy (%)</text>
+<rect x="410.0" y="385" width="14" height="14" fill="#f59e0b" rx="2" />
+<text x="430.0" y="397" font-size="12" font-weight="500" fill="#475569">Remediation Quality (%)</text>
+</svg>

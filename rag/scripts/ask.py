@@ -16,8 +16,8 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
 
-from rag.chain import RAGChain
 from agent.llm import handle_llm_error, load_config
+from rag.chain import RAGChain
 
 
 def main() -> None:

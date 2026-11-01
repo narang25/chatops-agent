@@ -150,3 +150,12 @@ services:
         condition: service_started
       inventory-service:
         condition: service_started
+
+
+  toxiproxy:
+    image: ghcr.io/shopify/toxiproxy:2.9.0
+    container_name: toxiproxy
+    ports:
+      - "8474:8474"
+      - "8101:8101"
+    restart: unless-stopped

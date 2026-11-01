@@ -1,0 +1,16 @@
+{"timestamp": "2026-11-01T13:47:08.151223+00:00", "event": "proposed", "proposal_id": "189e89c0-f3e4-4a69-aa2c-12e2cda96f64", "service": "payment-service", "action": "set_memory_limit", "params": {"memory_mb": 256}, "risk": "medium"}
+{"timestamp": "2026-11-01T13:47:08.157591+00:00", "event": "proposed", "proposal_id": "c371d395-81d6-4023-b9be-b42db93edf33", "service": "payment-service", "action": "set_memory_limit", "params": {"memory_mb": 256}, "risk": "medium"}
+{"timestamp": "2026-11-01T13:47:08.158967+00:00", "event": "apply_failed_invalid_token", "proposal_id": "c371d395-81d6-4023-b9be-b42db93edf33", "approver": "slack_user"}
+{"timestamp": "2026-11-01T13:47:08.165259+00:00", "event": "proposed", "proposal_id": "4cd0e924-1587-473c-97dd-bcb86be925ad", "service": "order-service", "action": "restart_service", "params": {}, "risk": "low"}
+{"timestamp": "2026-11-01T13:47:08.168148+00:00", "event": "applied", "proposal_id": "4cd0e924-1587-473c-97dd-bcb86be925ad", "audit_id": "audit_fdf86ac1a4df", "action": "restart_service", "service": "order-service", "params": {}, "approver": "test_user", "status": "applied"}
+{"timestamp": "2026-11-01T13:47:08.169360+00:00", "event": "apply_failed_token_reused", "proposal_id": "4cd0e924-1587-473c-97dd-bcb86be925ad", "approver": "test_user"}
+{"timestamp": "2026-11-01T13:47:08.175973+00:00", "event": "proposed", "proposal_id": "a4a98f1c-939e-49e1-bd52-b1641837c24a", "service": "inventory-service", "action": "restart_service", "params": {}, "risk": "low"}
+{"timestamp": "2026-11-01T13:47:08.176647+00:00", "event": "apply_failed_token_expired", "proposal_id": "a4a98f1c-939e-49e1-bd52-b1641837c24a", "approver": "slack_user"}
+{"timestamp": "2026-11-01T13:47:20.642513+00:00", "event": "proposed", "proposal_id": "7aebd8b3-fe80-4ca4-a8c7-2225831caefc", "service": "payment-service", "action": "set_memory_limit", "params": {"memory_mb": 256}, "risk": "medium"}
+{"timestamp": "2026-11-01T13:47:20.645512+00:00", "event": "proposed", "proposal_id": "778995d6-9582-49d6-9497-9d0d604a0771", "service": "payment-service", "action": "set_memory_limit", "params": {"memory_mb": 256}, "risk": "medium"}
+{"timestamp": "2026-11-01T13:47:20.646066+00:00", "event": "apply_failed_invalid_token", "proposal_id": "778995d6-9582-49d6-9497-9d0d604a0771", "approver": "slack_user"}
+{"timestamp": "2026-11-01T13:47:20.649250+00:00", "event": "proposed", "proposal_id": "d4851a4c-7882-4ee3-ba8e-ef1f513bf96f", "service": "order-service", "action": "restart_service", "params": {}, "risk": "low"}
+{"timestamp": "2026-11-01T13:47:20.649778+00:00", "event": "applied", "proposal_id": "d4851a4c-7882-4ee3-ba8e-ef1f513bf96f", "audit_id": "audit_c84c51176ff7", "action": "restart_service", "service": "order-service", "params": {}, "approver": "test_user", "status": "applied"}
+{"timestamp": "2026-11-01T13:47:20.650712+00:00", "event": "apply_failed_token_reused", "proposal_id": "d4851a4c-7882-4ee3-ba8e-ef1f513bf96f", "approver": "test_user"}
+{"timestamp": "2026-11-01T13:47:20.654478+00:00", "event": "proposed", "proposal_id": "5d8d21f2-4c20-4a02-9c6e-5b0fd73d0170", "service": "inventory-service", "action": "restart_service", "params": {}, "risk": "low"}
+{"timestamp": "2026-11-01T13:47:20.655217+00:00", "event": "apply_failed_token_expired", "proposal_id": "5d8d21f2-4c20-4a02-9c6e-5b0fd73d0170", "approver": "slack_user"}

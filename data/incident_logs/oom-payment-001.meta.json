@@ -2,13 +2,14 @@
   "scenario_id": "oom-payment-001",
   "service": "payment-service",
   "failure_type": "out_of_memory",
-  "root_cause": "Container memory limit (64MB) too low; /leak endpoint allocates unbounded memory",
-  "expected_fix": "Raise memory limit to 256MB and fix the leak",
+  "root_cause": "Container memory limit (64MB) is too low; the /leak endpoint allocates 10MB chunks that are never freed, exhausting the limit and triggering an OOM kill by the kernel",
+  "expected_fix": "Raise the container memory limit to at least 256MB in docker-compose.yml and fix the memory leak in the /leak endpoint (or remove the endpoint in production)",
   "signals": [
-    "oom_killed=false",
-    "exit_code=0",
-    "restart_count increased from 0 to 1",
-    "memory limit exceeded (64MB)"
+    "oom_killed=true",
+    "exit_code=137",
+    "restart_count_increasing",
+    "memory_usage_near_limit_64mb",
+    "container_state=restarting"
   ],
-  "how_to_reproduce": "python infra/failures/oom.py"
+  "how_to_reproduce": "python infra/failures/run_scenario.py run oom-payment-001"
 }

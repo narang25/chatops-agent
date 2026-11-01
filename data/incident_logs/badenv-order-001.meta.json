@@ -2,13 +2,14 @@
   "scenario_id": "badenv-order-001",
   "service": "order-service",
   "failure_type": "bad_config",
-  "root_cause": "PAYMENT_SERVICE_URL environment variable is missing; order-service fails startup check",
-  "expected_fix": "Provide PAYMENT_SERVICE_URL in the environment configuration and restart the container",
+  "root_cause": "The PAYMENT_SERVICE_URL environment variable is missing from the container configuration; order-service validates this at startup and exits with code 1 when it is absent",
+  "expected_fix": "Set PAYMENT_SERVICE_URL=http://payment-service:8000 in the environment configuration (docker-compose.yml or .env) and restart the container",
   "signals": [
     "exit_code=1",
-    "container_status=exited",
-    "missing_env_var=PAYMENT_SERVICE_URL",
-    "level=CRITICAL"
+    "container_state=exited",
+    "restart_count_increasing",
+    "log_level=CRITICAL",
+    "missing_env_var=PAYMENT_SERVICE_URL"
   ],
-  "how_to_reproduce": "python infra/failures/bad_env.py"
+  "how_to_reproduce": "python infra/failures/run_scenario.py run badenv-order-001"
 }

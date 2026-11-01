@@ -2,13 +2,13 @@
   "scenario_id": "healthfail-inventory-001",
   "service": "inventory-service",
   "failure_type": "health_check_failure",
-  "root_cause": "Health check toggle health_fail set to true via /admin/fault; GET /health returns 500 Internal Server Error",
-  "expected_fix": "Reset fault toggle health_fail to false via POST /admin/fault",
+  "root_cause": "The health_fail fault toggle is set to true via POST /admin/fault; the /health endpoint returns HTTP 500, causing the container's Docker health check to mark the service as unhealthy",
+  "expected_fix": "Reset the fault toggle by calling POST /admin/fault with {\"health_fail\": false}, or restart the container to clear in-memory faults",
   "signals": [
-    "fault_health_fail=true",
-    "http_status=500",
-    "status=unhealthy",
-    "docker_health=healthy"
+    "http_health_status=500",
+    "docker_health=unhealthy",
+    "app_up_gauge=0",
+    "fault_health_fail=true"
   ],
-  "how_to_reproduce": "python infra/failures/health_fail.py"
+  "how_to_reproduce": "python infra/failures/run_scenario.py run healthfail-inventory-001"
 }

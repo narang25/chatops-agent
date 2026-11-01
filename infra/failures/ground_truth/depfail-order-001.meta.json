@@ -1,0 +1,15 @@
+{
+  "scenario_id": "depfail-order-001",
+  "service": "order-service",
+  "failure_type": "dependency_failure",
+  "root_cause": "The payment-service container is stopped. order-service depends on payment-service for payment processing; with payment-service unreachable, order-service receives connection refused errors and returns HTTP 502/500 to callers",
+  "expected_fix": "Restart payment-service with: docker start payment-service (or python infra/manage.py up). Implement circuit breakers and fallback logic in order-service to handle upstream outages gracefully",
+  "signals": [
+    "payment_service_state=stopped",
+    "order_service_logs_connection_refused",
+    "http_502_or_500_from_order_service",
+    "app_errors_total_order_service_increasing",
+    "payment_service_not_found_or_exited"
+  ],
+  "how_to_reproduce": "python infra/failures/run_scenario.py run depfail-order-001"
+}

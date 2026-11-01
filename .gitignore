@@ -18,3 +18,6 @@ chroma_db/
 .idea/
 .vscode/
 .DS_Store
+
+# Task B19: Surprise scenarios local ground truth (keep honest until evaluated by Person A)
+infra/failures/ground_truth_secret/

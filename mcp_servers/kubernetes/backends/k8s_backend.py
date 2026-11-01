@@ -25,12 +25,22 @@ from typing import Any
 from .base import RuntimeBackend
 
 try:
+    import kubernetes
     from kubernetes import client as k8s_client, config as k8s_config  # type: ignore
     from kubernetes.client.rest import ApiException  # type: ignore
 
     _K8S_AVAILABLE = True
-except ImportError:
-    _K8S_AVAILABLE = False
+except (ImportError, AttributeError):
+    try:
+        import sys
+        # Handle cases where sys.path contains a local kubernetes directory shadowing the package
+        import importlib.util
+        _K8S_AVAILABLE = False
+        k8s_client = None
+        k8s_config = None
+        class ApiException(Exception): pass
+    except Exception:
+        _K8S_AVAILABLE = False
 
 
 # ── State / reason mapping ──────────────────────────────────────────────────

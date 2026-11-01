@@ -1,3 +1,4 @@
+from datetime import datetime, timezone
 """
 Unit tests for Kubernetes/Docker Infrastructure MCP Server & what_changed tool (Task B18).
 """
@@ -166,7 +167,7 @@ def test_what_changed_reads_deploy_events(mock_docker_backend, tmp_path):
     # Mock DEPLOY_LOG_PATH
     fake_deploy_log = tmp_path / "deploy_events.jsonl"
     fake_event = {
-        "timestamp": "2026-11-01T12:00:00Z",
+        "timestamp": datetime.now(timezone.utc).isoformat(),
         "service": "order-service",
         "action": "deploy",
         "image": "order-service:v2",

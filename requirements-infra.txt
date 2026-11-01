@@ -6,7 +6,7 @@ psutil
 psycopg2-binary
 httpx
 docker
-mcp
+mcp>=2.0
 python-dotenv
 slack-bolt>=1.18.0
 slack-sdk>=3.27.0

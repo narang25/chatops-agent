@@ -19,7 +19,7 @@ Requires: pip install kubernetes
 from __future__ import annotations
 
 import os
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 from .base import RuntimeBackend
@@ -104,7 +104,7 @@ def _iso(dt: datetime | None) -> str | None:
     if dt is None:
         return None
     if dt.tzinfo is None:
-        dt = dt.replace(tzinfo=timezone.utc)
+        dt = dt.replace(tzinfo=UTC)
     return dt.isoformat()
 
 
@@ -225,7 +225,7 @@ class K8sBackend(RuntimeBackend):
         except ApiException as exc:
             return {"service": service, "events": [], "error": str(exc)}
 
-        cutoff = datetime.now(tz=timezone.utc).timestamp() - minutes * 60
+        cutoff = datetime.now(tz=UTC).timestamp() - minutes * 60
         mapped: list[dict] = []
 
         for ev in events_list.items or []:

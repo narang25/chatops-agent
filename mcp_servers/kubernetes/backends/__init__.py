@@ -13,6 +13,6 @@ from mcp_servers.kubernetes.backends.docker_backend import DockerBackend
 def get_backend() -> RuntimeBackend:
     runtime = os.getenv("RUNTIME", "docker").lower()
     if runtime in ("k8s", "kubernetes"):
-        from mcp_servers.kubernetes.backends.k8s_backend import K8sBackend  # noqa: PLC0415
+        from mcp_servers.kubernetes.backends.k8s_backend import K8sBackend
         return K8sBackend()
     return DockerBackend()

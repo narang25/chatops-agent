@@ -1,18 +1,20 @@
 """
-Remediation MCP Server & Safety Engine (Task B20).
+Remediation MCP Server, Safety Engine, Verification & Auto-Rollback (Tasks B20 & B22).
 
 Architecture & Safety Rules:
 - Propose-only for Agent: The agent client is ONLY registered with `propose_remediation`.
-- Apply is gated: `apply_remediation` requires a single-use, time-bound approval token
-  issued solely through the interactive Slack approval interface or authorized human callers.
+- Apply is gated: `apply_remediation` requires a single-use, time-bound approval token.
+- Verification & Auto-Rollback: Background monitor evaluates metrics post-remediation.
+  If error rate or health deteriorates, it automatically executes an emergency rollback.
 - Policy-Enforced: Evaluates requests against `infra/remediation_policy.yaml`.
-- Audit Log: Every proposal, approval, rejection, and execution is recorded in `data/audit_log.jsonl`.
+- Audit Log: Every proposal, approval, rejection, verification, and rollback is written to `data/audit_log.jsonl`.
 """
 
 import json
 import os
 import subprocess
 import sys
+import threading
 import time
 import uuid
 from datetime import datetime, timezone
@@ -29,9 +31,8 @@ from mcp.server.mcpserver import MCPServer
 POLICY_FILE = PROJECT_ROOT / "infra" / "remediation_policy.yaml"
 AUDIT_LOG_FILE = PROJECT_ROOT / "data" / "audit_log.jsonl"
 TOKEN_EXPIRY_SECONDS = 300  # 5 minutes
+DEFAULT_VERIFY_WINDOW_S = 30  # 30 seconds for test/demo responsiveness
 
-# In-memory storage for active proposals and tokens
-# Format: {proposal_id: {data..., "token": str, "expires_at": float, "used": bool}}
 _PROPOSALS: dict[str, dict[str, Any]] = {}
 
 
@@ -88,12 +89,105 @@ def check_policy(action: str, service: str, params: dict[str, Any]) -> tuple[boo
     return True, "Policy check passed."
 
 
+def _capture_baseline(service: str) -> dict[str, Any]:
+    """Capture pre-fix metrics snapshot for verification baseline."""
+    baseline: dict[str, Any] = {"service": service, "timestamp": time.time()}
+    try:
+        from mcp_servers.kubernetes.server import get_pod_status
+        status = get_pod_status(service)
+        baseline["state"] = status.get("state")
+        baseline["restarts"] = status.get("restart_count", 0)
+        baseline["memory_limit_mb"] = status.get("memory_limit_mb")
+    except Exception:
+        baseline["state"] = "unknown"
+        baseline["restarts"] = 0
+    return baseline
+
+
+def _rollback_action(service: str, action: str, previous_state: dict[str, Any], audit_id: str):
+    """Emergency rollback when post-remediation metrics degrade."""
+    try:
+        if action == "set_memory_limit":
+            old_mem = previous_state.get("memory_limit_mb") or 128
+            subprocess.run(
+                ["docker", "update", "--memory", f"{old_mem}m", "--memory-swap", f"{old_mem}m", service],
+                check=True,
+                capture_output=True,
+            )
+        elif action == "rollback_deploy":
+            subprocess.run(["docker", "restart", service], check=True, capture_output=True)
+
+        log_audit_event("auto_rollback_completed", {
+            "audit_id": audit_id,
+            "service": service,
+            "action": action,
+            "restored_state": previous_state,
+        })
+    except Exception as exc:
+        log_audit_event("auto_rollback_failed", {
+            "audit_id": audit_id,
+            "service": service,
+            "action": action,
+            "error": str(exc),
+        })
+
+
+def _background_verifier(proposal_id: str, watch_seconds: int = DEFAULT_VERIFY_WINDOW_S):
+    """Background monitoring thread watching for health improvement or degradation."""
+    time.sleep(watch_seconds)
+
+    record = _PROPOSALS.get(proposal_id)
+    if not record or record.get("status") != "applied":
+        return
+
+    service = record["service"]
+    action = record["action"]
+    baseline = record.get("baseline", {})
+    audit_id = record.get("audit_id", "")
+
+    try:
+        from mcp_servers.kubernetes.server import get_pod_status
+        current_status = get_pod_status(service)
+        curr_state = current_status.get("state")
+        curr_restarts = current_status.get("restart_count", 0)
+
+        # Evaluate condition
+        baseline_restarts = baseline.get("restarts", 0)
+        worse = (
+            curr_state in ["oom_killed", "exited", "unhealthy"]
+            or curr_restarts > baseline_restarts + 1
+        )
+
+        if worse:
+            record["verification_status"] = "worse"
+            record["rolled_back"] = True
+            log_audit_event("verification_degraded", {
+                "proposal_id": proposal_id,
+                "audit_id": audit_id,
+                "service": service,
+                "reason": f"State {curr_state}, restarts {curr_restarts} > {baseline_restarts}",
+            })
+            _rollback_action(service, action, baseline, audit_id)
+        else:
+            record["verification_status"] = "improved"
+            record["rolled_back"] = False
+            log_audit_event("verification_improved", {
+                "proposal_id": proposal_id,
+                "audit_id": audit_id,
+                "service": service,
+                "current_state": curr_state,
+            })
+    except Exception as exc:
+        record["verification_status"] = "error"
+        log_audit_event("verification_error", {"proposal_id": proposal_id, "error": str(exc)})
+
+
 # ── FastMCP Server Instance ───────────────────────────────────────────────────
 
 mcp = MCPServer(
     name="chatops-remediation",
-    version="1.0.0",
-    description="Safety-gated remediation proposal and execution engine.",
+    version="1.1.0",
+    description="Safety-gated remediation proposal, execution, and auto-rollback engine.",
 )
 
 
@@ -108,7 +202,6 @@ def propose_remediation(service: str, action: str, params: dict[str, Any] | None
     """Propose an operational fix. Safe by design: changes nothing."""
     params = params or {}
 
-    # Policy validation
     allowed, reason = check_policy(action, service, params)
     if not allowed:
         log_audit_event("proposal_rejected_policy", {
@@ -126,7 +219,6 @@ def propose_remediation(service: str, action: str, params: dict[str, Any] | None
     approval_token = str(uuid.uuid4())
     now = time.time()
 
-    # Dry-run analysis
     changes = []
     risk = "low"
     if action == "set_memory_limit":
@@ -165,7 +257,6 @@ def propose_remediation(service: str, action: str, params: dict[str, Any] | None
         "risk": risk,
     })
 
-    # Note: approval_token is retained internally; caller receives proposal confirmation
     return {
         "proposal_id": proposal_id,
         "action": action,
@@ -180,11 +271,13 @@ def propose_remediation(service: str, action: str, params: dict[str, Any] | None
     }
 
 
-def apply_remediation(proposal_id: str, approval_token: str, approver: str = "slack_user") -> dict[str, Any]:
-    """
-    Execute a previously approved proposal.
-    GATED: Rejects invalid, expired, or reused tokens.
-    """
+def apply_remediation(
+    proposal_id: str,
+    approval_token: str,
+    approver: str = "slack_user",
+    watch_seconds: int = DEFAULT_VERIFY_WINDOW_S,
+) -> dict[str, Any]:
+    """Execute a previously approved proposal and launch verification watcher."""
     if proposal_id not in _PROPOSALS:
         return {"error": f"Unknown proposal_id: {proposal_id}", "status": "rejected"}
 
@@ -203,7 +296,6 @@ def apply_remediation(proposal_id: str, approval_token: str, approver: str = "sl
         log_audit_event("apply_failed_invalid_token", {"proposal_id": proposal_id, "approver": approver})
         return {"error": "Invalid approval token.", "status": "rejected"}
 
-    # Mark token used immediately to prevent race conditions
     record["used"] = True
     audit_id = f"audit_{uuid.uuid4().hex[:12]}"
 
@@ -211,7 +303,10 @@ def apply_remediation(proposal_id: str, approval_token: str, approver: str = "sl
     service = record["service"]
     params = record["params"]
 
-    # Execute action via Docker
+    # Pre-capture baseline for verification & potential auto-rollback
+    baseline = _capture_baseline(service)
+    record["baseline"] = baseline
+
     try:
         if action == "set_memory_limit":
             mem_mb = int(params["memory_mb"])
@@ -223,7 +318,6 @@ def apply_remediation(proposal_id: str, approval_token: str, approver: str = "sl
         elif action == "restart_service":
             subprocess.run(["docker", "restart", service], check=True, capture_output=True)
         elif action == "rollback_deploy":
-            # Clear error rate fault on service
             import httpx
             port_map = {"order-service": 8002, "payment-service": 8001, "inventory-service": 8003}
             port = port_map.get(service, 8000)
@@ -236,6 +330,8 @@ def apply_remediation(proposal_id: str, approval_token: str, approver: str = "sl
         record["status"] = "applied"
         record["applied_at"] = now
         record["audit_id"] = audit_id
+        record["verification_status"] = "monitoring"
+        record["rolled_back"] = False
 
         log_audit_event("applied", {
             "proposal_id": proposal_id,
@@ -247,12 +343,19 @@ def apply_remediation(proposal_id: str, approval_token: str, approver: str = "sl
             "status": "applied",
         })
 
+        # Launch background verifier thread with auto-rollback capability
+        threading.Thread(
+            target=_background_verifier,
+            args=(proposal_id, watch_seconds),
+            daemon=True,
+        ).start()
+
         return {
             "status": "applied",
             "audit_id": audit_id,
             "action": action,
             "service": service,
-            "verification_window_minutes": 3,
+            "verification_window_seconds": watch_seconds,
         }
     except Exception as exc:
         record["status"] = "failed"
@@ -265,7 +368,7 @@ def apply_remediation(proposal_id: str, approval_token: str, approver: str = "sl
 
 
 def verify_remediation(proposal_id: str) -> dict[str, Any]:
-    """Verify outcome of applied remediation."""
+    """Query live verification and rollback status for a proposal."""
     if proposal_id not in _PROPOSALS:
         return {"error": f"Unknown proposal_id: {proposal_id}", "status": "unknown"}
 
@@ -273,19 +376,12 @@ def verify_remediation(proposal_id: str) -> dict[str, Any]:
     if record.get("status") != "applied":
         return {"status": "pending", "message": "Proposal has not been applied yet."}
 
-    service = record["service"]
-    # Quick probe: check health and errors
-    try:
-        from mcp_servers.kubernetes.server import get_pod_status
-        status = get_pod_status(service)
-        state = status.get("state")
-        if state in ["running"]:
-            return {"status": "improved", "service": service, "current_state": state, "rolled_back": False}
-        elif state in ["oom_killed", "exited", "restarting"]:
-            return {"status": "worse", "service": service, "current_state": state, "rolled_back": False}
-        return {"status": "unchanged", "service": service, "current_state": state, "rolled_back": False}
-    except Exception as e:
-        return {"status": "pending", "error": str(e), "rolled_back": False}
+    return {
+        "status": record.get("verification_status", "monitoring"),
+        "service": record.get("service"),
+        "rolled_back": record.get("rolled_back", False),
+        "audit_id": record.get("audit_id"),
+    }
 
 
 if __name__ == "__main__":

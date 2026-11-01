@@ -1,6 +1,5 @@
 """
-Unit tests for Kubernetes/Docker Infrastructure MCP Server.
-Mocks Docker SDK to test state mapping, event extraction, log filtering, and service listing.
+Unit tests for Kubernetes/Docker Infrastructure MCP Server & what_changed tool (Task B18).
 """
 
 import json
@@ -8,6 +7,7 @@ from unittest.mock import MagicMock, patch
 import pytest
 
 from mcp_servers.kubernetes.backends.docker_backend import DockerBackend
+from mcp_servers.kubernetes.server import what_changed, set_backend
 
 
 @pytest.fixture
@@ -155,3 +155,64 @@ def test_list_services(mock_docker_backend):
     assert "payment-service" in service_names
     assert "order-service" in service_names
     assert "inventory-service" in service_names
+
+
+# ── what_changed tests (Task B18) ───────────────────────────────────────────
+
+def test_what_changed_reads_deploy_events(mock_docker_backend, tmp_path):
+    backend, mock_client = mock_docker_backend
+    mock_client.containers.list.return_value = []
+
+    # Mock DEPLOY_LOG_PATH
+    fake_deploy_log = tmp_path / "deploy_events.jsonl"
+    fake_event = {
+        "timestamp": "2026-11-01T12:00:00Z",
+        "service": "order-service",
+        "action": "deploy",
+        "image": "order-service:v2",
+        "description": "Simulated deploy",
+    }
+    fake_deploy_log.write_text(json.dumps(fake_event) + "\n", encoding="utf-8")
+
+    with patch("mcp_servers.kubernetes.backends.docker_backend.DEPLOY_LOG_PATH", fake_deploy_log):
+        res = backend.what_changed(service="order-service", minutes=120)
+
+    assert res["service"] == "order-service"
+    assert "changes" in res
+    assert any(c["type"] == "deploy" and c["source"] == "deploy_events_log" for c in res["changes"])
+
+
+def test_what_changed_surfaces_docker_lifecycle_event(mock_docker_backend):
+    backend, mock_client = mock_docker_backend
+
+    mock_container = MagicMock()
+    mock_container.id = "cont123"
+    mock_container.name = "order-service"
+    mock_client.containers.list.return_value = [mock_container]
+
+    mock_client.events.return_value = [
+        {
+            "Action": "restart",
+            "time": 1700000000,
+            "Actor": {"Attributes": {"name": "order-service"}},
+        }
+    ]
+
+    with patch("mcp_servers.kubernetes.backends.docker_backend.DEPLOY_LOG_PATH", MagicMock(exists=lambda: False)):
+        res = backend.what_changed(service="order-service", minutes=60)
+
+    assert res["service"] == "order-service"
+    assert any(c["type"] == "container_restart" and c["source"] == "docker_events" for c in res["changes"])
+
+
+def test_what_changed_handles_missing_github_token_cleanly(mock_docker_backend):
+    backend, mock_client = mock_docker_backend
+    mock_client.containers.list.return_value = []
+
+    with patch.dict("os.environ", {}, clear=True):
+        with patch("mcp_servers.kubernetes.backends.docker_backend.DEPLOY_LOG_PATH", MagicMock(exists=lambda: False)):
+            res = backend.what_changed(service="payment-service", minutes=30)
+
+    assert "error" not in res
+    assert res["service"] == "payment-service"
+    assert isinstance(res["changes"], list)

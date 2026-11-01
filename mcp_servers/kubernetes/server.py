@@ -134,5 +134,26 @@ def list_services() -> dict[str, Any]:
         return {"error": f"list_services failed: {exc}"}
 
 
+@mcp.tool(
+    description=(
+        "Audit recent configuration, deployment, lifecycle events, and GitHub changes "
+        "affecting a microservice over a lookback window in minutes. "
+        "Returns chronological list of changes from deploy logs, Docker events, and GitHub commits."
+    )
+)
+def what_changed(service: str, minutes: int = 60) -> dict[str, Any]:
+    """
+    Audit recent changes to a service.
+
+    Args:
+        service: Name of the microservice ('payment-service' | 'order-service' | 'inventory-service')
+        minutes: Lookback time window in minutes (default 60)
+    """
+    try:
+        return _get_active_backend().what_changed(service=service, minutes=minutes)
+    except Exception as exc:
+        return {"error": f"what_changed failed: {exc}"}
+
+
 if __name__ == "__main__":
     mcp.run_stdio_async()

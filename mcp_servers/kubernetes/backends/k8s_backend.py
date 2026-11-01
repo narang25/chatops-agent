@@ -312,6 +312,27 @@ class K8sBackend(RuntimeBackend):
 
         return {"services": services}
 
+    def what_changed(self, service: str, minutes: int = 60) -> dict:
+        events_resp = self.get_events(service, minutes=minutes)
+        events = events_resp.get("events", []) if isinstance(events_resp, dict) else []
+
+        changes = []
+        for ev in events:
+            changes.append({
+                "timestamp": ev.get("timestamp", ""),
+                "type": f"k8s_{ev.get('type', 'event')}",
+                "source": "k8s_events",
+                "description": f"{ev.get('reason')}: {ev.get('message')}",
+                "details": ev,
+            })
+
+        return {
+            "service": service,
+            "window_minutes": minutes,
+            "change_count": len(changes),
+            "changes": changes,
+        }
+
 
 # ── Utility ─────────────────────────────────────────────────────────────────
 

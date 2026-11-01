@@ -1,6 +1,6 @@
 """
 Abstract RuntimeBackend interface for infrastructure inspection.
-Supports Docker backend (Week 2) and Kubernetes backend (Week 3).
+Supports Docker backend (Week 2), Kubernetes backend (Week 3), and change auditing (Week 4).
 """
 
 from abc import ABC, abstractmethod
@@ -45,5 +45,13 @@ class RuntimeBackend(ABC):
         """
         List all registered services and their current runtime state.
         Matches proposed list_services contract.
+        """
+        pass
+
+    @abstractmethod
+    def what_changed(self, service: str, minutes: int = 60) -> dict[str, Any]:
+        """
+        Audit recent changes to service, deployments, and repo commits.
+        Matches what_changed contract for Task B18.
         """
         pass

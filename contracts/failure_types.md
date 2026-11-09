@@ -12,3 +12,4 @@ Used in runbook front-matter AND in incident `.meta.json` files.
 - crash_loop
 - network_timeout
 - high_error_rate
+- other

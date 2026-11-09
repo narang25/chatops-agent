@@ -10,7 +10,6 @@ Idempotent: Re-running this script updates existing chunks without creating dupl
 """
 
 import argparse
-import os
 import re
 import sys
 import time
@@ -23,8 +22,8 @@ sys.path.insert(0, str(PROJECT_ROOT))
 
 try:
     import chromadb
-    from chromadb.utils import embedding_functions
     import frontmatter
+    from chromadb.utils import embedding_functions
 except ImportError as e:
     print(f"Error importing dependencies: {e}")
     print("Please activate your virtual environment: `source .venv/bin/activate`")
@@ -108,8 +107,12 @@ def subchunk_text(text: str, max_chars: int = 600, overlap: int = 100) -> List[s
 def process_runbook(filepath: Path) -> List[Dict[str, Any]]:
     """
     Loads a runbook file, extracts front-matter, and generates structured chunks.
+    Skips files with status == 'draft' or located inside a drafts/ directory.
     """
     post = frontmatter.load(filepath)
+    if post.get("status") == "draft" or filepath.parent.name == "drafts":
+        return []
+
     title = str(post.get("title", filepath.stem))
     failure_type = str(post.get("failure_type", "unknown"))
     service = str(post.get("service", "any"))
@@ -178,7 +181,7 @@ def ingest_runbooks(runbooks_dir: Path, db_path: Path) -> int:
     """
     Scans runbooks_dir, processes all *.md runbooks, and upserts chunks into Chroma.
     """
-    runbook_files = sorted(list(runbooks_dir.glob("*.md")))
+    runbook_files = sorted(runbooks_dir.glob("*.md"))
     if not runbook_files:
         print(f"Warning: No Markdown runbooks found in {runbooks_dir}")
         return 0
@@ -220,6 +223,24 @@ def ingest_runbooks(runbooks_dir: Path, db_path: Path) -> int:
     print(f"✓ Successfully indexed into Chroma in {elapsed:.2f}s.")
     print(f"✓ Total active collection count: {collection.count()} chunks.\n")
     return len(all_ids)
+
+
+def ingest_single_runbook(filepath: Path, db_path: Path = DEFAULT_DB_PATH) -> int:
+    """
+    Ingests or updates chunks for a single approved runbook file into Chroma DB.
+    Used by the human-in-the-loop learning loop upon draft approval.
+    """
+    chunks = process_runbook(filepath)
+    if not chunks:
+        return 0
+
+    _, collection = get_chroma_collection(db_path)
+    collection.upsert(
+        ids=[c["id"] for c in chunks],
+        documents=[c["document"] for c in chunks],
+        metadatas=[c["metadata"] for c in chunks],
+    )
+    return len(chunks)
 
 
 def query_runbooks(

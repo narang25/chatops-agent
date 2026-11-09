@@ -15,11 +15,10 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
 
-from agent.llm import find_and_load_env, clean_env_vars, load_config, handle_llm_error
+from agent.llm import clean_env_vars, find_and_load_env, handle_llm_error, load_config
 
 try:
     import boto3
-    from botocore.exceptions import ClientError
 except ImportError:
     print("Error: boto3 is not installed. Please run `pip install boto3` or activate the virtual environment.")
     sys.exit(1)

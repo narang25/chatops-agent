@@ -25,7 +25,7 @@ sys.path.insert(0, str(PROJECT_ROOT))
 from langchain_core.messages import HumanMessage
 from langchain_core.tools import tool
 
-from agent.llm import get_llm, clean_output, load_config, handle_llm_error
+from agent.llm import clean_output, get_llm, handle_llm_error, load_config
 
 
 # Define dummy tool for test 2
@@ -92,9 +92,9 @@ def test_tool_calling(llm: Any) -> Tuple[bool, str, float]:
             )
             return False, detail, latency
 
-    except Exception as e:
+    except Exception:
         latency = time.perf_counter() - start_time
-        raise e
+        raise
 
 
 def test_reasoning_leak(hello_reply: Optional[str], hello_passed: bool) -> Tuple[str, str, float]:

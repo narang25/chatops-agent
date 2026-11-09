@@ -12,7 +12,7 @@ as the real MCP tools defined in contracts/mcp_tools.md.
 from __future__ import annotations
 
 import random
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 # ---------------------------------------------------------------------------
 # Realistic baseline data per service
@@ -60,7 +60,7 @@ def _profile(service: str) -> dict:
 
 
 def _now_iso() -> str:
-    return datetime.now(timezone.utc).isoformat(timespec="seconds")
+    return datetime.now(UTC).isoformat(timespec="seconds")
 
 
 def _make_samples(baseline: float, minutes: int, jitter: float = 0.05) -> list:
@@ -162,4 +162,109 @@ def stub_get_events(service: str, minutes: int = 15) -> dict:
                 "message": f"Successfully pulled image for {service}.",
             },
         ],
+    }
+
+
+def stub_list_services() -> dict:
+    """Returns a synthetic list of registered microservices and their states."""
+    services = []
+    for svc_name in ["payment-service", "order-service", "inventory-service"]:
+        p = _profile(svc_name)
+        services.append({"name": svc_name, "state": p.get("state", "running")})
+    return {"services": services}
+
+
+def stub_get_logs(
+    service: str,
+    minutes: int = 10,
+    level: str | None = None,
+    limit: int = 100,
+) -> dict:
+    """Returns synthetic application log lines for a service."""
+    p = _profile(service)
+    state = p.get("state", "running")
+    now = _now_iso()
+
+    sample_lines = [
+        {"timestamp": now, "level": "INFO", "message": f"{service} listening on port {p.get('port', 8080)}."},
+        {"timestamp": now, "level": "INFO", "message": "Healthcheck probe 200 OK."},
+    ]
+
+    if state == "oom_killed":
+        sample_lines.append(
+            {"timestamp": now, "level": "CRITICAL", "message": "Memory allocation failed: Out of memory (kill signal received)."}
+        )
+    elif state in ("exited", "restarting"):
+        sample_lines.append(
+            {"timestamp": now, "level": "ERROR", "message": f"{service} encountered fatal error or missing config."}
+        )
+    elif state == "unhealthy":
+        sample_lines.append(
+            {"timestamp": now, "level": "WARNING", "message": "Health check probe failed: response timeout."}
+        )
+
+    if level:
+        lvl = level.upper()
+        sample_lines = [line for line in sample_lines if line["level"] == lvl]
+
+    sample_lines = sample_lines[:limit]
+    return {
+        "service": service,
+        "count": len(sample_lines),
+        "lines": sample_lines,
+    }
+
+
+def stub_propose_remediation(
+    service: str,
+    action: str,
+    params: dict | None = None,
+) -> dict:
+    """
+    Simulates proposal of a remediation plan (Task A21 / contracts/mcp_tools.md).
+    Generates a dry-run proposal with risk assessment.
+    STRICT SAFETY RULE: This tool NEVER executes any modification.
+    """
+    import time as _time
+
+    params = params or {}
+    proposal_id = f"prop_{service}_{int(_time.time())}"
+
+    # Policy Denials
+    if service in ("postgres", "database", "prometheus"):
+        return {
+            "error": f"Policy Violation: Automated remediation is forbidden on core infrastructure '{service}'."
+        }
+
+    action_lower = action.lower()
+    if action_lower == "set_memory_limit":
+        limit_mb = params.get("limit_mb", 256)
+        changes = [
+            f"Update container memory limit for {service} to {limit_mb}MB",
+            f"Graceful restart of {service} to apply cgroup memory limit",
+        ]
+        risk = "low"
+    elif action_lower in ("restart_service", "restart"):
+        changes = [f"Issue SIGTERM to {service} container followed by fresh container start"]
+        risk = "medium"
+    elif action_lower in ("rollback_deploy", "rollback"):
+        changes = [f"Revert {service} image deployment to previous known healthy release"]
+        risk = "medium"
+    elif action_lower in ("scale_replicas", "scale"):
+        replicas = params.get("replicas", 2)
+        changes = [f"Scale {service} deployment to {replicas} replicas"]
+        risk = "low"
+    else:
+        changes = [f"Perform {action} with parameters {params}"]
+        risk = "high"
+
+    return {
+        "proposal_id": proposal_id,
+        "action": action,
+        "params": params,
+        "dry_run": {
+            "changes": changes,
+            "risk": risk,
+        },
+        "requires_approval": True,
     }

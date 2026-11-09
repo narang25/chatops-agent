@@ -11,6 +11,7 @@ import os
 import re
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Union
+
 import yaml
 from dotenv import load_dotenv
 
@@ -116,9 +117,9 @@ def handle_llm_error(error: Exception) -> str:
     # Missing credentials
     if (NoCredentialsError and isinstance(error, NoCredentialsError)) or "Unable to locate credentials" in error_msg:
         return (
-            f"[Missing Credentials]\n"
-            f"Cause: No valid AWS credentials found in environment.\n"
-            f"Fix: Fill in AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY or AWS_BEARER_TOKEN_BEDROCK in .env.agent."
+            "[Missing Credentials]\n"
+            "Cause: No valid AWS credentials found in environment.\n"
+            "Fix: Fill in AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY or AWS_BEARER_TOKEN_BEDROCK in .env.agent."
         )
 
     # Ollama connection failure
@@ -182,9 +183,9 @@ def clean_output(message: Any) -> str:
 # Subclass of ChatBedrockConverse with automatic "us." prefix fallback
 try:
     from langchain_aws import ChatBedrockConverse
+    from langchain_core.callbacks import CallbackManagerForLLMRun
     from langchain_core.messages import BaseMessage
     from langchain_core.outputs import ChatResult
-    from langchain_core.callbacks import CallbackManagerForLLMRun
 
     class ChatBedrockConverseFallback(ChatBedrockConverse):
         """
@@ -222,10 +223,10 @@ try:
                         res = super()._generate(messages, stop=stop, run_manager=run_manager, **kwargs)
                         print(f"[Model Fallback] Success: '{self.model_id}' worked!")
                         return res
-                    except Exception as fallback_err:
+                    except Exception:
                         # Restore original ID if fallback also failed
                         self.model_id = original_id
-                        raise fallback_err
+                        raise
                 raise
 
 except ImportError:

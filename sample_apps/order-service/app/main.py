@@ -205,6 +205,16 @@ async def metrics_middleware(request: Request, call_next):
     if request.url.path == "/metrics":
         return await call_next(request)
 
+    # bad_deploy / high_error_rate fault: randomly return 500
+    if request.url.path not in ("/health", "/admin/fault") and faults.should_error():
+        app_errors_total.labels(service=SERVICE_NAME).inc()
+        logger.error(
+            "Simulated error injected by error_rate fault",
+            extra={"fault": "error_rate", "rate": faults.error_rate, "path": request.url.path},
+        )
+        from fastapi.responses import JSONResponse as _JR
+        return _JR(status_code=500, content={"error": "Simulated error (bad deploy fault)"})
+
     start_time = time.time()
     response = await call_next(request)
     duration = time.time() - start_time
@@ -430,11 +440,15 @@ class FaultRequest(BaseModel):
     health_fail: bool | None = None
     slow_db: bool | None = None
     db_error: bool | None = None
+    error_rate: float | None = None  # 0.0-1.0 fraction of requests returning 500
 
 
 @app.post("/admin/fault")
 def set_faults(req: FaultRequest):
-    """Toggle fault injection flags at runtime."""
+    """Toggle fault injection flags at runtime.
+
+    Set error_rate=0.5 to simulate a bad deploy returning 500 on 50% of requests.
+    """
     updates = {k: v for k, v in req.model_dump().items() if v is not None}
     faults.update(**updates)
     logger.info(f"Fault toggles updated: {updates}")

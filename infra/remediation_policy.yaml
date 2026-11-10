@@ -1,0 +1,37 @@
+# Remediation Safety Policy (Task B20)
+# Enforces strictly controlled boundaries on autonomous/assisted remediation actions.
+
+rules:
+  set_memory_limit:
+    allow_services:
+      - payment-service
+      - order-service
+      - inventory-service
+    deny_services:
+      - postgres
+      - prometheus
+      - grafana
+      - cadvisor
+      - loadgen
+    min_memory_mb: 64
+    max_memory_mb: 512
+
+  restart_service:
+    allow_services:
+      - payment-service
+      - order-service
+      - inventory-service
+      - loadgen
+    deny_services:
+      - postgres
+      - prometheus
+      - grafana
+
+  rollback_deploy:
+    allow_services:
+      - payment-service
+      - order-service
+      - inventory-service
+    deny_services:
+      - postgres
+      - prometheus

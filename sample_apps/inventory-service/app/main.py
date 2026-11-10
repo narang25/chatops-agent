@@ -344,3 +344,54 @@ def set_faults(req: FaultRequest):
     faults.update(**updates)
     logger.info(f"Fault toggles updated: {updates}")
     return {"faults": faults.as_dict()}
+
+
+# -- Disk-fill endpoint (inventory-service only) ----------------------------
+
+@app.get("/fill")
+def fill_disk(chunk_kb: int = 512):
+    """Write data to /tmp until disk is full. Used for disk_full testing.
+
+    Each call appends `chunk_kb` KB to /tmp/disk_fill_payload.
+    Keep calling until [Errno 28] is returned, then the scenario is active.
+    Call DELETE /fill/reset to clean up the payload file.
+    """
+    fill_path = "/tmp/disk_fill_payload"
+    chunk = b"X" * chunk_kb * 1024
+    try:
+        with open(fill_path, "ab") as f:
+            f.write(chunk)
+        size_mb = os.path.getsize(fill_path) / (1024 * 1024)
+        logger.warning(
+            f"Disk fill: wrote {chunk_kb}KB, total fill file size={size_mb:.1f}MB",
+            extra={"chunk_kb": chunk_kb, "fill_size_mb": round(size_mb, 1)},
+        )
+        return {"written_kb": chunk_kb, "total_fill_mb": round(size_mb, 1)}
+    except OSError as exc:
+        app_errors_total.labels(service=SERVICE_NAME).inc()
+        logger.error(
+            f"Disk full: [Errno {exc.errno}] {exc.strerror} — no space left on device",
+            extra={"errno": exc.errno, "fill_path": fill_path},
+        )
+        return JSONResponse(
+            status_code=507,
+            content={
+                "error": f"[Errno {exc.errno}] {exc.strerror}",
+                "disk_full": True,
+                "fill_path": fill_path,
+            },
+        )
+
+
+@app.delete("/fill/reset")
+def reset_fill():
+    """Delete the disk fill payload file to restore free space."""
+    fill_path = "/tmp/disk_fill_payload"
+    try:
+        os.remove(fill_path)
+        logger.info("Disk fill payload removed", extra={"fill_path": fill_path})
+        return {"reset": True, "removed": fill_path}
+    except FileNotFoundError:
+        return {"reset": True, "message": "No fill file found — nothing to remove"}
+    except OSError as exc:
+        return JSONResponse(status_code=500, content={"error": str(exc)})

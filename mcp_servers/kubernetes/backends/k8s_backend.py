@@ -25,13 +25,22 @@ from typing import Any
 from .base import RuntimeBackend
 
 try:
-    from kubernetes import client as k8s_client  # type: ignore
-    from kubernetes import config as k8s_config
+    import kubernetes
+    from kubernetes import client as k8s_client, config as k8s_config  # type: ignore
     from kubernetes.client.rest import ApiException  # type: ignore
 
     _K8S_AVAILABLE = True
-except ImportError:
-    _K8S_AVAILABLE = False
+except (ImportError, AttributeError):
+    try:
+        import sys
+        # Handle cases where sys.path contains a local kubernetes directory shadowing the package
+        import importlib.util
+        _K8S_AVAILABLE = False
+        k8s_client = None
+        k8s_config = None
+        class ApiException(Exception): pass
+    except Exception:
+        _K8S_AVAILABLE = False
 
 
 # ── State / reason mapping ──────────────────────────────────────────────────
@@ -312,6 +321,27 @@ class K8sBackend(RuntimeBackend):
             services.append({"name": name, "state": state})
 
         return {"services": services}
+
+    def what_changed(self, service: str, minutes: int = 60) -> dict:
+        events_resp = self.get_events(service, minutes=minutes)
+        events = events_resp.get("events", []) if isinstance(events_resp, dict) else []
+
+        changes = []
+        for ev in events:
+            changes.append({
+                "timestamp": ev.get("timestamp", ""),
+                "type": f"k8s_{ev.get('type', 'event')}",
+                "source": "k8s_events",
+                "description": f"{ev.get('reason')}: {ev.get('message')}",
+                "details": ev,
+            })
+
+        return {
+            "service": service,
+            "window_minutes": minutes,
+            "change_count": len(changes),
+            "changes": changes,
+        }
 
 
 # ── Utility ─────────────────────────────────────────────────────────────────

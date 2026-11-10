@@ -43,7 +43,6 @@ class RuntimeBackend(ABC):
         List all registered services and their current runtime state.
         Matches proposed list_services contract.
         """
-        pass
 
     @abstractmethod
     def what_changed(self, service: str, minutes: int = 60) -> dict[str, Any]:
@@ -51,4 +50,3 @@ class RuntimeBackend(ABC):
         Audit recent changes to service, deployments, and repo commits.
         Matches what_changed contract for Task B18.
         """
-        pass

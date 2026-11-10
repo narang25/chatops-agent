@@ -16,7 +16,6 @@ import time
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
-import httpx
 
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 INCIDENT_LOGS_DIR = REPO_ROOT / "data" / "incident_logs"

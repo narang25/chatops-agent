@@ -18,9 +18,7 @@ Workflow:
 import json
 import os
 import subprocess
-import sys
 import time
-from datetime import datetime, timezone
 
 import httpx
 
@@ -108,12 +106,14 @@ def main():
         "-e", "DATABASE_URL=postgresql://chatops:change_me@postgres:5432/chatops",
         image,
         "python", "-c",
-        "import sys, json, datetime; "
-        "now = datetime.datetime.now(datetime.timezone.utc); "
-        "ts = now.strftime('%Y-%m-%dT%H:%M:%S.') + f'{now.microsecond // 1000:03d}Z'; "
-        "print(json.dumps({'timestamp': ts, 'service': 'payment-service', 'level': 'CRITICAL', "
-        "'message': 'Startup failed: crash_loop fault injected — exiting with code 1'}), flush=True); "
-        "sys.exit(1)",
+        (
+            "import sys, json, datetime; "
+            "now = datetime.datetime.now(datetime.timezone.utc); "
+            "ts = now.strftime('%Y-%m-%dT%H:%M:%S.') + f'{now.microsecond // 1000:03d}Z'; "
+            "print(json.dumps({'timestamp': ts, 'service': 'payment-service', 'level': 'CRITICAL', "
+            "'message': 'Startup failed: crash_loop fault injected — exiting with code 1'}), flush=True); "
+            "sys.exit(1)"
+        ),
     ])
     if err:
         print(f"  docker run stderr: {err[:200]}")

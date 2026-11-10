@@ -16,7 +16,6 @@ Workflow:
 import json
 import os
 import subprocess
-import sys
 import time
 from datetime import datetime, timezone
 
@@ -160,7 +159,7 @@ def main():
             print(f"  Order {i}: HTTP {resp.status_code} in {latency:.2f}s")
             if resp.status_code == 500:
                 signals.append("order_service_http_500")
-        except httpx.TimeoutException as e:
+        except httpx.TimeoutException:
             latency = time.perf_counter() - t0
             print(f"  Order {i}: TIMEOUT after {latency:.2f}s")
             timeout_count += 1

@@ -13,7 +13,6 @@ Usage:
 
 from __future__ import annotations
 
-import json
 import logging
 import os
 import sys
@@ -75,10 +74,10 @@ except ImportError:
         }
 
 from mcp_servers.remediation.server import (
-    propose_remediation,
-    apply_remediation,
     _PROPOSALS,
+    apply_remediation,
     log_audit_event,
+    propose_remediation,
 )
 
 TIMEOUT_S = 60

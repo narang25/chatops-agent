@@ -10,10 +10,8 @@ Note:
 
 import json
 import os
-import subprocess
-import sys
 import threading
-import time
+
 import httpx
 
 SCENARIO_ID = "surprise_2"

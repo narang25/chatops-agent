@@ -12,7 +12,6 @@ Workflow:
 import json
 import os
 import subprocess
-import sys
 import time
 from datetime import datetime, timezone
 
@@ -80,8 +79,8 @@ def main():
             if resp.status_code == 507 or data.get("disk_full"):
                 print(f"  => Disk full detected on call {i}: {data.get('error')}")
                 signals.append("errno_28_no_space_left_on_device")
-                signals.append(f"disk_full=true")
-                signals.append(f"http_status_507")
+                signals.append("disk_full=true")
+                signals.append("http_status_507")
                 disk_full_detected = True
                 break
             total_mb = data.get("total_fill_mb", 0)

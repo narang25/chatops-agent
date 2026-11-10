@@ -56,7 +56,7 @@ def main():
     try:
         resp = client.delete(f"{TOXIPROXY_API}/proxies/payment-proxy")
         print(f"  Toxiproxy proxy cleanup: {resp.status_code}")
-    except Exception as e:
+    except Exception:
         pass
 
     # 5. Reset fault toggles via /admin/fault

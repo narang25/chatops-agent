@@ -12,12 +12,12 @@ Executes unattended chaos testing across scenarios:
 
 import argparse
 import json
-import os
 import random
 import subprocess
 import sys
 import time
 from pathlib import Path
+
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(REPO_ROOT))
 from datetime import datetime, timezone

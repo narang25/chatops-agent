@@ -11,8 +11,8 @@ from pathlib import Path
 from typing import Any
 
 import docker
-from docker.errors import DockerException, NotFound
 import httpx
+from docker.errors import DockerException
 
 from mcp_servers.kubernetes.backends.base import RuntimeBackend
 

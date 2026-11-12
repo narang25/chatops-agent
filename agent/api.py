@@ -6,6 +6,7 @@ from __future__ import annotations
 import json
 import re
 import time
+import uuid
 from typing import Any
 
 from langchain_core.tools import tool
@@ -29,7 +30,7 @@ AGENT_SYSTEM_PROMPT = (
     "without a supporting tool result.\n\n"
     "EVIDENCE-FIRST INVESTIGATION PROTOCOL:\n"
     "1. Call list_services to inspect overall microservice status, then call get_pod_status for the named service.\n"
-    "2. Call get_logs (examine ERROR and CRITICAL lines first) and get_metrics (CPU, memory, error_rate, latency).\n"
+    "2. Call get_logs (check ERROR/CRITICAL first, and also call get_logs with level=None if errors are sparse or mention DB/init failure) and get_metrics (CPU, memory, error_rate, latency).\n"
     "3. Call get_events to check lifecycle warnings and restarts.\n"
     "4. Call search_runbooks USING THE SPECIFIC SYMPTOMS & ERROR MESSAGES identified from live signals to confirm failure type and get standard remediation.\n"
     "5. Synthesize findings into the final diagnosis with evidence supporting every claim.\n\n"
@@ -134,7 +135,14 @@ def _get_live_tools() -> list:
     from mcp_servers.kubernetes.server import (
         list_services as _real_list_services,
     )
+    from mcp_servers.kubernetes.server import (
+        what_changed as _real_what_changed,
+    )
+    from mcp_servers.prometheus.server import get_anomalies as _real_get_anomalies
     from mcp_servers.prometheus.server import get_metrics as _real_get_metrics
+    from mcp_servers.remediation.server import (
+        propose_remediation as _real_propose_remediation,
+    )
 
     @tool
     def live_list_services() -> str:
@@ -153,7 +161,7 @@ def _get_live_tools() -> list:
 
     @tool
     def live_get_metrics(service: str, metric: str, minutes: int = 5) -> str:
-        """Retrieve Prometheus metrics for a service (app_memory_bytes, app_cpu_usage, app_errors_total, etc.)."""
+        """Retrieve Prometheus metrics for a service. Metrics: cpu_usage, memory_usage_mb, request_rate, error_rate, latency_p95_ms."""
         return json.dumps(_real_get_metrics(service, metric, minutes), indent=2)
 
     @tool
@@ -161,14 +169,50 @@ def _get_live_tools() -> list:
         """Get recent lifecycle events (warnings, restarts) for a service."""
         return json.dumps(_real_get_events(service, minutes), indent=2)
 
+    @tool
+    def live_get_anomalies(service: str, minutes: int = 10) -> str:
+        """Detect unusual metric changes vs baseline and new error log patterns for a service."""
+        return json.dumps(_real_get_anomalies(service, minutes), indent=2)
+
+    @tool
+    def live_what_changed(service: str, minutes: int = 60) -> str:
+        """Check recent deploys, container updates, and GitHub commits/workflow runs for a service."""
+        return json.dumps(_real_what_changed(service, minutes), indent=2)
+
+    @tool
+    def live_propose_remediation(service: str, action: str, params: dict | None = None) -> str:
+        """
+        Propose a non-destructive remediation action with dry-run changes and risk rating.
+        Allowed actions:
+          - "set_memory_limit" with params={"memory_mb": 256} (allowed range 64-512)
+          - "restart_service" with params={}
+          - "rollback_deploy" with params={}
+        Allowed services: payment-service, order-service, inventory-service.
+        STRICT SAFETY RULE: This tool NEVER applies changes; it creates a proposal for human approval.
+        """
+        return json.dumps(_real_propose_remediation(service, action, params), indent=2)
+
     # Rename them so LangChain sees clean names
     live_list_services.name = "list_services"
     live_get_pod_status.name = "get_pod_status"
     live_get_logs.name = "get_logs"
     live_get_metrics.name = "get_metrics"
     live_get_events.name = "get_events"
+    live_get_anomalies.name = "get_anomalies"
+    live_what_changed.name = "what_changed"
+    live_propose_remediation.name = "propose_remediation"
 
-    return [live_list_services, live_get_pod_status, live_get_logs, live_get_metrics, live_get_events, search_runbooks]
+    return [
+        live_list_services,
+        live_get_pod_status,
+        live_get_logs,
+        live_get_metrics,
+        live_get_events,
+        live_get_anomalies,
+        live_what_changed,
+        search_runbooks,
+        live_propose_remediation,
+    ]
 
 
 _MEMORY = MemorySaver()
@@ -189,7 +233,7 @@ def _get_or_build_agent(model_id: str | None = None, stub: bool = True) -> Any:
     return _AGENT_CACHE[key]
 
 
-_CONFIDENCE_RE = re.compile(r"\bconfidence[:\s]*(high|medium|low)\b", re.IGNORECASE)
+_CONFIDENCE_RE = re.compile(r"\bconfidence[:\s*()]+(high|medium|low)\b", re.IGNORECASE)
 _FAILURE_TYPE_RE = re.compile(
     r"\b(out_of_memory|bad_config|health_check_failure|db_timeout"
     r"|dependency_failure|disk_full|cpu_saturation|crash_loop"
@@ -269,9 +313,8 @@ def ask(
         return multi_agent_ask(question=question, model_id=model_id, stub=stub)
 
     agent = _get_or_build_agent(model_id=model_id, stub=stub)
-    config: dict[str, Any] = {}
-    if thread_id:
-        config = {"configurable": {"thread_id": thread_id}}
+    effective_thread = thread_id or f"stateless-{uuid.uuid4().hex[:12]}"
+    config: dict[str, Any] = {"configurable": {"thread_id": effective_thread}}
 
     t0 = time.perf_counter()
     result = agent.invoke({"messages": [{"role": "user", "content": question}]}, config=config)

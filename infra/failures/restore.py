@@ -10,10 +10,15 @@ Restore script: Returns all ChatOps services to a completely healthy state.
 6. Verifies all services respond with 200 OK on /health.
 """
 
+import os
 import subprocess
 import time
+from pathlib import Path
 
 import httpx
+
+REPO_ROOT = Path(__file__).resolve().parent.parent.parent
+DEPLOY_EVENTS_PATH = REPO_ROOT / "data" / "deploy_events.jsonl"
 
 SERVICES = [
     ("payment-service", "http://localhost:8001"),
@@ -35,9 +40,11 @@ def main():
     print("1. Restoring memory limit on payment-service (128MB)...")
     run_cmd(["docker", "update", "--memory", "128m", "--memory-swap", "128m", "payment-service"])
 
-    # 2. Clean up temporary broken containers (badenv, crashloop)
+    # 2. Clean up temporary broken containers (badenv, crashloop, surprise1)
     print("2. Ensuring clean compose container state...")
-    run_cmd(["docker", "rm", "-f", "order-service-badenv", "payment-service-crashloop"])
+    run_cmd(["docker", "rm", "-f", "order-service-badenv", "payment-service-crashloop", "order-service-surprise1"])
+    if DEPLOY_EVENTS_PATH.exists():
+        os.remove(DEPLOY_EVENTS_PATH)
     run_cmd(["docker", "compose", "-f", "infra/docker-compose.yml", "up", "-d"])
 
     time.sleep(3.0)

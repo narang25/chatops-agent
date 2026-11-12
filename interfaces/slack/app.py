@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import logging
 import os
+import re
 import sys
 import threading
 from typing import Any
@@ -80,7 +81,22 @@ from mcp_servers.remediation.server import (
     propose_remediation,
 )
 
-TIMEOUT_S = 60
+TIMEOUT_S = 180
+
+
+def _parse_confidence(raw: Any) -> float:
+    if isinstance(raw, (int, float)):
+        return float(raw)
+    if isinstance(raw, str):
+        mapping = {"high": 0.9, "medium": 0.6, "low": 0.3}
+        cleaned = raw.strip().lower()
+        if cleaned in mapping:
+            return mapping[cleaned]
+        try:
+            return float(cleaned)
+        except ValueError:
+            return 0.5
+    return 0.8
 
 
 def _confidence_emoji(score: float) -> str:
@@ -91,27 +107,51 @@ def _confidence_emoji(score: float) -> str:
     return "🔴"
 
 
+def _infer_service(result: dict, default: str) -> str:
+    text = f"{result.get('question') or ''} {result.get('diagnosis') or ''}".lower()
+    for svc in ("payment-service", "order-service", "inventory-service"):
+        if svc in text:
+            return svc
+    return default
+
+
 def _derive_remediation_proposal(result: dict) -> dict | None:
     """Analyze agent result and propose safe action if applicable."""
-    failure_type = result.get("failure_type", "").lower()
+    failure_type = (result.get("failure_type") or "").lower()
     diag = (result.get("diagnosis") or "").lower()
 
-    if failure_type == "out_of_memory" or "oom" in diag:
-        return propose_remediation("payment-service", "set_memory_limit", {"memory_mb": 256})
-    elif failure_type in ["crash_loop", "bad_config"]:
-        return propose_remediation("order-service", "restart_service", {})
-    elif failure_type in ["high_error_rate", "bad_deploy"]:
-        return propose_remediation("order-service", "rollback_deploy", {})
+    # Check if the agent already called propose_remediation live during this turn
+    for step in reversed(result.get("tool_trace") or []):
+        if isinstance(step, dict) and step.get("tool") == "propose_remediation":
+            summary = step.get("output_summary", "")
+            m = re.search(r'"proposal_id"\s*:\s*"([^"]+)"', summary)
+            if m:
+                pid = m.group(1)
+                if pid in _PROPOSALS and not _PROPOSALS[pid].get("used"):
+                    return _PROPOSALS[pid]
+
+    if not failure_type or failure_type in ("unknown", "healthy", "none"):
+        return None
+
+    if failure_type == "out_of_memory" or ("oom_killed" in diag and "true" in diag):
+        svc = _infer_service(result, "payment-service")
+        return propose_remediation(svc, "set_memory_limit", {"memory_mb": 256})
+    if failure_type in ("crash_loop", "bad_config"):
+        svc = _infer_service(result, "order-service")
+        return propose_remediation(svc, "restart_service", {})
+    if failure_type in ("high_error_rate", "bad_deploy"):
+        svc = _infer_service(result, "order-service")
+        return propose_remediation(svc, "rollback_deploy", {})
     return None
 
 
 def _build_blocks(result: dict) -> list[dict]:
     diagnosis = result.get("diagnosis") or "No diagnosis available."
-    failure_type = result.get("failure_type") or "unknown"
-    confidence = float(result.get("confidence") or 0.0)
+    failure_type = result.get("failure_type") or "none"
+    confidence = _parse_confidence(result.get("confidence"))
     sources = result.get("sources") or []
     tool_trace = result.get("tool_trace") or []
-    latency = result.get("latency_s") or 0.0
+    latency = float(result.get("latency_s") or 0.0)
 
     confidence_pct = int(confidence * 100)
     emoji = _confidence_emoji(confidence)
@@ -127,7 +167,10 @@ def _build_blocks(result: dict) -> list[dict]:
         },
         {
             "type": "section",
-            "text": {"type": "mrkdwn", "text": f"*Root cause*\n{diagnosis}"},
+            "text": {
+                "type": "mrkdwn",
+                "text": f"*Root cause*\n{diagnosis[:2850] + ('…' if len(diagnosis) > 2850 else '')}",
+            },
         },
         {
             "type": "section",
@@ -183,7 +226,8 @@ def _build_blocks(result: dict) -> list[dict]:
         ])
 
     if tool_trace:
-        tools_str = "  •  ".join(str(t) for t in tool_trace[:6])
+        tool_names = [t.get("tool", str(t)) if isinstance(t, dict) else str(t) for t in tool_trace[:8]]
+        tools_str = "  •  ".join(tool_names)
         blocks.append({
             "type": "context",
             "elements": [{"type": "mrkdwn", "text": f"🔧 *Tools used:* {tools_str}"}],
@@ -193,7 +237,7 @@ def _build_blocks(result: dict) -> list[dict]:
         src_lines = "\n".join(f"• {s}" for s in sources[:5])
         blocks.append({
             "type": "context",
-            "elements": [{"type": "mrkdwn", "text": f"📚 *Sources:*\n{src_lines}"}],
+            "elements": [{"type": "mrkdwn", "text": f"📚 *Sources:*\n{src_lines[:2800]}"}],
         })
 
     blocks.extend([
@@ -215,11 +259,12 @@ def _handle_question(client: Any, channel: str, thread_ts: str, question: str, s
     result: dict = {}
     error: str | None = None
     done = threading.Event()
+    use_stub = os.environ.get("AGENT_STUB", "false").lower() == "true"
 
     def _run() -> None:
         nonlocal result, error
         try:
-            result = agent_ask(question, thread_id=thread_ts)
+            result = agent_ask(question, thread_id=thread_ts, stub=use_stub)
         except Exception as exc:
             error = str(exc)
         finally:
@@ -239,13 +284,23 @@ def _handle_question(client: Any, channel: str, thread_ts: str, question: str, s
         )
         return
 
-    blocks = _build_blocks(result)
-    client.chat_update(
-        channel=channel,
-        ts=say_ts,
-        text=result.get("diagnosis", "Diagnosis complete."),
-        blocks=blocks,
-    )
+    try:
+        blocks = _build_blocks(result)
+        client.chat_update(
+            channel=channel,
+            ts=say_ts,
+            text=(result.get("diagnosis") or "Diagnosis complete.")[:200],
+            blocks=blocks,
+        )
+    except Exception as exc:
+        err_msg = f"❌ Failed to format/post diagnosis: {exc}"
+        log.exception("Failed posting Slack diagnosis card")
+        client.chat_update(
+            channel=channel,
+            ts=say_ts,
+            text=err_msg,
+            blocks=[{"type": "section", "text": {"type": "mrkdwn", "text": err_msg}}],
+        )
 
 
 def _dispatch(client: Any, channel: str, thread_ts: str, question: str) -> None:
@@ -273,7 +328,7 @@ def handle_mention(event: dict, client: Any) -> None:
     text: str = event.get("text", "")
     channel: str = event["channel"]
     thread_ts: str = event.get("thread_ts") or event["ts"]
-    question = text.split(">", 1)[-1].strip() if ">" in text else text.strip()
+    question = re.sub(r"<@[A-Z0-9]+>", "", text).strip()
     if not question:
         question = "What is wrong with the system right now?"
     _dispatch(client, channel, thread_ts, question)

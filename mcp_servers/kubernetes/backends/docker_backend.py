@@ -32,17 +32,27 @@ class DockerBackend(RuntimeBackend):
             self._init_error = None
 
     def _find_container(self, service: str):
-        """Find container matching service name or compose naming convention."""
+        """Find container matching service name, preferring active or fault-override instances."""
         if not self.client:
             raise RuntimeError(f"Docker client not initialized: {self._init_error}")
 
         containers = self.client.containers.list(all=True)
+        matches = []
         for c in containers:
             name = c.name.lstrip("/")
-            # Match exact name (e.g. payment-service) or compose prefix/suffix
+            # Match exact name (e.g. payment-service) or compose/fault prefix/suffix
             if name == service or name.startswith(f"{service}-") or f"-{service}-" in name or name.endswith(f"-{service}"):
+                matches.append(c)
+
+        if not matches:
+            return None
+
+        # Prefer fault-injected / override containers (e.g. order-service-surprise1, payment-service-crashloop)
+        # over a stopped baseline container.
+        for c in matches:
+            if c.name.lstrip("/") != service:
                 return c
-        return None
+        return matches[0]
 
     def get_pod_status(self, service: str) -> dict[str, Any]:
         try:
@@ -133,6 +143,13 @@ class DockerBackend(RuntimeBackend):
             for ev in raw_events:
                 action = ev.get("Action", "")
                 actor_attrs = ev.get("Actor", {}).get("Attributes", {})
+
+                # Skip routine Docker healthcheck exec probe events (exitCode=0)
+                if action.startswith(("exec_create", "exec_start", "exec_detach")):
+                    continue
+                if action == "exec_die" and actor_attrs.get("exitCode", "0") == "0":
+                    continue
+
                 time_epoch = ev.get("time", 0)
                 ts_str = datetime.fromtimestamp(time_epoch, tz=timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 

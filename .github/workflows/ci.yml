@@ -83,7 +83,10 @@ jobs:
         run: pytest mcp_servers/prometheus/test_server.py -v
 
       - name: Run Kubernetes MCP server tests
-        run: pytest mcp_servers/kubernetes/test_server.py -v
+        run: pytest mcp_servers/kubernetes/test_server.py mcp_servers/kubernetes/test_k8s_backend.py -v
+
+      - name: Run Remediation MCP server tests
+        run: pytest mcp_servers/remediation/test_server.py -v
 
       - name: Run MCP tool integration tests
         run: pytest infra/tests/test_tools.py -v

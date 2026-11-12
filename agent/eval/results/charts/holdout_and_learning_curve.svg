@@ -13,15 +13,15 @@
 <line x1="70" y1="60.0" x2="740" y2="60.0" stroke="#e2e8f0" stroke-width="1" />
 <text x="60" y="64.0" text-anchor="end" font-size="12" fill="#64748b">100</text>
 <text x="20" y="200.0" text-anchor="middle" font-size="13" font-weight="600" fill="#475569" transform="rotate(-90 20 200.0)">Score (%)</text>
-<rect x="120.2" y="214.0" width="117.2" height="126.0" fill="#10b981" rx="3" />
-<text x="178.9" y="210.0" text-anchor="middle" font-size="10" font-weight="600" fill="#334155">45%</text>
-<rect x="237.5" y="162.8" width="117.2" height="177.2" fill="#f97316" rx="3" />
-<text x="296.1" y="158.8" text-anchor="middle" font-size="10" font-weight="600" fill="#334155">63%</text>
+<rect x="120.2" y="207.0" width="117.2" height="133.0" fill="#10b981" rx="3" />
+<text x="178.9" y="203.0" text-anchor="middle" font-size="10" font-weight="600" fill="#334155">48%</text>
+<rect x="237.5" y="151.0" width="117.2" height="189.0" fill="#f97316" rx="3" />
+<text x="296.1" y="147.0" text-anchor="middle" font-size="10" font-weight="600" fill="#334155">68%</text>
 <text x="237.5" y="362" text-anchor="middle" font-size="11" font-weight="500" fill="#334155">Canonical (10 Types)</text>
 <rect x="455.2" y="270.0" width="117.2" height="70.0" fill="#10b981" rx="3" />
 <text x="513.9" y="266.0" text-anchor="middle" font-size="10" font-weight="600" fill="#334155">25%</text>
-<rect x="572.5" y="228.0" width="117.2" height="112.0" fill="#f97316" rx="3" />
-<text x="631.1" y="224.0" text-anchor="middle" font-size="10" font-weight="600" fill="#334155">40%</text>
+<rect x="572.5" y="193.0" width="117.2" height="147.0" fill="#f97316" rx="3" />
+<text x="631.1" y="189.0" text-anchor="middle" font-size="10" font-weight="600" fill="#334155">52%</text>
 <text x="572.5" y="362" text-anchor="middle" font-size="11" font-weight="500" fill="#334155">Surprise (No Runbook)</text>
 <rect x="270.0" y="385" width="14" height="14" fill="#10b981" rx="2" />
 <text x="290.0" y="397" font-size="12" font-weight="500" fill="#475569">Diagnosis Match (%)</text>

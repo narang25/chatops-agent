@@ -18,10 +18,10 @@
 <rect x="237.5" y="201.7" width="117.2" height="138.3" fill="#10b981" rx="3" />
 <text x="296.1" y="197.7" text-anchor="middle" font-size="10" font-weight="600" fill="#334155">49%</text>
 <text x="237.5" y="362" text-anchor="middle" font-size="11" font-weight="500" fill="#334155">Llm Only</text>
-<rect x="455.2" y="165.0" width="117.2" height="175.0" fill="#2563eb" rx="3" />
-<text x="513.9" y="161.0" text-anchor="middle" font-size="10" font-weight="600" fill="#334155">62%</text>
-<rect x="572.5" y="145.7" width="117.2" height="194.3" fill="#10b981" rx="3" />
-<text x="631.1" y="141.7" text-anchor="middle" font-size="10" font-weight="600" fill="#334155">69%</text>
+<rect x="455.2" y="153.2" width="117.2" height="186.8" fill="#2563eb" rx="3" />
+<text x="513.9" y="149.2" text-anchor="middle" font-size="10" font-weight="600" fill="#334155">67%</text>
+<rect x="572.5" y="114.3" width="117.2" height="225.7" fill="#10b981" rx="3" />
+<text x="631.1" y="110.3" text-anchor="middle" font-size="10" font-weight="600" fill="#334155">81%</text>
 <text x="572.5" y="362" text-anchor="middle" font-size="11" font-weight="500" fill="#334155">Full</text>
 <rect x="270.0" y="385" width="14" height="14" fill="#2563eb" rx="2" />
 <text x="290.0" y="397" font-size="12" font-weight="500" fill="#475569">Failure Type Match (%)</text>

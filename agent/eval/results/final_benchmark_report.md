@@ -13,24 +13,25 @@
 
 We evaluated the agent against **live Docker chaos scenarios** (`--live`), injecting real faults, collecting Prometheus/Docker/event telemetry, scoring against `.meta.json` ground truth, and restoring/recreating containers between evaluations (`48` total evaluations: `12` scenarios [10 canonical + 2 unseen surprise] × `2` ablations [`llm_only`, `full`] × `2` trials).
 
-1. **Evidence-First + Tools Delivers 3× Higher Accuracy Over Raw LLM**: Under neutral symptom prompts (`--live`), `llm_only` scored **20.8%** exact failure-type accuracy (`5/24`), whereas the `full` Evidence-First agent scored **62.5%** (`15/24`), and achieved **100% (`14/14`)** across both trials on 7 of the 10 canonical failure types (`oom-payment-001`, `baddeploy-order-001`, `badenv-order-001`, `crashloop-payment-001`, `depfail-order-001`, `diskfull-inventory-001`, `healthfail-inventory-001`).
-2. **External Knowledge (105 Sources / 430 Chunks) Boosts Remediation Quality**: Adding 55 live-fetched public docs/postmortems (`k8s.af`, Kubernetes, Prometheus, PostgreSQL, Docker) on top of the 50 initial summaries increased `with_external` fix quality on `[oom-payment-001, surprise_1, surprise_2]` from **60.0%** (`full`) to **73.3%** (`with_external`).
-3. **Trial-to-Trial Variance**: Across Trial 1 vs Trial 2, `llm_only` scored `16.7%` (`2/12`) vs `25.0%` (`3/12`), and `full` scored `66.7%` (`8/12`) vs `58.3%` (`7/12`), demonstrating modest LLM variance on ambiguous network/DB overlaps.
+1. **Evidence-First + Tools Delivers 3.2× Higher Accuracy Over Raw LLM**: Under neutral symptom prompts (`--live`), `llm_only` scored **20.8%** exact failure-type accuracy (`5/24`), whereas the `full` Evidence-First agent scored **66.7%** (`16/24`), and achieved **100% (`14/14`)** across both trials on 7 of the 10 canonical failure types (`oom-payment-001`, `baddeploy-order-001`, `badenv-order-001`, `crashloop-payment-001`, `depfail-order-001`, `diskfull-inventory-001`, `healthfail-inventory-001`), plus `1/2` on `cpusat-payment-001` and `surprise_1`.
+2. **External Knowledge (105 Sources / 430 Chunks) Boosts Remediation Quality**: Adding 55 live-fetched public docs/postmortems (`k8s.af`, Kubernetes, Prometheus, PostgreSQL, Docker) on top of the 50 initial summaries increased `with_external` fix quality on `[oom-payment-001, surprise_1, surprise_2]` from **60.0%** (`full`) to **73.3%** (`with_external`) (no change in `failure_type` accuracy on that 3-scenario sample).
+3. **Trace-Verified Citation Audit & Trial Variance**: Under trace-verified citation scoring (requiring `search_runbooks` in `tool_trace` and matching a returned title/source/URL), `llm_only` dropped from spurious `79.2%` to **0.0%** (`0/24`), while `full` scored **100.0%** (`24/24`). Across Trial 1 vs Trial 2, `llm_only` scored `16.7%` (`2/12`) vs `25.0%` (`3/12`), and `full` scored `66.7%` (`8/12`) vs `66.7%` (`8/12`).
 4. **Safety & Remediation Verification Proven Live**: Adversarial evaluation achieved **14 / 17 (82.4%)** strict passes (with all 3 strict mismatches verified safe under manual inspection), and live Slack bad-fix auto-rollback (`64MB` OOM limit $\rightarrow$ auto-restored to `128MB`) was verified via `docker inspect` and `data/audit_log.jsonl`.
 
 ---
 
 ## 2. Live Benchmark Results (`benchmark_2026-11-12.json`)
 
-| Configuration | Model | Total Evals | FT Accuracy | Trial 1 / Trial 2 | Fix Quality | Citation Rate | Avg Tools | Avg Latency | Est Cost / Incident |
+| Configuration | Model | Total Evals | FT Accuracy | Trial 1 / Trial 2 | Fix Quality | Trace Citation Rate | Avg Tools | Avg Latency | Est Cost / Incident |
 |:---|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| **`llm_only`** (0 tools) | `qwen3-vl-235b` | 24 | **20.8%** (5/24) | 16.7% / 25.0% | 49.4% | 79.2% | 0.0 | 10.91s | \$0.0016 |
-| **`full`** (Live MCP + Internal RAG) | `qwen3-vl-235b` | 24 | **62.5%** (15/24) | 66.7% / 58.3% | **69.4%** | **83.3%** | 12.88 | 20.24s | \$0.0133 |
+| **`llm_only`** (0 tools) | `qwen3-vl-235b` | 24 | **20.8%** (`5/24`) | `16.7%` / `25.0%` | 49.4% | **0.0%** | 0.0 | 10.91s | \$0.0016 |
+| **`full`** (Live MCP + Internal RAG) | `qwen3-vl-235b` | 24 | **66.7%** (`16/24`) | `66.7%` / `66.7%` | **80.6%** | **100.0%** | 12.25 | 20.46s | \$0.0129 |
 
 ### Honest Breakdown of Live `full` Misses
-- `dbtimeout-payment-001`: Agent pinpointed the exact `slow_db` fault toggle (`Fix=0.60`, cited DB runbook) in both trials, but labelled `other` instead of `db_timeout` because it detected a simulated toggle rather than Postgres lock contention.
-- `nettimeout-order-001`: Classified as overlapping `dependency_failure` because Toxiproxy injected delay on the downstream `payment-service` hop (`Fix=0.60–0.80`, cited runbook).
-- `cpusat-payment-001`: 6s post-injection wait was shorter than cAdvisor's 1m `rate()` Prometheus window, causing CPU rate lag behind the observed HTTP latency spike.
+- `dbtimeout-payment-001`: Agent pinpointed the exact `slow_db` fault toggle (`Fix=0.80`) in both trials, but labelled `other` instead of `db_timeout` because it detected a simulated fault toggle rather than Postgres lock contention.
+- `nettimeout-order-001`: Classified as overlapping `dependency_failure` because Toxiproxy injected delay on the downstream `payment-service` hop (`Fix=0.60`).
+- `cpusat-payment-001` (`1/2`): With only a 6s post-injection wait vs cAdvisor's 1m `rate()` Prometheus window, Trial 1 passed while Trial 2 missed before CPU rate telemetry caught up (see Task 3 timing fix).
+- `surprise_2` (`0/2`): Unseen connection pool saturation lacked a dedicated runbook (`Fix=0.20 / 0.60`).
 
 ---
 

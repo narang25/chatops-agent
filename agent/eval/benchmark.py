@@ -119,25 +119,67 @@ def score_fix_keywords(diagnosis: str, keywords: list[str]) -> float:
     return round(hits / len(keywords), 3)
 
 
+def _collect_returned_sources(result: dict) -> tuple[bool, list[dict]]:
+    """Return (called_search_runbooks, list of returned source dicts from tool trace)."""
+    tool_trace = result.get("tool_trace", []) or []
+    called_search = False
+    returned: list[dict] = []
+
+    for entry in tool_trace:
+        if isinstance(entry, dict):
+            if entry.get("tool") == "search_runbooks":
+                called_search = True
+                for item in entry.get("returned_sources", []) or []:
+                    if isinstance(item, dict):
+                        returned.append(item)
+        elif str(entry) == "search_runbooks":
+            called_search = True
+
+    for item in result.get("retrieved_sources", []) or []:
+        if isinstance(item, dict):
+            returned.append(item)
+
+    return called_search, returned
+
+
 def score_runbook_cited(
     result: dict,
     keywords: list[str],
     is_unknown: bool = False,
 ) -> int:
     """
-    1 if relevant source cited. If failure is unknown/hold-out,
-    cites 1 if agent correctly acknowledges no confident runbook match.
+    1 ONLY if `search_runbooks` was called in the run's tool trace AND at least
+    one cited source in `result["sources"]` matches a source actually returned
+    by `search_runbooks` (title, source path/filename, or URL).
+    Ablations without `search_runbooks` (e.g. `llm_only`) always score 0.
     """
-    if is_unknown:
-        text = (result.get("diagnosis", "") + " " + " ".join(result.get("sources", []))).lower()
-        if "no confident" in text or "no matching runbook" in text or "unknown" in text:
-            return 1
+    del keywords, is_unknown  # Trace-grounded citation verification ignores unverified prose keywords
+    called_search, returned = _collect_returned_sources(result)
+    if not called_search or not returned:
         return 0
 
-    combined = " ".join(result.get("sources", [])) + " " + result.get("diagnosis", "")
-    for kw in keywords:
-        if kw.lower() in combined.lower():
-            return 1
+    cited_entries = [str(s).strip() for s in (result.get("sources", []) or []) if str(s).strip()]
+    if not cited_entries:
+        return 0
+
+    for cited in cited_entries:
+        cited_low = cited.lower()
+        if "no confident" in cited_low or "no matching runbook" in cited_low:
+            continue
+        for item in returned:
+            candidates = []
+            title = str(item.get("title") or "").strip()
+            src = str(item.get("source") or "").strip()
+            url = str(item.get("url") or "").strip()
+            if len(title) >= 6:
+                candidates.append(title.lower())
+            if src:
+                candidates.append(src.lower())
+                candidates.append(Path(src).name.lower())
+            if url:
+                candidates.append(url.lower())
+            if any(cand and cand in cited_low for cand in candidates):
+                return 1
     return 0
 
 
@@ -243,12 +285,34 @@ def execute_ablation_ask(
     diagnosis = clean_output(final_msg) if final_msg else ""
 
     tool_trace = []
+    retrieved_sources = []
     for msg in messages:
         if getattr(msg, "type", None) == "tool":
             name = getattr(msg, "name", "unknown_tool")
             content = str(getattr(msg, "content", ""))
             summary = (content[:120] + "...") if len(content) > 120 else content
-            tool_trace.append({"tool": name, "output_summary": summary})
+            entry: dict[str, Any] = {"tool": name, "output_summary": summary}
+            if name == "search_runbooks":
+                try:
+                    parsed = json.loads(content)
+                    results_list = parsed.get("results", []) if isinstance(parsed, dict) else []
+                    returned = [
+                        {
+                            "title": r.get("title", ""),
+                            "source": r.get("source", ""),
+                            "url": r.get("url"),
+                            "source_type": r.get("source_type", ""),
+                            "failure_type": r.get("failure_type", ""),
+                            "score": r.get("score"),
+                        }
+                        for r in results_list
+                        if isinstance(r, dict)
+                    ]
+                    entry["returned_sources"] = returned
+                    retrieved_sources.extend(returned)
+                except Exception:
+                    pass
+            tool_trace.append(entry)
 
     return {
         "question": question,
@@ -256,6 +320,7 @@ def execute_ablation_ask(
         "failure_type": _extract_failure_type(diagnosis),
         "confidence": _extract_confidence(diagnosis),
         "tool_trace": tool_trace,
+        "retrieved_sources": retrieved_sources,
         "sources": _extract_sources(diagnosis),
         "latency_s": latency,
         "model_id": model_id,
@@ -518,6 +583,7 @@ def evaluate_scenario(
         "ground_truth_failure_type": ground_truth_ft,
         "confidence": res.get("confidence"),
         "tool_trace": trace_names,
+        "retrieved_sources": res.get("retrieved_sources", []),
         "sources": res.get("sources", []),
         "diagnosis": res.get("diagnosis", ""),
         "error": None,
@@ -642,6 +708,7 @@ def run_benchmark(
     hold_out: str | None = None,
     live: bool = False,
     scenario_filter: list[str] | None = None,
+    run_id: str | None = None,
 ) -> tuple[Path, Path]:
     """Runs full benchmark matrix across selected ablations, models, and trials."""
     if live:
@@ -656,9 +723,10 @@ def run_benchmark(
         scenarios = [s for s in scenarios if s["scenario_id"] in allowed]
 
     date_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-    run_id = f"benchmark_{date_str}" if live else f"bm_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
-    if hold_out:
-        run_id += f"_holdout_{hold_out}"
+    if not run_id:
+        run_id = f"benchmark_{date_str}" if live else f"bm_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
+        if hold_out:
+            run_id += f"_holdout_{hold_out}"
 
     print(f"\n{'='*75}")
     print(f"  ChatOps SRE Agent Benchmark v2  [{run_id}] ({'LIVE DOCKER' if live else 'STUB'})")
@@ -741,6 +809,12 @@ if __name__ == "__main__":
         default=None,
         help="Optional comma-separated scenario IDs to run a subset",
     )
+    parser.add_argument(
+        "--run-id",
+        type=str,
+        default=None,
+        help="Optional custom output run ID (writes <run_id>.json/.md)",
+    )
 
     args = parser.parse_args()
 
@@ -768,4 +842,5 @@ if __name__ == "__main__":
         hold_out=args.hold_out,
         live=args.live,
         scenario_filter=scenario_list,
+        run_id=args.run_id,
     )

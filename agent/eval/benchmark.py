@@ -449,7 +449,18 @@ def load_live_scenarios(include_surprise: bool = False) -> list[dict]:
     return scenarios
 
 
-def _inject_live_scenario(sid: str) -> None:
+DEFAULT_WARMUP_S = 6.0
+CPU_SATURATION_WARMUP_S = 80.0
+
+
+def _scenario_warmup_seconds(sid: str, failure_type: str | None = None) -> float:
+    """Return harness warm-up delay in seconds before evaluating telemetry."""
+    if failure_type == "cpu_saturation" or sid.startswith("cpusat"):
+        return CPU_SATURATION_WARMUP_S
+    return DEFAULT_WARMUP_S
+
+
+def _inject_live_scenario(sid: str, failure_type: str | None = None) -> float:
     """Inject a live Docker chaos scenario and wait for telemetry symptoms."""
     if sid in ("surprise_1", "surprise_2"):
         cmd = [sys.executable, str(_PROJECT_ROOT / "infra" / "failures" / f"{sid}.py")]
@@ -458,8 +469,24 @@ def _inject_live_scenario(sid: str) -> None:
     res = subprocess.run(cmd, cwd=str(_PROJECT_ROOT), capture_output=True, text=True, timeout=90)
     if res.returncode != 0:
         raise RuntimeError(f"Injection failed for {sid}: {(res.stderr or res.stdout)[-300:]}")
-    # Wait one Prometheus scrape interval (5s) + buffer so metrics/logs settle
-    time.sleep(6.0)
+
+    warmup_s = _scenario_warmup_seconds(sid, failure_type)
+    if failure_type == "cpu_saturation" or sid.startswith("cpusat"):
+        # cAdvisor cpu_usage queries use rate(...[1m]); keep /burn active across the 80s
+        # warm-up window so Prometheus sees sustained saturation rather than a cooled pulse.
+        import httpx
+        deadline = time.monotonic() + warmup_s
+        with httpx.Client(timeout=15.0) as client:
+            while time.monotonic() < deadline:
+                try:
+                    client.get("http://localhost:8001/burn?duration_ms=1000")
+                except Exception:
+                    pass
+                time.sleep(0.25)
+    else:
+        # Wait one Prometheus scrape interval (5s) + buffer so metrics/logs settle
+        time.sleep(warmup_s)
+    return warmup_s
 
 
 def _restore_live_stack() -> None:
@@ -511,9 +538,10 @@ def evaluate_scenario(
     mode_tag = "live" if live else "stub"
     print(f"  [{mode_tag} | {ablation:13s} | {display_model:18s} | T{trial}] {sid:<24} ...", end=" ", flush=True)
 
+    warmup_s = 0.0
     try:
         if needs_injection:
-            _inject_live_scenario(sid)
+            warmup_s = _inject_live_scenario(sid, failure_type=ground_truth_ft)
             # Re-read surprise meta if surprise script just generated it
             if sid in ("surprise_1", "surprise_2"):
                 secret_path = _SECRET_GT_DIR / f"{sid}.meta.json"
@@ -573,6 +601,7 @@ def evaluate_scenario(
         "model_id": model_id,
         "trial": trial,
         "hold_out": hold_out,
+        "warmup_s": warmup_s,
         "failure_type_match": ft_match,
         "fix_keyword_score": fix_score,
         "runbook_cited": rb_cited,

@@ -234,15 +234,26 @@ def _get_or_build_agent(model_id: str | None = None, stub: bool = True) -> Any:
 
 
 _CONFIDENCE_RE = re.compile(r"\bconfidence[:\s*()]+(high|medium|low)\b", re.IGNORECASE)
-_FAILURE_TYPE_RE = re.compile(
-    r"\b(out_of_memory|bad_config|health_check_failure|db_timeout"
+_FAILURE_TYPE_CHOICES = (
+    r"out_of_memory|bad_config|health_check_failure|db_timeout"
     r"|dependency_failure|disk_full|cpu_saturation|crash_loop"
-    r"|network_timeout|high_error_rate|other|unknown)\b",
+    r"|network_timeout|high_error_rate|other|unknown"
+)
+_FAILURE_TYPE_FIELD_RE = re.compile(
+    rf"(?:\*\*)?failure[\s_]*type(?:\*\*)?\s*[:\-]\s*[`\"*\s]*({_FAILURE_TYPE_CHOICES})\b",
+    re.IGNORECASE,
+)
+_FAILURE_TYPE_RE = re.compile(
+    rf"\b({_FAILURE_TYPE_CHOICES})\b",
     re.IGNORECASE,
 )
 
 
 def _extract_failure_type(text: str) -> str | None:
+    # Check explicit "Failure Type:" field first so prose words like "other" or "unknown" do not shadow the label.
+    field_match = _FAILURE_TYPE_FIELD_RE.search(text)
+    if field_match:
+        return field_match.group(1).lower()
     m = _FAILURE_TYPE_RE.search(text)
     return m.group(1).lower() if m else None
 

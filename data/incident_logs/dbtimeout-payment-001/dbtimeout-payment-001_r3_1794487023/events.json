@@ -1,0 +1,83 @@
+{
+  "service": "payment-service",
+  "events": [
+    {
+      "timestamp": "2026-11-12T12:36:03Z",
+      "type": "info",
+      "reason": "update",
+      "message": "Container action update"
+    },
+    {
+      "timestamp": "2026-11-12T12:36:03Z",
+      "type": "info",
+      "reason": "start",
+      "message": "Container action start"
+    },
+    {
+      "timestamp": "2026-11-12T12:36:08Z",
+      "type": "health",
+      "reason": "health_status: healthy",
+      "message": "Health status transition: health_status: healthy"
+    },
+    {
+      "timestamp": "2026-11-12T12:36:14Z",
+      "type": "info",
+      "reason": "update",
+      "message": "Container action update"
+    },
+    {
+      "timestamp": "2026-11-12T12:36:21Z",
+      "type": "info",
+      "reason": "update",
+      "message": "Container action update"
+    },
+    {
+      "timestamp": "2026-11-12T12:36:24Z",
+      "type": "info",
+      "reason": "exec_die",
+      "message": "Container action exec_die"
+    },
+    {
+      "timestamp": "2026-11-12T12:36:24Z",
+      "type": "oom",
+      "reason": "OOMKilled",
+      "message": "Container terminated due to out-of-memory"
+    },
+    {
+      "timestamp": "2026-11-12T12:36:24Z",
+      "type": "oom",
+      "reason": "OOMKilled",
+      "message": "Container terminated due to out-of-memory"
+    },
+    {
+      "timestamp": "2026-11-12T12:36:24Z",
+      "type": "info",
+      "reason": "start",
+      "message": "Container action start"
+    },
+    {
+      "timestamp": "2026-11-12T12:36:26Z",
+      "type": "info",
+      "reason": "update",
+      "message": "Container action update"
+    },
+    {
+      "timestamp": "2026-11-12T12:36:29Z",
+      "type": "health",
+      "reason": "health_status: healthy",
+      "message": "Health status transition: health_status: healthy"
+    },
+    {
+      "timestamp": "2026-11-12T12:36:45Z",
+      "type": "info",
+      "reason": "update",
+      "message": "Container action update"
+    },
+    {
+      "timestamp": "2026-11-12T12:36:57Z",
+      "type": "info",
+      "reason": "update",
+      "message": "Container action update"
+    }
+  ]
+}

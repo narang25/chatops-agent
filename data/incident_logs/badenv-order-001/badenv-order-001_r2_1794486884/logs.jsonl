@@ -1,0 +1,325 @@
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.9:54390 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49.849Z", "service": "order-service", "level": "INFO", "message": "Order created: id=3863 item=gadget quantity=2 payment_id=8375"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:47774 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     127.0.0.1:33502 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.9:54390 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:47786 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     127.0.0.1:56980 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:59.080Z", "service": "order-service", "level": "INFO", "message": "Order created: id=3864 item=doohickey quantity=4 payment_id=8379"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.9:54390 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:34472 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:34472 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:34472 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:32:02.388Z", "service": "order-service", "level": "INFO", "message": "Fault toggles updated: {'health_fail': False, 'slow_db': False, 'db_error': False, 'error_rate': 0.0}"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:26148 - \"POST /admin/fault HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:26148 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     127.0.0.1:56992 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.9:54390 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:32:05.968Z", "service": "order-service", "level": "INFO", "message": "Order created: id=3865 item=widget quantity=3 payment_id=8383"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:34472 - \"POST /orders HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:34472 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:32:08.202Z", "service": "order-service", "level": "INFO", "message": "Order created: id=3866 item=doohickey quantity=2 payment_id=8384"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:34472 - \"POST /orders HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:32:08.791Z", "service": "order-service", "level": "INFO", "message": "Order created: id=3867 item=widget quantity=4 payment_id=8385"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:34472 - \"POST /orders HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     127.0.0.1:46014 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.9:54390 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:34472 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     127.0.0.1:46046 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:34472 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.9:54390 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:32:14.748Z", "service": "order-service", "level": "INFO", "message": "Order created: id=3868 item=doohickey quantity=3 payment_id=8388"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:34472 - \"POST /orders HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:32:15.119Z", "service": "order-service", "level": "INFO", "message": "Fault toggles updated: {'health_fail': False, 'slow_db': False, 'db_error': False, 'error_rate': 0.0}"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:55946 - \"POST /admin/fault HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:55946 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:32:15.625Z", "service": "order-service", "level": "INFO", "message": "Order created: id=3869 item=doohickey quantity=2 payment_id=8389"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:34472 - \"POST /orders HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:39826 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:32:17.812Z", "service": "order-service", "level": "ERROR", "message": "Payment service unreachable: [Errno -2] Name or service not known"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:39826 - \"POST /orders HTTP/1.1\" 502 Bad Gateway"}
+{"timestamp": "2026-11-12T12:32:17.826Z", "service": "order-service", "level": "ERROR", "message": "Payment service unreachable: [Errno -2] Name or service not known"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:39826 - \"POST /orders HTTP/1.1\" 502 Bad Gateway"}
+{"timestamp": "2026-11-12T12:32:17.840Z", "service": "order-service", "level": "ERROR", "message": "Payment service unreachable: [Errno -2] Name or service not known"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:39826 - \"POST /orders HTTP/1.1\" 502 Bad Gateway"}
+{"timestamp": "2026-11-12T12:32:18.334Z", "service": "order-service", "level": "ERROR", "message": "Payment service unreachable: [Errno -2] Name or service not known"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:34472 - \"POST /orders HTTP/1.1\" 502 Bad Gateway"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     127.0.0.1:43440 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.9:54390 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:32:20.129Z", "service": "order-service", "level": "ERROR", "message": "Payment service unreachable: [Errno -2] Name or service not known"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:34472 - \"POST /orders HTTP/1.1\" 502 Bad Gateway"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:34472 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:34472 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     127.0.0.1:43464 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.9:54390 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:32:24.608Z", "service": "order-service", "level": "INFO", "message": "Fault toggles updated: {'health_fail': False, 'slow_db': False, 'db_error': False, 'error_rate': 0.0}"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:58136 - \"POST /admin/fault HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:58136 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:32:25.105Z", "service": "order-service", "level": "INFO", "message": "Order created: id=3870 item=widget quantity=3 payment_id=8392"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:34472 - \"POST /orders HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:40736 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:32:26.962Z", "service": "order-service", "level": "INFO", "message": "Service shutting down"}
+{"timestamp": "2026-11-12T12:32:33.478Z", "service": "order-service", "level": "INFO", "message": "Service starting up"}
+{"timestamp": "2026-11-12T12:32:33.482Z", "service": "order-service", "level": "INFO", "message": "Database initialised successfully"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.9:59354 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:60958 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:32:36.222Z", "service": "order-service", "level": "INFO", "message": "Fault toggles updated: {'health_fail': False, 'slow_db': False, 'db_error': False, 'error_rate': 0.0}"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:41993 - \"POST /admin/fault HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:41993 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     127.0.0.1:56956 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.9:59354 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:59568 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     127.0.0.1:56988 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.9:59354 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:32:46.143Z", "service": "order-service", "level": "INFO", "message": "Order created: id=3871 item=doohickey quantity=4 payment_id=8402"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:49008 - \"POST /orders HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     127.0.0.1:35538 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:49008 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.9:59354 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:49008 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     127.0.0.1:35548 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:32:53.944Z", "service": "order-service", "level": "INFO", "message": "Order created: id=3872 item=gadget quantity=4 payment_id=8405"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:49008 - \"POST /orders HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.9:59354 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:49008 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:32:55.266Z", "service": "order-service", "level": "INFO", "message": "Fault toggles updated: {'health_fail': False, 'slow_db': False, 'db_error': False, 'error_rate': 0.0}"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:26572 - \"POST /admin/fault HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:26572 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:49008 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:49008 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:47522 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:32:57.874Z", "service": "order-service", "level": "ERROR", "message": "Payment service unreachable: [Errno -2] Name or service not known"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:47522 - \"POST /orders HTTP/1.1\" 502 Bad Gateway"}
+{"timestamp": "2026-11-12T12:32:57.889Z", "service": "order-service", "level": "ERROR", "message": "Payment service unreachable: [Errno -2] Name or service not known"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:47522 - \"POST /orders HTTP/1.1\" 502 Bad Gateway"}
+{"timestamp": "2026-11-12T12:32:57.901Z", "service": "order-service", "level": "ERROR", "message": "Payment service unreachable: [Errno -2] Name or service not known"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:47522 - \"POST /orders HTTP/1.1\" 502 Bad Gateway"}
+{"timestamp": "2026-11-12T12:32:58.296Z", "service": "order-service", "level": "ERROR", "message": "Payment service unreachable: [Errno -2] Name or service not known"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:49008 - \"POST /orders HTTP/1.1\" 502 Bad Gateway"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     127.0.0.1:57086 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.9:59354 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:33:01.685Z", "service": "order-service", "level": "ERROR", "message": "Payment service unreachable: [Errno 111] Connection refused"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:49008 - \"POST /orders HTTP/1.1\" 502 Bad Gateway"}
+{"timestamp": "2026-11-12T12:33:02.680Z", "service": "order-service", "level": "INFO", "message": "Order created: id=3873 item=doohickey quantity=3 payment_id=8406"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:49008 - \"POST /orders HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:49008 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     127.0.0.1:57104 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.9:59354 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:33:04.463Z", "service": "order-service", "level": "INFO", "message": "Order created: id=3874 item=widget quantity=4 payment_id=8407"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:49008 - \"POST /orders HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:33:04.635Z", "service": "order-service", "level": "INFO", "message": "Fault toggles updated: {'health_fail': False, 'slow_db': False, 'db_error': False, 'error_rate': 0.0}"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:50816 - \"POST /admin/fault HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:50816 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:51962 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:33:06.878Z", "service": "order-service", "level": "INFO", "message": "Fault toggles updated: {'error_rate': 0.5}"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:51962 - \"POST /admin/fault HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:51962 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:33:07.931Z", "service": "order-service", "level": "INFO", "message": "Order created: id=3875 item=widget quantity=1 payment_id=8410"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:51962 - \"POST /orders HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:51962 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:33:07.951Z", "service": "order-service", "level": "INFO", "message": "Order created: id=3876 item=widget quantity=1 payment_id=8411"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:51962 - \"POST /orders HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:51962 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:33:07.968Z", "service": "order-service", "level": "INFO", "message": "Order created: id=3877 item=widget quantity=1 payment_id=8412"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:51962 - \"POST /orders HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:51962 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:33:07.971Z", "service": "order-service", "level": "ERROR", "message": "Simulated error injected by error_rate fault"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:51962 - \"POST /orders HTTP/1.1\" 500 Internal Server Error"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:51962 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:33:07.985Z", "service": "order-service", "level": "INFO", "message": "Order created: id=3878 item=widget quantity=1 payment_id=8413"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:51962 - \"POST /orders HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:51962 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:33:07.998Z", "service": "order-service", "level": "INFO", "message": "Order created: id=3879 item=widget quantity=1 payment_id=8414"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:51962 - \"POST /orders HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:51962 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:33:08.010Z", "service": "order-service", "level": "INFO", "message": "Order created: id=3880 item=widget quantity=1 payment_id=8415"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:51962 - \"POST /orders HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:51962 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:33:08.012Z", "service": "order-service", "level": "ERROR", "message": "Simulated error injected by error_rate fault"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:51962 - \"POST /orders HTTP/1.1\" 500 Internal Server Error"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:51962 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:33:08.025Z", "service": "order-service", "level": "INFO", "message": "Order created: id=3881 item=widget quantity=1 payment_id=8416"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:51962 - \"POST /orders HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:51962 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:33:08.027Z", "service": "order-service", "level": "ERROR", "message": "Simulated error injected by error_rate fault"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:51962 - \"POST /orders HTTP/1.1\" 500 Internal Server Error"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:51962 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:33:08.040Z", "service": "order-service", "level": "INFO", "message": "Order created: id=3882 item=widget quantity=1 payment_id=8417"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:51962 - \"POST /orders HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:51962 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:33:08.042Z", "service": "order-service", "level": "ERROR", "message": "Simulated error injected by error_rate fault"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:51962 - \"POST /orders HTTP/1.1\" 500 Internal Server Error"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:51962 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:33:08.054Z", "service": "order-service", "level": "INFO", "message": "Order created: id=3883 item=widget quantity=1 payment_id=8418"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:51962 - \"POST /orders HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:51962 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:33:08.066Z", "service": "order-service", "level": "INFO", "message": "Order created: id=3884 item=widget quantity=1 payment_id=8419"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:51962 - \"POST /orders HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:51962 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:33:08.079Z", "service": "order-service", "level": "INFO", "message": "Order created: id=3885 item=widget quantity=1 payment_id=8420"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:51962 - \"POST /orders HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:51962 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:33:08.081Z", "service": "order-service", "level": "ERROR", "message": "Simulated error injected by error_rate fault"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:51962 - \"POST /orders HTTP/1.1\" 500 Internal Server Error"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:51962 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:33:08.094Z", "service": "order-service", "level": "INFO", "message": "Order created: id=3886 item=widget quantity=1 payment_id=8421"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:51962 - \"POST /orders HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:51962 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:33:08.096Z", "service": "order-service", "level": "ERROR", "message": "Simulated error injected by error_rate fault"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:51962 - \"POST /orders HTTP/1.1\" 500 Internal Server Error"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:51962 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:33:08.110Z", "service": "order-service", "level": "INFO", "message": "Order created: id=3887 item=widget quantity=1 payment_id=8422"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:51962 - \"POST /orders HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:51962 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:33:08.122Z", "service": "order-service", "level": "INFO", "message": "Order created: id=3888 item=widget quantity=1 payment_id=8423"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:51962 - \"POST /orders HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:49008 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     127.0.0.1:59686 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.9:59354 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:49008 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:49008 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:33:11.448Z", "service": "order-service", "level": "INFO", "message": "Order created: id=3889 item=doohickey quantity=3 payment_id=8424"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:49008 - \"POST /orders HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     127.0.0.1:59718 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.9:59354 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:33:14.825Z", "service": "order-service", "level": "INFO", "message": "Fault toggles updated: {'health_fail': False, 'slow_db': False, 'db_error': False, 'error_rate': 0.0}"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:34250 - \"POST /admin/fault HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:34250 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:33:16.079Z", "service": "order-service", "level": "INFO", "message": "Order created: id=3890 item=doohickey quantity=2 payment_id=8427"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:49008 - \"POST /orders HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:49008 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     127.0.0.1:42276 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.9:59354 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:49008 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:33:21.081Z", "service": "order-service", "level": "INFO", "message": "Order created: id=3891 item=doohickey quantity=1 payment_id=8430"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:49008 - \"POST /orders HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:33:22.995Z", "service": "order-service", "level": "INFO", "message": "Order created: id=3892 item=widget quantity=3 payment_id=8432"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:49008 - \"POST /orders HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     127.0.0.1:42310 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.9:59354 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:33:25.834Z", "service": "order-service", "level": "INFO", "message": "Order created: id=3893 item=doohickey quantity=1 payment_id=8433"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:49008 - \"POST /orders HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:33:28.276Z", "service": "order-service", "level": "INFO", "message": "Order created: id=3894 item=gadget quantity=4 payment_id=8435"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:49008 - \"POST /orders HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     127.0.0.1:55384 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:33:29.361Z", "service": "order-service", "level": "INFO", "message": "Order created: id=3895 item=widget quantity=4 payment_id=8436"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:49008 - \"POST /orders HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.9:59354 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:33:30.243Z", "service": "order-service", "level": "INFO", "message": "Order created: id=3896 item=gadget quantity=5 payment_id=8437"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:49008 - \"POST /orders HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:49008 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:33:32.142Z", "service": "order-service", "level": "INFO", "message": "Order created: id=3897 item=widget quantity=4 payment_id=8438"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:49008 - \"POST /orders HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:33:33.885Z", "service": "order-service", "level": "INFO", "message": "Fault toggles updated: {'health_fail': False, 'slow_db': False, 'db_error': False, 'error_rate': 0.0}"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:17267 - \"POST /admin/fault HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:17267 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     127.0.0.1:55424 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.9:59354 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:33:34.739Z", "service": "order-service", "level": "INFO", "message": "Order created: id=3898 item=doohickey quantity=3 payment_id=8440"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:49008 - \"POST /orders HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:33:38.239Z", "service": "order-service", "level": "INFO", "message": "Order created: id=3899 item=doohickey quantity=3 payment_id=8444"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:49008 - \"POST /orders HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     127.0.0.1:33608 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.9:59354 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:49008 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:49008 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:49008 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     127.0.0.1:33622 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.9:52788 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:33:45.165Z", "service": "order-service", "level": "INFO", "message": "Order created: id=3900 item=gadget quantity=3 payment_id=8448"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:49008 - \"POST /orders HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:49008 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:33:47.733Z", "service": "order-service", "level": "INFO", "message": "Order created: id=3901 item=gadget quantity=5 payment_id=8449"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:49008 - \"POST /orders HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:33:48.433Z", "service": "order-service", "level": "INFO", "message": "Order created: id=3902 item=widget quantity=4 payment_id=8450"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:49008 - \"POST /orders HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:49008 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     127.0.0.1:49548 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.9:52788 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:33:50.108Z", "service": "order-service", "level": "INFO", "message": "Order created: id=3903 item=doohickey quantity=1 payment_id=8451"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:49008 - \"POST /orders HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:33:51.008Z", "service": "order-service", "level": "INFO", "message": "Order created: id=3904 item=doohickey quantity=4 payment_id=8452"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:49008 - \"POST /orders HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:49008 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.9:52788 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     127.0.0.1:49570 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:33:55.099Z", "service": "order-service", "level": "INFO", "message": "Fault toggles updated: {'health_fail': False, 'slow_db': False, 'db_error': False, 'error_rate': 0.0}"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:27758 - \"POST /admin/fault HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:27758 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:33:57.296Z", "service": "order-service", "level": "INFO", "message": "Order created: id=3905 item=doohickey quantity=4 payment_id=8457"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:49008 - \"POST /orders HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:33:58.302Z", "service": "order-service", "level": "INFO", "message": "Order created: id=3906 item=gadget quantity=5 payment_id=8458"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:49008 - \"POST /orders HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.9:52788 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     127.0.0.1:46446 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:49008 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:49008 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.9:52788 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     127.0.0.1:46472 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:34:07.107Z", "service": "order-service", "level": "INFO", "message": "Fault toggles updated: {'health_fail': False, 'slow_db': False, 'db_error': False, 'error_rate': 0.0}"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:36838 - \"POST /admin/fault HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:36838 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:60330 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:34:09.132Z", "service": "order-service", "level": "INFO", "message": "Order created: id=3907 item=doohickey quantity=4 payment_id=8462"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:60330 - \"POST /orders HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.9:52788 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     127.0.0.1:41596 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:34:12.523Z", "service": "order-service", "level": "ERROR", "message": "Payment service unreachable: [Errno -2] Name or service not known"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:60330 - \"POST /orders HTTP/1.1\" 502 Bad Gateway"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.9:52788 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     127.0.0.1:41612 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:34:16.888Z", "service": "order-service", "level": "ERROR", "message": "Payment service unreachable: [Errno -2] Name or service not known"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:60330 - \"POST /orders HTTP/1.1\" 502 Bad Gateway"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:60330 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.9:52788 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     127.0.0.1:32976 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:34:20.732Z", "service": "order-service", "level": "INFO", "message": "Fault toggles updated: {'health_fail': False, 'slow_db': False, 'db_error': False, 'error_rate': 0.0}"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:57428 - \"POST /admin/fault HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:57428 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:57664 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.9:52788 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     127.0.0.1:32988 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:34:25.973Z", "service": "order-service", "level": "ERROR", "message": "Payment service unreachable: [Errno 111] Connection refused"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:57664 - \"POST /orders HTTP/1.1\" 502 Bad Gateway"}
+{"timestamp": "2026-11-12T12:34:27.621Z", "service": "order-service", "level": "INFO", "message": "Order created: id=3908 item=doohickey quantity=1 payment_id=8470"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:57664 - \"POST /orders HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.9:52788 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:34:29.910Z", "service": "order-service", "level": "INFO", "message": "Order created: id=3909 item=widget quantity=5 payment_id=8471"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:57664 - \"POST /orders HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     127.0.0.1:57048 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:34:31.976Z", "service": "order-service", "level": "INFO", "message": "Order created: id=3910 item=gadget quantity=1 payment_id=8473"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:57664 - \"POST /orders HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:34:33.332Z", "service": "order-service", "level": "INFO", "message": "Order created: id=3911 item=widget quantity=4 payment_id=8475"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:57664 - \"POST /orders HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:34:33.393Z", "service": "order-service", "level": "INFO", "message": "Fault toggles updated: {'health_fail': False, 'slow_db': False, 'db_error': False, 'error_rate': 0.0}"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:63319 - \"POST /admin/fault HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:63319 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.9:52788 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     127.0.0.1:57090 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:16605 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:34:35.618Z", "service": "order-service", "level": "INFO", "message": "Order created: id=3912 item=widget quantity=1 payment_id=8477"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:16605 - \"POST /orders HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:34:35.635Z", "service": "order-service", "level": "INFO", "message": "Order created: id=3913 item=widget quantity=1 payment_id=8478"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:16605 - \"POST /orders HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:34:35.650Z", "service": "order-service", "level": "INFO", "message": "Order created: id=3914 item=widget quantity=1 payment_id=8479"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:16605 - \"POST /orders HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:34:35.663Z", "service": "order-service", "level": "INFO", "message": "Order created: id=3915 item=widget quantity=1 payment_id=8480"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:16605 - \"POST /orders HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:34:35.675Z", "service": "order-service", "level": "INFO", "message": "Order created: id=3916 item=widget quantity=1 payment_id=8481"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:16605 - \"POST /orders HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:34:37.568Z", "service": "order-service", "level": "INFO", "message": "Order created: id=3917 item=widget quantity=4 payment_id=8483"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:57664 - \"POST /orders HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:57664 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.9:52788 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     127.0.0.1:42410 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:57664 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:34:42.346Z", "service": "order-service", "level": "INFO", "message": "Fault toggles updated: {'health_fail': False, 'slow_db': False, 'db_error': False, 'error_rate': 0.0}"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:34169 - \"POST /admin/fault HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:34169 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:57664 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:34:43.702Z", "service": "order-service", "level": "INFO", "message": "Order created: id=3918 item=gadget quantity=3 payment_id=8486"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:57664 - \"POST /orders HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.9:52788 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     192.168.65.1:63547 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:31:49Z", "level": "INFO", "service": "order-service", "message": "INFO:     172.23.0.8:57664 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:34:44.741Z", "service": "order-service", "level": "INFO", "message": "Service shutting down"}

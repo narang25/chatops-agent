@@ -1,0 +1,15 @@
+{
+  "scenario_id": "dbtimeout-payment-001",
+  "service": "payment-service",
+  "failure_type": "db_timeout",
+  "root_cause": "The slow_db fault toggle is active, adding a 3-second artificial delay to every database query in payment-service. Payment requests time out or take >3s, causing elevated latency and error counts",
+  "expected_fix": "Disable the slow_db fault toggle via POST /admin/fault with {\"slow_db\": false}. In production: investigate Postgres lock contention, missing indexes, or long-running transactions",
+  "signals": [
+    "fault_slow_db=true",
+    "db_query_latency_exceeds_3s",
+    "http_request_duration_seconds_p95_high",
+    "app_errors_total_increasing",
+    "payment_requests_timing_out"
+  ],
+  "how_to_reproduce": "python infra/failures/run_scenario.py run dbtimeout-payment-001"
+}

@@ -1,0 +1,15 @@
+{
+  "scenario_id": "oom-payment-48m",
+  "service": "payment-service",
+  "failure_type": "out_of_memory",
+  "root_cause": "Container memory limit (48m) on payment-service exhausted by /leak allocations",
+  "expected_fix": "Raise memory limit above 48m (e.g. 256MB) and fix leak in payment-service",
+  "signals": [
+    "oom_killed=false",
+    "exit_code=0",
+    "memory_limit=48m"
+  ],
+  "parameters": {
+    "memory": "48m"
+  }
+}

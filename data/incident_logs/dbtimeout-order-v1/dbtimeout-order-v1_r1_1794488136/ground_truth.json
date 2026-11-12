@@ -1,0 +1,12 @@
+{
+  "scenario_id": "dbtimeout-order-v1",
+  "service": "order-service",
+  "failure_type": "db_timeout",
+  "root_cause": "Slow DB fault active on order-service adding 3s delay per database connection",
+  "expected_fix": "Disable slow_db fault via POST /admin/fault on order-service",
+  "signals": [
+    "fault_slow_db=true",
+    "service=order-service"
+  ],
+  "parameters": {}
+}

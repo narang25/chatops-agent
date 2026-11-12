@@ -1,0 +1,23 @@
+{
+  "service": "order-service",
+  "events": [
+    {
+      "timestamp": "2026-11-12T12:34:45Z",
+      "type": "info",
+      "reason": "create",
+      "message": "Container action create"
+    },
+    {
+      "timestamp": "2026-11-12T12:34:45Z",
+      "type": "info",
+      "reason": "start",
+      "message": "Container action start"
+    },
+    {
+      "timestamp": "2026-11-12T12:34:45Z",
+      "type": "die",
+      "reason": "ExitCode_1",
+      "message": "Container died with exit code 1"
+    }
+  ]
+}

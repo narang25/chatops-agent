@@ -6,8 +6,8 @@
   "expected_fix": "Restart payment-service container: docker start payment-service",
   "signals": [
     "connection_refused_payment_service",
-    "http_status=502",
-    "dependency_down=payment-service"
+    "dependency_down=payment-service",
+    "http_status=502"
   ],
   "how_to_reproduce": "python infra/failures/dependency_failure.py"
 }

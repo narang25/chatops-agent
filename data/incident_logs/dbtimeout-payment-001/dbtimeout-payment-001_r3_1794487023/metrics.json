@@ -1,0 +1,10 @@
+{
+  "service": "payment-service",
+  "timestamp": "2026-11-12T12:34:14Z",
+  "metrics": {
+    "http_requests_total": 52.0,
+    "app_errors_total": null,
+    "app_memory_bytes": 56758272.0,
+    "app_up": 1.0
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "scenario_id": "nettimeout-order-2500ms",
+  "service": "order-service",
+  "failure_type": "network_timeout",
+  "root_cause": "Toxiproxy injects 2500ms (+500ms jitter) network latency upstream of order-service",
+  "expected_fix": "Remove Toxiproxy payment-latency toxic and check downstream network latency",
+  "signals": [
+    "request_timeout",
+    "toxiproxy_latency=2500ms",
+    "toxiproxy_jitter=500ms"
+  ],
+  "parameters": {
+    "latency_ms": 2500
+  }
+}

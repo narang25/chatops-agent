@@ -1,0 +1,15 @@
+{
+  "scenario_id": "cpusat-payment-001",
+  "service": "payment-service",
+  "failure_type": "cpu_saturation",
+  "root_cause": "The /burn endpoint is called repeatedly with long duration, running a tight compute loop that saturates the container's 0.5 CPU quota. Legitimate requests experience high latency because the CPU is throttled by Docker's cgroup limits",
+  "expected_fix": "Stop the workload hitting /burn, or increase the CPU limit in docker-compose.yml (deploy.resources.limits.cpus). In production: rate-limit expensive compute endpoints and add CPU-usage alerting",
+  "signals": [
+    "container_cpu_usage_near_quota",
+    "cadvisor_cpu_throttling_high",
+    "http_request_duration_seconds_p95_elevated",
+    "burn_endpoint_active",
+    "cpu_limit=0.5_cpus"
+  ],
+  "how_to_reproduce": "python infra/failures/run_scenario.py run cpusat-payment-001"
+}

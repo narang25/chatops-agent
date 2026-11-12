@@ -1,0 +1,11 @@
+{
+  "scenario_id": "healthfail-inventory-v1",
+  "service": "inventory-service",
+  "failure_type": "health_check_failure",
+  "root_cause": "Health check toggle health_fail set to true on inventory-service; GET /health returns 500",
+  "expected_fix": "Reset health_fail=false via POST /admin/fault or restart inventory-service",
+  "signals": [
+    "health_http_500"
+  ],
+  "parameters": {}
+}

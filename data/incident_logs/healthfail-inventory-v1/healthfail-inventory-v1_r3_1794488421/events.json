@@ -1,0 +1,11 @@
+{
+  "service": "inventory-service",
+  "events": [
+    {
+      "timestamp": "2026-11-12T13:00:07Z",
+      "type": "info",
+      "reason": "exec_die",
+      "message": "Container action exec_die"
+    }
+  ]
+}

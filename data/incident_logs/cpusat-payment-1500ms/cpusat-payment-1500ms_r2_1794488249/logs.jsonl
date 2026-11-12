@@ -1,0 +1,408 @@
+{"timestamp": "2026-11-12T12:54:37.300Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9188 amount=24.67"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:57642 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:38.562Z", "service": "payment-service", "level": "WARNING", "message": "CPU burn completed: 1500ms"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     192.168.65.1:45174 - \"GET /burn?duration_ms=1500 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:38.674Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9189 amount=21.34"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:57642 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:57642 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.9:35230 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:40.070Z", "service": "payment-service", "level": "WARNING", "message": "CPU burn completed: 1500ms"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     192.168.65.1:45174 - \"GET /burn?duration_ms=1500 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:57642 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     127.0.0.1:34648 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:41.578Z", "service": "payment-service", "level": "WARNING", "message": "CPU burn completed: 1500ms"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     192.168.65.1:45174 - \"GET /burn?duration_ms=1500 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:57642 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:57642 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:43.083Z", "service": "payment-service", "level": "WARNING", "message": "CPU burn completed: 1500ms"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     192.168.65.1:45174 - \"GET /burn?duration_ms=1500 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:43.607Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9190 amount=12.85"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:52606 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.9:35230 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:57642 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     127.0.0.1:38826 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:46.093Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9191 amount=32.71"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:57642 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:47.012Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9192 amount=88.47"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:54598 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:47.656Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9193 amount=57.43"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:54614 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:57642 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.9:35230 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:49.551Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9194 amount=11.15"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:57642 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:49.949Z", "service": "payment-service", "level": "INFO", "message": "Fault toggles updated: {'health_fail': False, 'slow_db': False, 'db_error': False}"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     192.168.65.1:33768 - \"POST /admin/fault HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     192.168.65.1:33768 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:57642 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     127.0.0.1:38858 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:51.412Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9195 amount=25.77"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:54616 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:57642 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:57642 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.9:35230 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:57642 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:55.280Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9196 amount=35.65"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:57642 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     127.0.0.1:55094 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:57642 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:58.207Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9197 amount=38.1"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:46686 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:58.787Z", "service": "payment-service", "level": "INFO", "message": "Fault toggles updated: {'health_fail': False, 'slow_db': False, 'db_error': False}"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     192.168.65.1:43281 - \"POST /admin/fault HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     192.168.65.1:43281 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:59.287Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9198 amount=9.47"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:57642 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.9:35230 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:55:00.889Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9199 amount=19.99"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:46690 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:55:00.915Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9200 amount=19.99"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:46692 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:55:00.932Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9201 amount=19.99"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:46694 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:55:00.957Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9202 amount=19.99"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:46710 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     127.0.0.1:55116 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:55:02.265Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9203 amount=58.83"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:46720 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:57642 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.9:35230 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:55:05.709Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9204 amount=16.19"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:57642 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     127.0.0.1:45910 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:57642 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:55:07.571Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9205 amount=58.68"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:54196 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:55:07.779Z", "service": "payment-service", "level": "INFO", "message": "Fault toggles updated: {'health_fail': False, 'slow_db': False, 'db_error': False}"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     192.168.65.1:62605 - \"POST /admin/fault HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     192.168.65.1:62605 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:55:08.274Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9206 amount=10.77"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:54204 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.9:35230 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:55:10.539Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9207 amount=65.96"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:54220 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     127.0.0.1:45942 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:55:11.560Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9208 amount=94.07"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:54230 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:55:13.173Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9209 amount=94.0"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:54232 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:55:14.343Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9210 amount=54.26"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:54242 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.9:35230 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:55:15.418Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9211 amount=40.33"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:50370 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:55:16.113Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9212 amount=91.84"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:42438 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     127.0.0.1:37176 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:55:16.538Z", "service": "payment-service", "level": "INFO", "message": "Fault toggles updated: {'health_fail': False, 'slow_db': False, 'db_error': False}"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     192.168.65.1:44466 - \"POST /admin/fault HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     192.168.65.1:44466 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:55:17.160Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9213 amount=20.93"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:50370 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:55:17.796Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9214 amount=19.57"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:42446 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:55:18.873Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9215 amount=73.8"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:42448 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.9:35230 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:50370 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:50370 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:50370 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     127.0.0.1:37210 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:55:22.754Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9216 amount=47.1"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:42462 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:50370 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.9:35230 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:55:24.474Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9217 amount=39.83"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:50370 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:55:25.261Z", "service": "payment-service", "level": "INFO", "message": "Fault toggles updated: {'health_fail': False, 'slow_db': False, 'db_error': False}"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     192.168.65.1:61982 - \"POST /admin/fault HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     192.168.65.1:61982 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     127.0.0.1:60530 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:55:26.515Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9218 amount=11.23"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:50370 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:55:27.332Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9219 amount=19.99"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:59750 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:55:27.356Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9220 amount=19.99"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:59758 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:55:27.374Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9221 amount=19.99"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:59766 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:55:27.394Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9222 amount=19.99"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:59780 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:55:27.410Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9223 amount=19.99"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:59784 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:55:27.429Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9224 amount=19.99"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:59794 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:55:27.444Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9225 amount=19.99"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:59806 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:55:27.458Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9226 amount=19.99"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:59820 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:55:27.482Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9227 amount=47.46"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:59824 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.9:35230 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     127.0.0.1:60540 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:55:32.772Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9228 amount=5.47"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:33128 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:55:33.891Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9229 amount=25.69"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:33128 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:55:34.248Z", "service": "payment-service", "level": "INFO", "message": "Fault toggles updated: {'health_fail': False, 'slow_db': False, 'db_error': False}"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     192.168.65.1:43449 - \"POST /admin/fault HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     192.168.65.1:43449 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.9:35230 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:55:35.051Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9230 amount=32.05"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:33128 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:55:36.176Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9231 amount=42.03"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:60532 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:55:36.391Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9232 amount=19.99"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:60536 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:55:36.730Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9233 amount=18.53"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:33128 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     127.0.0.1:34010 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:55:37.392Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9234 amount=7.25"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:33128 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.9:35230 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:55:39.434Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9235 amount=19.99"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:60546 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     127.0.0.1:34038 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:55:42.479Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9236 amount=19.99"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:60562 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:60652 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:55:43.749Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9237 amount=80.69"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:60564 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.9:35230 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     127.0.0.1:35322 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:55:48.620Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9238 amount=93.07"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:35972 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.9:35230 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     127.0.0.1:35340 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:55:52.413Z", "service": "payment-service", "level": "INFO", "message": "Fault toggles updated: {'health_fail': False, 'slow_db': False, 'db_error': False}"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     192.168.65.1:64603 - \"POST /admin/fault HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:55:52.414Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9239 amount=80.09"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:35984 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     192.168.65.1:64603 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.9:35230 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:55:54.553Z", "service": "payment-service", "level": "WARNING", "message": "Memory leak: allocated 10 MB, total leaked: 10 MB"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     192.168.65.1:17800 - \"GET /leak HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:55:55.216Z", "service": "payment-service", "level": "WARNING", "message": "Memory leak: allocated 10 MB, total leaked: 20 MB"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     192.168.65.1:17800 - \"GET /leak HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:55:56.617Z", "service": "payment-service", "level": "INFO", "message": "Service starting up"}
+{"timestamp": "2026-11-12T12:55:56.621Z", "service": "payment-service", "level": "INFO", "message": "Database initialised successfully"}
+{"timestamp": "2026-11-12T12:55:57.483Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9240 amount=68.3"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:54044 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:55:58.224Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9241 amount=42.84"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:54050 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.9:55070 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:55:59.396Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9242 amount=85.41"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:54062 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:56:00.458Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9243 amount=44.6"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:50338 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     127.0.0.1:44470 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:56:01.501Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9244 amount=8.84"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:50338 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:56:02.045Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9245 amount=34.3"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:50338 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:50338 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:56:03.353Z", "service": "payment-service", "level": "INFO", "message": "Fault toggles updated: {'health_fail': False, 'slow_db': False, 'db_error': False}"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     192.168.65.1:20049 - \"POST /admin/fault HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     192.168.65.1:20049 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:56:03.877Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9246 amount=21.21"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:54074 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.9:55082 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:56:04.608Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9247 amount=30.52"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:54076 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:56:05.213Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9248 amount=42.44"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:54086 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:56:05.964Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9249 amount=7.85"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:50338 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     127.0.0.1:34900 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.9:55082 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:56:10.459Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9250 amount=21.01"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:50338 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     127.0.0.1:34934 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.9:55082 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:56:14.706Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9251 amount=76.42"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:37332 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:50338 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:56:16.272Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9252 amount=24.81"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:45908 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     127.0.0.1:38212 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.9:55082 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:56:21.535Z", "service": "payment-service", "level": "INFO", "message": "Fault toggles updated: {'health_fail': False, 'slow_db': False, 'db_error': False}"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     192.168.65.1:43849 - \"POST /admin/fault HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     192.168.65.1:43849 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     127.0.0.1:38240 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.2:48656 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.9:55082 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:56:24.624Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9253 amount=21.27"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:38378 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:56:25.417Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9254 amount=69.27"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:47706 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:56:26.325Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9255 amount=40.55"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:47722 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     127.0.0.1:38748 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:56:27.225Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9256 amount=26.64"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:47728 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.2:37252 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:56:28.432Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9257 amount=96.24"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:47744 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:56:29.314Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9258 amount=57.33"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:47746 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.9:55082 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:56:29.897Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9259 amount=15.7"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:45440 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:56:30.600Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9260 amount=48.17"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:45440 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:56:31.613Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9261 amount=12.66"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:45440 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.2:37254 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     127.0.0.1:38766 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:56:32.561Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9262 amount=30.91"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:45440 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:56:33.804Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9263 amount=32.21"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:47748 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.9:55082 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:56:34.765Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9264 amount=39.36"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:47756 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:56:35.654Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9265 amount=19.99"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:50578 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:56:35.673Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9266 amount=19.99"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:50590 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:56:35.689Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9267 amount=19.99"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:50606 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:45440 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:56:36.742Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9268 amount=6.5"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:45440 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     127.0.0.1:38114 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:56:37.547Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9269 amount=17.06"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:45440 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:45440 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.9:55082 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:45440 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:56:41.084Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9270 amount=21.08"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:45440 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:45440 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     127.0.0.1:38148 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:56:42.850Z", "service": "payment-service", "level": "INFO", "message": "Fault toggles updated: {'health_fail': False, 'slow_db': False, 'db_error': False}"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     192.168.65.1:49471 - \"POST /admin/fault HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     192.168.65.1:49471 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:56:42.922Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9271 amount=43.24"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:45440 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:45440 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.9:55082 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:45440 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     127.0.0.1:60650 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:56:48.859Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9272 amount=29.29"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:45440 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.9:55082 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:45440 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:56:51.653Z", "service": "payment-service", "level": "INFO", "message": "Fault toggles updated: {'health_fail': False, 'slow_db': False, 'db_error': False}"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     192.168.65.1:25910 - \"POST /admin/fault HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     192.168.65.1:25910 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:56:51.865Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9273 amount=14.13"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:45440 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     127.0.0.1:60682 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:56:52.923Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9274 amount=7.55"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:45440 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:56:53.622Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9275 amount=20.49"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:45440 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.9:55082 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:45440 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:56:56.018Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9276 amount=35.29"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:58714 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     127.0.0.1:44672 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:56:57.198Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9277 amount=87.8"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:58730 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:56:57.845Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9278 amount=82.91"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:58744 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:56:59.277Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9279 amount=46.16"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:58756 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.9:55082 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:56:59.850Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9280 amount=19.57"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:58042 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:57:00.789Z", "service": "payment-service", "level": "INFO", "message": "Fault toggles updated: {'health_fail': False, 'slow_db': False, 'db_error': False}"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     192.168.65.1:39142 - \"POST /admin/fault HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     192.168.65.1:39142 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:58042 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:57:01.818Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9281 amount=73.54"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:58770 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     127.0.0.1:44700 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:58042 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:57:02.873Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9282 amount=19.99"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:58778 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:57:03.890Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9283 amount=27.24"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:58042 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.9:55082 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:58042 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:57:05.222Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9284 amount=23.62"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:58042 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:57:05.897Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9285 amount=19.99"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:41666 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:57:06.219Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9286 amount=60.92"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:41682 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     127.0.0.1:57050 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:57:08.934Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9287 amount=19.99"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:41696 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.9:55082 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:57:09.790Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9288 amount=18.24"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:58042 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:58042 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     127.0.0.1:57080 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:57:12.767Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9289 amount=54.97"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:41698 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.9:55082 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     127.0.0.1:48576 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:57:18.191Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9290 amount=91.43"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:57838 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:57:18.911Z", "service": "payment-service", "level": "INFO", "message": "Fault toggles updated: {'health_fail': False, 'slow_db': False, 'db_error': False}"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     192.168.65.1:40327 - \"POST /admin/fault HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     192.168.65.1:40327 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.9:55082 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:57:20.981Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9291 amount=19.99"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:57852 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:57:20.994Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9292 amount=19.99"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:57854 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:57:21.005Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9293 amount=19.99"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:57868 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:57:21.018Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9294 amount=19.99"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:57876 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:57:21.032Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9295 amount=19.99"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:57878 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     127.0.0.1:48602 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:57:23.758Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9296 amount=88.07"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:57892 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.9:55082 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:57:24.890Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9297 amount=90.57"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:57900 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:57:26.630Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9298 amount=42.12"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:40504 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     127.0.0.1:37034 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:57:27.686Z", "service": "payment-service", "level": "INFO", "message": "Fault toggles updated: {'health_fail': False, 'slow_db': False, 'db_error': False}"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     192.168.65.1:24323 - \"POST /admin/fault HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     192.168.65.1:24323 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:57:28.660Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9299 amount=79.09"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:38174 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.9:55082 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:57:29.892Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9300 amount=18.36"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:38182 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:57:31.131Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9301 amount=90.74"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:38192 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:57:31.287Z", "service": "payment-service", "level": "WARNING", "message": "CPU burn completed: 1500ms"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     192.168.65.1:33386 - \"GET /burn?duration_ms=1500 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:57:32.034Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9302 amount=93.11"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:38202 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     127.0.0.1:37056 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:57:32.792Z", "service": "payment-service", "level": "WARNING", "message": "CPU burn completed: 1500ms"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     192.168.65.1:33386 - \"GET /burn?duration_ms=1500 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:57:34.203Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9303 amount=99.31"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:38204 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:57:34.297Z", "service": "payment-service", "level": "WARNING", "message": "CPU burn completed: 1500ms"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     192.168.65.1:33386 - \"GET /burn?duration_ms=1500 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.9:55082 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:57:35.503Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9304 amount=35.93"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.7:38216 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:57:35.801Z", "service": "payment-service", "level": "WARNING", "message": "CPU burn completed: 1500ms"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     192.168.65.1:33386 - \"GET /burn?duration_ms=1500 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:57:36.332Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=9305 amount=17.82"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:59666 - \"POST /pay HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:59666 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     127.0.0.1:49012 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:37Z", "level": "INFO", "service": "payment-service", "message": "INFO:     172.23.0.8:59666 - \"GET /health HTTP/1.1\" 200 OK"}

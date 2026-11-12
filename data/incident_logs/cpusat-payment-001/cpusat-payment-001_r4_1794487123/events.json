@@ -1,0 +1,113 @@
+{
+  "service": "payment-service",
+  "events": [
+    {
+      "timestamp": "2026-11-12T12:37:30Z",
+      "type": "health",
+      "reason": "health_status: healthy",
+      "message": "Health status transition: health_status: healthy"
+    },
+    {
+      "timestamp": "2026-11-12T12:37:33Z",
+      "type": "info",
+      "reason": "update",
+      "message": "Container action update"
+    },
+    {
+      "timestamp": "2026-11-12T12:37:52Z",
+      "type": "info",
+      "reason": "update",
+      "message": "Container action update"
+    },
+    {
+      "timestamp": "2026-11-12T12:38:03Z",
+      "type": "info",
+      "reason": "update",
+      "message": "Container action update"
+    },
+    {
+      "timestamp": "2026-11-12T12:38:14Z",
+      "type": "info",
+      "reason": "update",
+      "message": "Container action update"
+    },
+    {
+      "timestamp": "2026-11-12T12:38:21Z",
+      "type": "info",
+      "reason": "kill",
+      "message": "Container action kill"
+    },
+    {
+      "timestamp": "2026-11-12T12:38:21Z",
+      "type": "info",
+      "reason": "exec_die",
+      "message": "Container action exec_die"
+    },
+    {
+      "timestamp": "2026-11-12T12:38:21Z",
+      "type": "info",
+      "reason": "stop",
+      "message": "Container action stop"
+    },
+    {
+      "timestamp": "2026-11-12T12:38:21Z",
+      "type": "die",
+      "reason": "ExitCode_0",
+      "message": "Container died with exit code 0"
+    },
+    {
+      "timestamp": "2026-11-12T12:38:23Z",
+      "type": "info",
+      "reason": "update",
+      "message": "Container action update"
+    },
+    {
+      "timestamp": "2026-11-12T12:38:24Z",
+      "type": "info",
+      "reason": "start",
+      "message": "Container action start"
+    },
+    {
+      "timestamp": "2026-11-12T12:38:29Z",
+      "type": "health",
+      "reason": "health_status: healthy",
+      "message": "Health status transition: health_status: healthy"
+    },
+    {
+      "timestamp": "2026-11-12T12:38:30Z",
+      "type": "info",
+      "reason": "update",
+      "message": "Container action update"
+    },
+    {
+      "timestamp": "2026-11-12T12:38:33Z",
+      "type": "oom",
+      "reason": "OOMKilled",
+      "message": "Container terminated due to out-of-memory"
+    },
+    {
+      "timestamp": "2026-11-12T12:38:33Z",
+      "type": "oom",
+      "reason": "OOMKilled",
+      "message": "Container terminated due to out-of-memory"
+    },
+    {
+      "timestamp": "2026-11-12T12:38:33Z",
+      "type": "info",
+      "reason": "start",
+      "message": "Container action start"
+    },
+    {
+      "timestamp": "2026-11-12T12:38:36Z",
+      "type": "info",
+      "reason": "update",
+      "message": "Container action update"
+    },
+    {
+      "timestamp": "2026-11-12T12:38:38Z",
+      "type": "health",
+      "reason": "health_status: healthy",
+      "message": "Health status transition: health_status: healthy"
+    }
+  ]
+}

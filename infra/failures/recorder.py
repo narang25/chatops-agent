@@ -27,6 +27,7 @@ def record_incident_snapshot(
     service: str,
     run_id: str | None = None,
     minutes: int = 5,
+    ground_truth: dict[str, Any] | None = None,
 ) -> Path:
     """
     Take an incident snapshot and write files to data/incident_logs/<scenario_id>/<run_id>/.
@@ -110,15 +111,19 @@ def record_incident_snapshot(
 
     # 5. Capture ground_truth.json
     gt_file = snapshot_dir / "ground_truth.json"
-    canonical_gt = REPO_ROOT / "infra" / "failures" / "ground_truth" / f"{scenario_id}.meta.json"
-    secret_gt = REPO_ROOT / "infra" / "failures" / "ground_truth_secret" / f"{scenario_id}.meta.json"
-    src_gt = canonical_gt if canonical_gt.exists() else secret_gt
+    if ground_truth is not None:
+        with open(gt_file, "w", encoding="utf-8") as f_out:
+            json.dump(ground_truth, f_out, indent=2)
+    else:
+        canonical_gt = REPO_ROOT / "infra" / "failures" / "ground_truth" / f"{scenario_id}.meta.json"
+        secret_gt = REPO_ROOT / "infra" / "failures" / "ground_truth_secret" / f"{scenario_id}.meta.json"
+        src_gt = canonical_gt if canonical_gt.exists() else secret_gt
 
-    if src_gt.exists():
-        try:
-            with open(src_gt, "r", encoding="utf-8") as f_in, open(gt_file, "w", encoding="utf-8") as f_out:
-                f_out.write(f_in.read())
-        except Exception:
-            pass
+        if src_gt.exists():
+            try:
+                with open(src_gt, "r", encoding="utf-8") as f_in, open(gt_file, "w", encoding="utf-8") as f_out:
+                    f_out.write(f_in.read())
+            except Exception:
+                pass
 
     return snapshot_dir

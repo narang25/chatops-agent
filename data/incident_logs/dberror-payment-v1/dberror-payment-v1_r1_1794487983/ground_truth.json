@@ -1,0 +1,13 @@
+{
+  "scenario_id": "dberror-payment-v1",
+  "service": "payment-service",
+  "failure_type": "high_error_rate",
+  "root_cause": "Database error fault enabled on payment-service; DB operations fail with simulated exception",
+  "expected_fix": "Disable db_error fault via POST /admin/fault on payment-service",
+  "signals": [
+    "fault_db_error=true",
+    "service=payment-service",
+    "http_status_500"
+  ],
+  "parameters": {}
+}

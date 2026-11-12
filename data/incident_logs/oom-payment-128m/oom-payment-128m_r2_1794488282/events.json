@@ -1,0 +1,71 @@
+{
+  "service": "payment-service",
+  "events": [
+    {
+      "timestamp": "2026-11-12T12:56:47Z",
+      "type": "info",
+      "reason": "update",
+      "message": "Container action update"
+    },
+    {
+      "timestamp": "2026-11-12T12:56:56Z",
+      "type": "info",
+      "reason": "update",
+      "message": "Container action update"
+    },
+    {
+      "timestamp": "2026-11-12T12:57:14Z",
+      "type": "info",
+      "reason": "update",
+      "message": "Container action update"
+    },
+    {
+      "timestamp": "2026-11-12T12:57:23Z",
+      "type": "info",
+      "reason": "update",
+      "message": "Container action update"
+    },
+    {
+      "timestamp": "2026-11-12T12:57:38Z",
+      "type": "info",
+      "reason": "update",
+      "message": "Container action update"
+    },
+    {
+      "timestamp": "2026-11-12T12:57:47Z",
+      "type": "info",
+      "reason": "update",
+      "message": "Container action update"
+    },
+    {
+      "timestamp": "2026-11-12T12:57:56Z",
+      "type": "info",
+      "reason": "update",
+      "message": "Container action update"
+    },
+    {
+      "timestamp": "2026-11-12T12:58:02Z",
+      "type": "info",
+      "reason": "update",
+      "message": "Container action update"
+    },
+    {
+      "timestamp": "2026-11-12T12:58:08Z",
+      "type": "oom",
+      "reason": "OOMKilled",
+      "message": "Container terminated due to out-of-memory"
+    },
+    {
+      "timestamp": "2026-11-12T12:58:08Z",
+      "type": "oom",
+      "reason": "OOMKilled",
+      "message": "Container terminated due to out-of-memory"
+    },
+    {
+      "timestamp": "2026-11-12T12:58:08Z",
+      "type": "info",
+      "reason": "start",
+      "message": "Container action start"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "scenario_id": "cpusat-payment-500ms",
+  "service": "payment-service",
+  "failure_type": "cpu_saturation",
+  "root_cause": "CPU saturation on payment-service from /burn cycles (duration_ms=500) hitting 0.5 CPU quota",
+  "expected_fix": "Throttle compute workload or increase CPU limit on payment-service",
+  "signals": [
+    "cpu_burn_duration_ms=500",
+    "cpu_limit=0.5_cpus"
+  ],
+  "parameters": {
+    "duration_ms": 500
+  }
+}

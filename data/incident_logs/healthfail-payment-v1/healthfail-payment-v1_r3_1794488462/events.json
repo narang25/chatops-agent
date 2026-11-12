@@ -1,0 +1,83 @@
+{
+  "service": "payment-service",
+  "events": [
+    {
+      "timestamp": "2026-11-12T12:59:44Z",
+      "type": "info",
+      "reason": "update",
+      "message": "Container action update"
+    },
+    {
+      "timestamp": "2026-11-12T12:59:57Z",
+      "type": "info",
+      "reason": "update",
+      "message": "Container action update"
+    },
+    {
+      "timestamp": "2026-11-12T13:00:06Z",
+      "type": "info",
+      "reason": "update",
+      "message": "Container action update"
+    },
+    {
+      "timestamp": "2026-11-12T13:00:15Z",
+      "type": "info",
+      "reason": "update",
+      "message": "Container action update"
+    },
+    {
+      "timestamp": "2026-11-12T13:00:24Z",
+      "type": "info",
+      "reason": "update",
+      "message": "Container action update"
+    },
+    {
+      "timestamp": "2026-11-12T13:00:30Z",
+      "type": "info",
+      "reason": "update",
+      "message": "Container action update"
+    },
+    {
+      "timestamp": "2026-11-12T13:00:36Z",
+      "type": "oom",
+      "reason": "OOMKilled",
+      "message": "Container terminated due to out-of-memory"
+    },
+    {
+      "timestamp": "2026-11-12T13:00:36Z",
+      "type": "oom",
+      "reason": "OOMKilled",
+      "message": "Container terminated due to out-of-memory"
+    },
+    {
+      "timestamp": "2026-11-12T13:00:36Z",
+      "type": "info",
+      "reason": "start",
+      "message": "Container action start"
+    },
+    {
+      "timestamp": "2026-11-12T13:00:39Z",
+      "type": "info",
+      "reason": "update",
+      "message": "Container action update"
+    },
+    {
+      "timestamp": "2026-11-12T13:00:41Z",
+      "type": "health",
+      "reason": "health_status: healthy",
+      "message": "Health status transition: health_status: healthy"
+    },
+    {
+      "timestamp": "2026-11-12T13:00:47Z",
+      "type": "info",
+      "reason": "update",
+      "message": "Container action update"
+    },
+    {
+      "timestamp": "2026-11-12T13:00:56Z",
+      "type": "info",
+      "reason": "update",
+      "message": "Container action update"
+    }
+  ]
+}

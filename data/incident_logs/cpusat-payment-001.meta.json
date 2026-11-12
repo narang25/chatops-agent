@@ -7,7 +7,7 @@
   "signals": [
     "cpu_saturation_active",
     "cpu_limit=0.5_cpus",
-    "health_check_latency_ms=1.2"
+    "health_check_latency_ms=1.4"
   ],
   "how_to_reproduce": "python infra/failures/cpu_saturation.py"
 }

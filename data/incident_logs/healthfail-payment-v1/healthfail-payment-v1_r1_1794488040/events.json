@@ -1,0 +1,41 @@
+{
+  "service": "payment-service",
+  "events": [
+    {
+      "timestamp": "2026-11-12T12:52:48Z",
+      "type": "info",
+      "reason": "update",
+      "message": "Container action update"
+    },
+    {
+      "timestamp": "2026-11-12T12:52:57Z",
+      "type": "info",
+      "reason": "update",
+      "message": "Container action update"
+    },
+    {
+      "timestamp": "2026-11-12T12:53:06Z",
+      "type": "info",
+      "reason": "update",
+      "message": "Container action update"
+    },
+    {
+      "timestamp": "2026-11-12T12:53:27Z",
+      "type": "info",
+      "reason": "update",
+      "message": "Container action update"
+    },
+    {
+      "timestamp": "2026-11-12T12:53:45Z",
+      "type": "info",
+      "reason": "update",
+      "message": "Container action update"
+    },
+    {
+      "timestamp": "2026-11-12T12:53:54Z",
+      "type": "info",
+      "reason": "update",
+      "message": "Container action update"
+    }
+  ]
+}

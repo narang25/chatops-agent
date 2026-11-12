@@ -1,0 +1,47 @@
+{
+  "service": "inventory-service",
+  "events": [
+    {
+      "timestamp": "2026-11-12T12:36:37Z",
+      "type": "info",
+      "reason": "exec_die",
+      "message": "Container action exec_die"
+    },
+    {
+      "timestamp": "2026-11-12T12:36:42Z",
+      "type": "info",
+      "reason": "exec_die",
+      "message": "Container action exec_die"
+    },
+    {
+      "timestamp": "2026-11-12T12:36:48Z",
+      "type": "info",
+      "reason": "exec_die",
+      "message": "Container action exec_die"
+    },
+    {
+      "timestamp": "2026-11-12T12:36:48Z",
+      "type": "health",
+      "reason": "health_status: unhealthy",
+      "message": "Health status transition: health_status: unhealthy"
+    },
+    {
+      "timestamp": "2026-11-12T12:36:53Z",
+      "type": "health",
+      "reason": "health_status: healthy",
+      "message": "Health status transition: health_status: healthy"
+    },
+    {
+      "timestamp": "2026-11-12T12:37:43Z",
+      "type": "info",
+      "reason": "exec_die",
+      "message": "Container action exec_die"
+    },
+    {
+      "timestamp": "2026-11-12T12:37:48Z",
+      "type": "info",
+      "reason": "exec_die",
+      "message": "Container action exec_die"
+    }
+  ]
+}

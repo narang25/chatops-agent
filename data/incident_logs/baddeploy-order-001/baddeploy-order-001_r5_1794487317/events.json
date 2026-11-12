@@ -1,0 +1,35 @@
+{
+  "service": "order-service",
+  "events": [
+    {
+      "timestamp": "2026-11-12T12:41:16Z",
+      "type": "info",
+      "reason": "kill",
+      "message": "Container action kill"
+    },
+    {
+      "timestamp": "2026-11-12T12:41:16Z",
+      "type": "info",
+      "reason": "stop",
+      "message": "Container action stop"
+    },
+    {
+      "timestamp": "2026-11-12T12:41:16Z",
+      "type": "die",
+      "reason": "ExitCode_0",
+      "message": "Container died with exit code 0"
+    },
+    {
+      "timestamp": "2026-11-12T12:41:22Z",
+      "type": "info",
+      "reason": "start",
+      "message": "Container action start"
+    },
+    {
+      "timestamp": "2026-11-12T12:41:27Z",
+      "type": "health",
+      "reason": "health_status: healthy",
+      "message": "Health status transition: health_status: healthy"
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "service": "payment-service",
+  "events": [
+    {
+      "timestamp": "2026-11-12T12:52:05Z",
+      "type": "info",
+      "reason": "update",
+      "message": "Container action update"
+    },
+    {
+      "timestamp": "2026-11-12T12:52:16Z",
+      "type": "info",
+      "reason": "update",
+      "message": "Container action update"
+    },
+    {
+      "timestamp": "2026-11-12T12:52:22Z",
+      "type": "info",
+      "reason": "update",
+      "message": "Container action update"
+    },
+    {
+      "timestamp": "2026-11-12T12:52:28Z",
+      "type": "oom",
+      "reason": "OOMKilled",
+      "message": "Container terminated due to out-of-memory"
+    },
+    {
+      "timestamp": "2026-11-12T12:52:28Z",
+      "type": "oom",
+      "reason": "OOMKilled",
+      "message": "Container terminated due to out-of-memory"
+    },
+    {
+      "timestamp": "2026-11-12T12:52:28Z",
+      "type": "info",
+      "reason": "start",
+      "message": "Container action start"
+    }
+  ]
+}

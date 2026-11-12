@@ -1,0 +1,12 @@
+{
+  "scenario_id": "dbtimeout-payment-v1",
+  "service": "payment-service",
+  "failure_type": "db_timeout",
+  "root_cause": "Slow DB fault active on payment-service adding 3s delay per database connection",
+  "expected_fix": "Disable slow_db fault via POST /admin/fault on payment-service",
+  "signals": [
+    "fault_slow_db=true",
+    "service=payment-service"
+  ],
+  "parameters": {}
+}

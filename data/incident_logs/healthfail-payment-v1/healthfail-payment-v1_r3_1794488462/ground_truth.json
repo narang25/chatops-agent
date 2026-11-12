@@ -1,0 +1,11 @@
+{
+  "scenario_id": "healthfail-payment-v1",
+  "service": "payment-service",
+  "failure_type": "health_check_failure",
+  "root_cause": "Health check toggle health_fail set to true on payment-service; GET /health returns 500",
+  "expected_fix": "Reset health_fail=false via POST /admin/fault or restart payment-service",
+  "signals": [
+    "health_http_500"
+  ],
+  "parameters": {}
+}

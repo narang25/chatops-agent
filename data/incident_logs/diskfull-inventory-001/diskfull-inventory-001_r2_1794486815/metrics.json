@@ -1,0 +1,10 @@
+{
+  "service": "inventory-service",
+  "timestamp": "2026-11-12T12:30:50Z",
+  "metrics": {
+    "http_requests_total": 918.0,
+    "app_errors_total": null,
+    "app_memory_bytes": 52375552.0,
+    "app_up": 0.0
+  }
+}

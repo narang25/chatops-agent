@@ -1,0 +1,12 @@
+{
+  "scenario_id": "dbtimeout-inventory-v1",
+  "service": "inventory-service",
+  "failure_type": "db_timeout",
+  "root_cause": "Slow DB fault active on inventory-service adding 3s delay per database connection",
+  "expected_fix": "Disable slow_db fault via POST /admin/fault on inventory-service",
+  "signals": [
+    "fault_slow_db=true",
+    "service=inventory-service"
+  ],
+  "parameters": {}
+}

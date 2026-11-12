@@ -1,0 +1,13 @@
+{
+  "scenario_id": "dberror-inventory-v1",
+  "service": "inventory-service",
+  "failure_type": "high_error_rate",
+  "root_cause": "Database error fault enabled on inventory-service; DB operations fail with simulated exception",
+  "expected_fix": "Disable db_error fault via POST /admin/fault on inventory-service",
+  "signals": [
+    "fault_db_error=true",
+    "service=inventory-service",
+    "http_status_500"
+  ],
+  "parameters": {}
+}

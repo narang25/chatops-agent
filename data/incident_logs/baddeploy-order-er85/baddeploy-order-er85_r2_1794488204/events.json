@@ -1,0 +1,11 @@
+{
+  "service": "order-service",
+  "events": [
+    {
+      "timestamp": "2026-11-12T12:55:23Z",
+      "type": "info",
+      "reason": "exec_die",
+      "message": "Container action exec_die"
+    }
+  ]
+}

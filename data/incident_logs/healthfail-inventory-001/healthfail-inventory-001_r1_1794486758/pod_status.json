@@ -1,0 +1,10 @@
+{
+  "service": "inventory-service",
+  "state": "unhealthy",
+  "restart_count": 0,
+  "exit_code": 0,
+  "oom_killed": false,
+  "health": "unhealthy",
+  "started_at": "2026-11-12T12:22:14.108076299Z",
+  "memory_limit_mb": 128
+}

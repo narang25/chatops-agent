@@ -1,0 +1,29 @@
+{
+  "service": "inventory-service",
+  "events": [
+    {
+      "timestamp": "2026-11-12T12:43:04Z",
+      "type": "info",
+      "reason": "exec_die",
+      "message": "Container action exec_die"
+    },
+    {
+      "timestamp": "2026-11-12T12:43:09Z",
+      "type": "info",
+      "reason": "exec_die",
+      "message": "Container action exec_die"
+    },
+    {
+      "timestamp": "2026-11-12T12:43:14Z",
+      "type": "info",
+      "reason": "exec_die",
+      "message": "Container action exec_die"
+    },
+    {
+      "timestamp": "2026-11-12T12:43:14Z",
+      "type": "health",
+      "reason": "health_status: unhealthy",
+      "message": "Health status transition: health_status: unhealthy"
+    }
+  ]
+}

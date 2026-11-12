@@ -1,5 +1,5 @@
-{"timestamp": "2026-11-12T10:05:41.557Z", "service": "payment-service", "level": "CRITICAL", "message": "Startup failed: crash_loop fault injected \u2014 exiting with code 1"}
-{"timestamp": "2026-11-12T10:05:41.755Z", "service": "payment-service", "level": "CRITICAL", "message": "Startup failed: crash_loop fault injected \u2014 exiting with code 1"}
-{"timestamp": "2026-11-12T10:05:42.070Z", "service": "payment-service", "level": "CRITICAL", "message": "Startup failed: crash_loop fault injected \u2014 exiting with code 1"}
-{"timestamp": "2026-11-12T10:05:42.569Z", "service": "payment-service", "level": "CRITICAL", "message": "Startup failed: crash_loop fault injected \u2014 exiting with code 1"}
-{"timestamp": "2026-11-12T10:05:43.471Z", "service": "payment-service", "level": "CRITICAL", "message": "Startup failed: crash_loop fault injected \u2014 exiting with code 1"}
+{"timestamp": "2026-11-12T12:42:28.646Z", "service": "payment-service", "level": "CRITICAL", "message": "Startup failed: crash_loop fault injected \u2014 exiting with code 1"}
+{"timestamp": "2026-11-12T12:42:29.010Z", "service": "payment-service", "level": "CRITICAL", "message": "Startup failed: crash_loop fault injected \u2014 exiting with code 1"}
+{"timestamp": "2026-11-12T12:42:29.510Z", "service": "payment-service", "level": "CRITICAL", "message": "Startup failed: crash_loop fault injected \u2014 exiting with code 1"}
+{"timestamp": "2026-11-12T12:42:30.091Z", "service": "payment-service", "level": "CRITICAL", "message": "Startup failed: crash_loop fault injected \u2014 exiting with code 1"}
+{"timestamp": "2026-11-12T12:42:30.998Z", "service": "payment-service", "level": "CRITICAL", "message": "Startup failed: crash_loop fault injected \u2014 exiting with code 1"}

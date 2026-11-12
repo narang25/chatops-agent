@@ -1,0 +1,17 @@
+{
+  "service": "order-service",
+  "events": [
+    {
+      "timestamp": "2026-11-12T13:02:52Z",
+      "type": "info",
+      "reason": "exec_die",
+      "message": "Container action exec_die"
+    },
+    {
+      "timestamp": "2026-11-12T13:02:57Z",
+      "type": "info",
+      "reason": "exec_die",
+      "message": "Container action exec_die"
+    }
+  ]
+}

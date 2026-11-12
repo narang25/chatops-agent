@@ -1,0 +1,317 @@
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40566 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:31.800Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: widget"}
+{"timestamp": "2026-11-12T12:51:31.816Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=widget quantity=100"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:57930 - \"GET /stock/widget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:41392 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:34.096Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: widget"}
+{"timestamp": "2026-11-12T12:51:34.109Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=widget quantity=100"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:57930 - \"GET /stock/widget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40566 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:36.418Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: gadget"}
+{"timestamp": "2026-11-12T12:51:36.433Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=gadget quantity=50"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:57930 - \"GET /stock/gadget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:37.058Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: widget"}
+{"timestamp": "2026-11-12T12:51:37.074Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=widget quantity=100"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:57930 - \"GET /stock/widget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:57930 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:42342 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40566 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:57930 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:42370 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:45.421Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: doohickey"}
+{"timestamp": "2026-11-12T12:51:45.433Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=doohickey quantity=200"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:57930 - \"GET /stock/doohickey HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40566 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:47.776Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: gadget"}
+{"timestamp": "2026-11-12T12:51:47.788Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=gadget quantity=50"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:57930 - \"GET /stock/gadget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:57930 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:36736 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:57930 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:49.717Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: gadget"}
+{"timestamp": "2026-11-12T12:51:49.729Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=gadget quantity=50"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:57930 - \"GET /stock/gadget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:50.535Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: gadget"}
+{"timestamp": "2026-11-12T12:51:50.546Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=gadget quantity=50"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:57930 - \"GET /stock/gadget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40566 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:57930 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:36764 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:54.599Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: gadget"}
+{"timestamp": "2026-11-12T12:51:54.612Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=gadget quantity=50"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:57930 - \"GET /stock/gadget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:55.305Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: doohickey"}
+{"timestamp": "2026-11-12T12:51:55.319Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=doohickey quantity=200"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:57930 - \"GET /stock/doohickey HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40566 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:57930 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:56.471Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: doohickey"}
+{"timestamp": "2026-11-12T12:51:56.486Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=doohickey quantity=200"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:57930 - \"GET /stock/doohickey HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:57930 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:57930 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:53964 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40566 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:57930 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:57930 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:53994 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40566 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:52:06.384Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: gadget"}
+{"timestamp": "2026-11-12T12:52:06.396Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=gadget quantity=50"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:57930 - \"GET /stock/gadget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:52:07.308Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: doohickey"}
+{"timestamp": "2026-11-12T12:52:07.320Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=doohickey quantity=200"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:57930 - \"GET /stock/doohickey HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:16327 - \"DELETE /fill/reset HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:52:09.432Z", "service": "inventory-service", "level": "INFO", "message": "Fault toggles updated: {'health_fail': False, 'slow_db': False, 'db_error': False}"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:44988 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:16327 - \"POST /admin/fault HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:16327 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:57930 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40566 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:57930 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:57930 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:45012 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:57930 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40566 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:57930 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:57930 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:42490 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:57930 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:31667 - \"DELETE /fill/reset HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:52:20.473Z", "service": "inventory-service", "level": "INFO", "message": "Fault toggles updated: {'health_fail': False, 'slow_db': False, 'db_error': False}"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:31667 - \"POST /admin/fault HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:31667 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40566 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:42518 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40566 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:52:25.704Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: widget"}
+{"timestamp": "2026-11-12T12:52:25.709Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=widget quantity=100"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:51670 - \"GET /stock/widget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:51670 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:51670 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:52802 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:52:30.137Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: doohickey"}
+{"timestamp": "2026-11-12T12:52:30.181Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=doohickey quantity=200"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:51670 - \"GET /stock/doohickey HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40566 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:52:32.081Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: widget"}
+{"timestamp": "2026-11-12T12:52:32.098Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=widget quantity=100"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:51670 - \"GET /stock/widget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:51670 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:52826 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:32738 - \"DELETE /fill/reset HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:52:35.473Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: widget"}
+{"timestamp": "2026-11-12T12:52:35.482Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=widget quantity=100"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:51670 - \"GET /stock/widget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:52:35.485Z", "service": "inventory-service", "level": "INFO", "message": "Fault toggles updated: {'health_fail': False, 'slow_db': False, 'db_error': False}"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:32738 - \"POST /admin/fault HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:32738 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40566 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:51670 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:52:36.597Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: gadget"}
+{"timestamp": "2026-11-12T12:52:36.611Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=gadget quantity=50"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:51670 - \"GET /stock/gadget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:51670 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:33892 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40566 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:52:42.431Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: doohickey"}
+{"timestamp": "2026-11-12T12:52:42.443Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=doohickey quantity=200"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:51670 - \"GET /stock/doohickey HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:52:44.032Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: gadget"}
+{"timestamp": "2026-11-12T12:52:44.037Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=gadget quantity=50"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:51670 - \"GET /stock/gadget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:52:45.048Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: doohickey"}
+{"timestamp": "2026-11-12T12:52:45.053Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=doohickey quantity=200"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:51670 - \"GET /stock/doohickey HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:33912 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40566 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:52:46.553Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: doohickey"}
+{"timestamp": "2026-11-12T12:52:46.564Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=doohickey quantity=200"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:51670 - \"GET /stock/doohickey HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:52:47.109Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: widget"}
+{"timestamp": "2026-11-12T12:52:47.120Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=widget quantity=100"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:51670 - \"GET /stock/widget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:51670 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:51670 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:35310 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40566 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:52:51.544Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: doohickey"}
+{"timestamp": "2026-11-12T12:52:51.556Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=doohickey quantity=200"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:51670 - \"GET /stock/doohickey HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:48515 - \"DELETE /fill/reset HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:52:52.844Z", "service": "inventory-service", "level": "INFO", "message": "Fault toggles updated: {'health_fail': False, 'slow_db': False, 'db_error': False}"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:48515 - \"POST /admin/fault HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:48515 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:52:55.230Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: widget"}
+{"timestamp": "2026-11-12T12:52:55.245Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=widget quantity=100"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:51670 - \"GET /stock/widget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:35330 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40566 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:51670 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:51670 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:51670 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:49770 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40566 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:53:01.587Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: widget"}
+{"timestamp": "2026-11-12T12:53:01.597Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=widget quantity=100"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:51670 - \"GET /stock/widget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:24129 - \"DELETE /fill/reset HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:53:01.707Z", "service": "inventory-service", "level": "INFO", "message": "Fault toggles updated: {'health_fail': False, 'slow_db': False, 'db_error': False}"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:24129 - \"POST /admin/fault HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:24129 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:53:02.317Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: widget"}
+{"timestamp": "2026-11-12T12:53:02.328Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=widget quantity=100"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:51670 - \"GET /stock/widget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:51670 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:53:04.182Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: widget"}
+{"timestamp": "2026-11-12T12:53:04.191Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=widget quantity=100"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:51670 - \"GET /stock/widget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:53:05.347Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: widget"}
+{"timestamp": "2026-11-12T12:53:05.361Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=widget quantity=100"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:51670 - \"GET /stock/widget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:44418 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40566 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:53:06.055Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: gadget"}
+{"timestamp": "2026-11-12T12:53:06.060Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=gadget quantity=50"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:51670 - \"GET /stock/gadget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:51670 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:51670 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:63310 - \"DELETE /fill/reset HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:53:10.511Z", "service": "inventory-service", "level": "INFO", "message": "Fault toggles updated: {'health_fail': False, 'slow_db': False, 'db_error': False}"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:63310 - \"POST /admin/fault HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:63310 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40566 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:44440 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:53910 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:53910 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40566 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:35642 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:53910 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:53:19.705Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: doohickey"}
+{"timestamp": "2026-11-12T12:53:19.717Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=doohickey quantity=200"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:53910 - \"GET /stock/doohickey HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40566 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:35676 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:53910 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40566 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:53958 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:39508 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:53:28.687Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: gadget"}
+{"timestamp": "2026-11-12T12:53:28.701Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=gadget quantity=50"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:39508 - \"GET /stock/gadget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:53:29.730Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: gadget"}
+{"timestamp": "2026-11-12T12:53:29.743Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=gadget quantity=50"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:39508 - \"GET /stock/gadget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:39508 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40566 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:53984 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:31181 - \"DELETE /fill/reset HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:53:31.515Z", "service": "inventory-service", "level": "INFO", "message": "Fault toggles updated: {'health_fail': False, 'slow_db': False, 'db_error': False}"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:31181 - \"POST /admin/fault HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:31181 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:53:33.660Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: doohickey"}
+{"timestamp": "2026-11-12T12:53:33.670Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=doohickey quantity=200"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:39508 - \"GET /stock/doohickey HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:53:34.632Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: widget"}
+{"timestamp": "2026-11-12T12:53:34.639Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=widget quantity=100"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:39508 - \"GET /stock/widget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:53:35.183Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: gadget"}
+{"timestamp": "2026-11-12T12:53:35.198Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=gadget quantity=50"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:39508 - \"GET /stock/gadget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40566 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:50726 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:39508 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:39508 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:53:38.249Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: gadget"}
+{"timestamp": "2026-11-12T12:53:38.263Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=gadget quantity=50"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:39508 - \"GET /stock/gadget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40566 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:50756 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:53:43.106Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: doohickey"}
+{"timestamp": "2026-11-12T12:53:43.125Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=doohickey quantity=200"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:39508 - \"GET /stock/doohickey HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:39508 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:53:45.253Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: doohickey"}
+{"timestamp": "2026-11-12T12:53:45.259Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=doohickey quantity=200"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:39508 - \"GET /stock/doohickey HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40566 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:53:45.965Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: gadget"}
+{"timestamp": "2026-11-12T12:53:45.972Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=gadget quantity=50"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:39508 - \"GET /stock/gadget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:57120 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:61529 - \"DELETE /fill/reset HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:53:49.605Z", "service": "inventory-service", "level": "INFO", "message": "Fault toggles updated: {'health_fail': False, 'slow_db': False, 'db_error': False}"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:61529 - \"POST /admin/fault HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:61529 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40566 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:53:51.220Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: doohickey"}
+{"timestamp": "2026-11-12T12:53:51.229Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=doohickey quantity=200"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:55568 - \"GET /stock/doohickey HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:57132 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:53:53.021Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: gadget"}
+{"timestamp": "2026-11-12T12:53:53.032Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=gadget quantity=50"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:55568 - \"GET /stock/gadget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:55568 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40566 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:55568 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:60232 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:53:57.498Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: gadget"}
+{"timestamp": "2026-11-12T12:53:57.504Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=gadget quantity=50"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:55568 - \"GET /stock/gadget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:42771 - \"DELETE /fill/reset HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:53:58.620Z", "service": "inventory-service", "level": "INFO", "message": "Fault toggles updated: {'health_fail': False, 'slow_db': False, 'db_error': False}"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:42771 - \"POST /admin/fault HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:42771 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40566 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:55568 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:60268 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40566 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:05.901Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: widget"}
+{"timestamp": "2026-11-12T12:54:05.913Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=widget quantity=100"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:55568 - \"GET /stock/widget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:54662 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:51085 - \"DELETE /fill/reset HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:07.356Z", "service": "inventory-service", "level": "INFO", "message": "Fault toggles updated: {'health_fail': False, 'slow_db': False, 'db_error': False}"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:51085 - \"POST /admin/fault HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:51085 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:09.077Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: doohickey"}
+{"timestamp": "2026-11-12T12:54:09.088Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=doohickey quantity=200"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:55568 - \"GET /stock/doohickey HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40566 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:11.038Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: doohickey"}
+{"timestamp": "2026-11-12T12:54:11.050Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=doohickey quantity=200"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:55568 - \"GET /stock/doohickey HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:54678 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:14.191Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: widget"}
+{"timestamp": "2026-11-12T12:54:14.203Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=widget quantity=100"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:55568 - \"GET /stock/widget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:55568 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40566 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:55568 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:35907 - \"DELETE /fill/reset HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:16.929Z", "service": "inventory-service", "level": "INFO", "message": "Fault toggles updated: {'health_fail': False, 'slow_db': False, 'db_error': False}"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:35907 - \"POST /admin/fault HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:35907 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:49384 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:55568 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:19.003Z", "service": "inventory-service", "level": "INFO", "message": "Fault toggles updated: {'slow_db': True}"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:49284 - \"POST /admin/fault HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:19.013Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: widget"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40566 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:20.847Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: gadget"}
+{"timestamp": "2026-11-12T12:54:22.023Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=widget quantity=100"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:49284 - \"GET /stock/widget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:22.028Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: widget"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:49414 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:23.866Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=gadget quantity=50"}
+{"timestamp": "2026-11-12T12:54:25.037Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=widget quantity=100"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:49284 - \"GET /stock/widget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:25.041Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: widget"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:46526 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40566 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:46526 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:36708 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:54:27.283Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: gadget"}
+{"timestamp": "2026-11-12T12:54:28.048Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=widget quantity=100"}
+{"timestamp": "2026-11-12T12:51:30Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:49284 - \"GET /stock/widget HTTP/1.1\" 200 OK"}

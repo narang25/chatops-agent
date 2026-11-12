@@ -1,0 +1,13 @@
+{
+  "scenario_id": "dberror-order-v1",
+  "service": "order-service",
+  "failure_type": "high_error_rate",
+  "root_cause": "Database error fault enabled on order-service; DB operations fail with simulated exception",
+  "expected_fix": "Disable db_error fault via POST /admin/fault on order-service",
+  "signals": [
+    "fault_db_error=true",
+    "service=order-service",
+    "http_status_500"
+  ],
+  "parameters": {}
+}

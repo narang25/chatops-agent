@@ -1,0 +1,677 @@
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:38642 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:38806 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:38746 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:56.824Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: gadget"}
+{"timestamp": "2026-11-12T12:27:56.837Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=gadget quantity=50"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:38806 - \"GET /stock/gadget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:38806 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:47870 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:38746 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:28:01.229Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: doohickey"}
+{"timestamp": "2026-11-12T12:28:01.241Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=doohickey quantity=200"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:38806 - \"GET /stock/doohickey HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:28:01.997Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: widget"}
+{"timestamp": "2026-11-12T12:28:02.008Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=widget quantity=100"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:38806 - \"GET /stock/widget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:38806 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:47902 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:28:04.870Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: widget"}
+{"timestamp": "2026-11-12T12:28:04.876Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=widget quantity=100"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:38806 - \"GET /stock/widget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:38746 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:28:05.810Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: widget"}
+{"timestamp": "2026-11-12T12:28:05.821Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=widget quantity=100"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:38806 - \"GET /stock/widget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:28:08.710Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: gadget"}
+{"timestamp": "2026-11-12T12:28:08.724Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=gadget quantity=50"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:38806 - \"GET /stock/gadget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:56938 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:38746 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:28:11.355Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: widget"}
+{"timestamp": "2026-11-12T12:28:11.366Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=widget quantity=100"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:38806 - \"GET /stock/widget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:38806 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:28:14.391Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: widget"}
+{"timestamp": "2026-11-12T12:28:14.406Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=widget quantity=100"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:38806 - \"GET /stock/widget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:56968 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:38746 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:38806 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:41032 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:38806 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:38746 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:38806 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:41052 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:38746 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:38806 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:38806 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:52656 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:38746 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:28:32.149Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: doohickey"}
+{"timestamp": "2026-11-12T12:28:32.158Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=doohickey quantity=200"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:38806 - \"GET /stock/doohickey HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:28:32.972Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: gadget"}
+{"timestamp": "2026-11-12T12:28:32.985Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=gadget quantity=50"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:38806 - \"GET /stock/gadget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:28:34.393Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: gadget"}
+{"timestamp": "2026-11-12T12:28:34.404Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=gadget quantity=50"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:38806 - \"GET /stock/gadget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:52682 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:38746 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:50348 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40632 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:28:40.784Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: gadget"}
+{"timestamp": "2026-11-12T12:28:40.795Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=gadget quantity=50"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:46900 - \"GET /stock/gadget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:28:41.665Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: widget"}
+{"timestamp": "2026-11-12T12:28:41.678Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=widget quantity=100"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:46900 - \"GET /stock/widget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:28:43.530Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: gadget"}
+{"timestamp": "2026-11-12T12:28:43.540Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=gadget quantity=50"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:46900 - \"GET /stock/gadget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:46900 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:35418 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40632 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:28:46.374Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: doohickey"}
+{"timestamp": "2026-11-12T12:28:46.387Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=doohickey quantity=200"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:46900 - \"GET /stock/doohickey HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:28:47.065Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: gadget"}
+{"timestamp": "2026-11-12T12:28:47.077Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=gadget quantity=50"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:46900 - \"GET /stock/gadget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:28:48.219Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: widget"}
+{"timestamp": "2026-11-12T12:28:48.229Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=widget quantity=100"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:46900 - \"GET /stock/widget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:28:50.242Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: doohickey"}
+{"timestamp": "2026-11-12T12:28:50.254Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=doohickey quantity=200"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:46900 - \"GET /stock/doohickey HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40632 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:35440 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:28:51.138Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: doohickey"}
+{"timestamp": "2026-11-12T12:28:51.150Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=doohickey quantity=200"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:46900 - \"GET /stock/doohickey HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:46900 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:28:53.185Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: widget"}
+{"timestamp": "2026-11-12T12:28:53.192Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=widget quantity=100"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:46900 - \"GET /stock/widget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40632 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:48330 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:46900 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:28:59.524Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: gadget"}
+{"timestamp": "2026-11-12T12:28:59.537Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=gadget quantity=50"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:46900 - \"GET /stock/gadget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:46900 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40632 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:48374 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:46900 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:46900 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:29:03.607Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: gadget"}
+{"timestamp": "2026-11-12T12:29:03.621Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=gadget quantity=50"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:46900 - \"GET /stock/gadget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:29:04.952Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: doohickey"}
+{"timestamp": "2026-11-12T12:29:04.965Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=doohickey quantity=200"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:46900 - \"GET /stock/doohickey HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40632 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:44774 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:29:07.345Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: doohickey"}
+{"timestamp": "2026-11-12T12:29:07.352Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=doohickey quantity=200"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:46900 - \"GET /stock/doohickey HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:29:09.042Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: doohickey"}
+{"timestamp": "2026-11-12T12:29:09.055Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=doohickey quantity=200"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:46900 - \"GET /stock/doohickey HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40632 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:44792 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:46900 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:46900 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:46900 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40632 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:48244 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:46900 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:46900 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:29:18.725Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: widget"}
+{"timestamp": "2026-11-12T12:29:18.736Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=widget quantity=100"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:46900 - \"GET /stock/widget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40632 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:29:20.987Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: gadget"}
+{"timestamp": "2026-11-12T12:29:20.998Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=gadget quantity=50"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:46900 - \"GET /stock/gadget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:48292 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:46900 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:46900 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40632 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:29:25.808Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: gadget"}
+{"timestamp": "2026-11-12T12:29:25.819Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=gadget quantity=50"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:46900 - \"GET /stock/gadget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:36986 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:46900 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:46900 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:29:28.205Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: gadget"}
+{"timestamp": "2026-11-12T12:29:28.219Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=gadget quantity=50"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:46900 - \"GET /stock/gadget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:29:30.509Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: widget"}
+{"timestamp": "2026-11-12T12:29:30.521Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=widget quantity=100"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:46900 - \"GET /stock/widget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40632 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:37006 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:29:31.657Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: gadget"}
+{"timestamp": "2026-11-12T12:29:31.665Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=gadget quantity=50"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:46900 - \"GET /stock/gadget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:46900 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:29:33.288Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: gadget"}
+{"timestamp": "2026-11-12T12:29:33.300Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=gadget quantity=50"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:46900 - \"GET /stock/gadget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40632 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:46900 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:53736 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:46900 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:29:37.825Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: doohickey"}
+{"timestamp": "2026-11-12T12:29:37.833Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=doohickey quantity=200"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:46900 - \"GET /stock/doohickey HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:29:38.514Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: gadget"}
+{"timestamp": "2026-11-12T12:29:38.527Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=gadget quantity=50"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:46900 - \"GET /stock/gadget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:29:39.214Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: doohickey"}
+{"timestamp": "2026-11-12T12:29:39.225Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=doohickey quantity=200"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:46900 - \"GET /stock/doohickey HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40632 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:53776 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:43876 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40632 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:29:45.835Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: doohickey"}
+{"timestamp": "2026-11-12T12:29:45.847Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=doohickey quantity=200"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:43876 - \"GET /stock/doohickey HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:56390 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:43876 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:43876 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:43876 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40632 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:43876 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:56408 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40632 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:57108 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:29:56.750Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: widget"}
+{"timestamp": "2026-11-12T12:29:56.755Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=widget quantity=100"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:40638 - \"GET /stock/widget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:29:57.499Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: gadget"}
+{"timestamp": "2026-11-12T12:29:57.511Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=gadget quantity=50"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:40638 - \"GET /stock/gadget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:40638 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40632 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:57164 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:02.226Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: doohickey"}
+{"timestamp": "2026-11-12T12:30:02.240Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=doohickey quantity=200"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:40638 - \"GET /stock/doohickey HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:40638 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:40638 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40632 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:40638 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:42830 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:07.258Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: widget"}
+{"timestamp": "2026-11-12T12:30:07.271Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=widget quantity=100"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:40638 - \"GET /stock/widget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:40638 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:10.424Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: widget"}
+{"timestamp": "2026-11-12T12:30:10.436Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=widget quantity=100"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:40638 - \"GET /stock/widget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40632 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:11.018Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: doohickey"}
+{"timestamp": "2026-11-12T12:30:11.031Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=doohickey quantity=200"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:40638 - \"GET /stock/doohickey HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:42850 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:40638 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:40638 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40632 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:45502 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:40638 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40632 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:45516 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:22.600Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: gadget"}
+{"timestamp": "2026-11-12T12:30:22.613Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=gadget quantity=50"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:40638 - \"GET /stock/gadget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:23.674Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: gadget"}
+{"timestamp": "2026-11-12T12:30:23.687Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=gadget quantity=50"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:40638 - \"GET /stock/gadget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:24.604Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: gadget"}
+{"timestamp": "2026-11-12T12:30:24.617Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=gadget quantity=50"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:40638 - \"GET /stock/gadget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:40638 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40632 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:40638 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:46784 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:27.479Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: widget"}
+{"timestamp": "2026-11-12T12:30:27.492Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=widget quantity=100"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:40638 - \"GET /stock/widget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:40638 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40632 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:31.592Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: gadget"}
+{"timestamp": "2026-11-12T12:30:31.603Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=gadget quantity=50"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:40638 - \"GET /stock/gadget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:46824 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:40638 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:34.592Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: widget"}
+{"timestamp": "2026-11-12T12:30:34.605Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=widget quantity=100"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:40638 - \"GET /stock/widget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40632 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:36.070Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=10.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:36.128Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=20.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:36.227Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=30.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:36.260Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: widget"}
+{"timestamp": "2026-11-12T12:30:36.327Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=40.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:36.334Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=widget quantity=100"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:40638 - \"GET /stock/widget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:36.345Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=50.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:36.627Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=60.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:36.884Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=70.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:36.915Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=80.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:36.943Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=90.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:36.949Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=100.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:37.173Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=110.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:37.184Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=120.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:37.194Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=130.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:37.202Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=140.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:37.234Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=150.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:48646 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:37.455Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=160.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:37.460Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=170.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:37.464Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=180.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:37.468Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=190.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:40638 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:37.472Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=200.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:37.950Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=210.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:37.963Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=220.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:37.971Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=230.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:37.978Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=240.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:37.984Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=250.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:38.517Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=260.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:38.642Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=270.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:38.764Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=280.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:38.858Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=290.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:38.945Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=300.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:39.169Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=310.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:39.179Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=320.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:39.185Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=330.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:39.191Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=340.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:39.196Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=350.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:39.619Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=360.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:39.631Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=370.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:39.639Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=380.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:39.646Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=390.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:39.652Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=400.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:40.121Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=410.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:40.179Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=420.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:40.233Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=430.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:40.291Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=440.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:40.346Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=450.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40632 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:40.616Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=460.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:40.682Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=470.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:40.745Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=480.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:40.795Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=490.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:40.844Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=500.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:41.054Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=510.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:41.059Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=520.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:41.063Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=530.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:41.068Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=540.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:41.082Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=550.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:41.479Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=560.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:41.528Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=570.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:41.547Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=580.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:41.551Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=590.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:41.556Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=600.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:41.889Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=610.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:41.933Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=620.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:41.978Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=630.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:42.016Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=640.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:42.055Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=650.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:42.306Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=660.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:42.359Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=670.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:42.401Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=680.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:42.458Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=690.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:42.463Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=700.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:48676 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:42.671Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=710.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:42.702Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=720.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:42.731Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=730.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:42.763Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=740.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:42.793Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=750.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:43.013Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=760.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:43.023Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=770.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:43.078Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=780.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:43.126Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=790.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:43.155Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=800.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:43.374Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=810.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:43.381Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=820.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:43.387Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=830.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:43.393Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=840.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:43.399Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=850.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:43.640Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: gadget"}
+{"timestamp": "2026-11-12T12:30:43.651Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=gadget quantity=50"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:48010 - \"GET /stock/gadget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:43.728Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=860.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:43.768Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=870.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:43.812Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=880.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:43.852Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=890.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:43.891Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=900.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:44.145Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=910.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:44.188Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=920.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:44.224Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=930.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:44.264Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=940.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:44.288Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=950.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:44.496Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=960.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:44.501Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=970.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:44.506Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=980.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:44.512Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=990.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:44.525Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1000.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:44.876Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1010.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:44.909Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1020.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:44.942Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1030.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:44.976Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1040.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:45.016Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1050.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:45.268Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1060.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:45.307Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1070.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:45.346Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1080.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:45.386Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1090.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:45.423Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1100.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40632 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:45.643Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1110.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:45.649Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1120.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:45.653Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1130.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:45.658Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1140.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:45.663Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1150.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:45.880Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1160.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:45.888Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1170.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:45.907Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1180.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:45.915Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1190.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:45.920Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1200.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:46.145Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1210.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:46.153Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1220.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:46.161Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1230.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:46.168Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1240.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:46.174Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1250.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:46.509Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1260.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:46.521Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1270.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:46.528Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1280.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:46.535Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1290.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:46.541Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1300.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:46.664Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: doohickey"}
+{"timestamp": "2026-11-12T12:30:46.687Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=doohickey quantity=200"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:48010 - \"GET /stock/doohickey HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:46.846Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1310.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:46.887Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1320.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:46.922Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1330.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:46.961Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1340.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:46.998Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1350.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:47.245Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1360.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:47.287Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1370.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:47.327Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1380.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:47.367Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1390.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:47.409Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1400.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:56090 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:47.649Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1410.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:47.683Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1420.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:47.698Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1430.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:47.703Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1440.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:47.707Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1450.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:47.722Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: widget"}
+{"timestamp": "2026-11-12T12:30:47.730Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=widget quantity=100"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:48010 - \"GET /stock/widget HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:47.976Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1460.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:47.986Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1470.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:47.993Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1480.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:48.057Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1490.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:48.098Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1500.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:48010 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:48.348Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1510.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:48.385Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1520.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:48.426Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1530.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:48.467Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1540.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:48.510Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1550.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:48.763Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1560.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:48.808Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1570.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:48.846Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1580.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:49.072Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1590.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:49.105Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1600.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:49.329Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1610.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:49.339Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1620.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:49.346Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1630.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:49.353Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1640.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:49.359Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1650.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:49.665Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1660.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:49.703Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1670.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:49.740Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1680.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:49.750Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1690.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:49.757Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1700.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:50.020Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1710.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:50.055Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1720.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:50.090Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1730.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:50.125Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1740.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:50.160Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1750.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:50.416Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1760.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:50.442Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1770.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:50.450Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1780.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:50.456Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1790.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:50.463Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1800.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.9:40632 - \"GET /metrics HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:50.765Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1810.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:50.798Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1820.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:50.831Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1830.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:50.864Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1840.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:50.898Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1850.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:51.150Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1860.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:51.198Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1870.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:51.238Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1880.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:51.278Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1890.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:51.320Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1900.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:51.544Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1910.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:51.553Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1920.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:51.561Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1930.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:51.569Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1940.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:51.576Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1950.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:51.869Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1960.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:51.901Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1970.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:51.933Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1980.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:51.967Z", "service": "inventory-service", "level": "WARNING", "message": "Disk fill: wrote 10240KB, total fill file size=1990.0MB"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     192.168.65.1:56813 - \"GET /fill?chunk_kb=10240 HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     127.0.0.1:56112 - \"GET /health HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:30:52.989Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: doohickey"}
+{"timestamp": "2026-11-12T12:30:52.998Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=doohickey quantity=200"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:48010 - \"GET /stock/doohickey HTTP/1.1\" 200 OK"}
+{"timestamp": "2026-11-12T12:27:54Z", "level": "INFO", "service": "inventory-service", "message": "INFO:     172.23.0.8:48010 - \"GET /health HTTP/1.1\" 200 OK"}

@@ -7,10 +7,10 @@
   "signals": [
     "fault_error_rate=0.5",
     "deploy_event_recorded",
-    "measured_error_rate=65pct",
+    "measured_error_rate=55pct",
     "http_error_rate_spike_confirmed",
     "app_errors_total_spike_after_deploy"
   ],
-  "deploy_timestamp": "2026-11-12T10:03:44.521282+00:00",
+  "deploy_timestamp": "2026-11-12T12:43:56.779001+00:00",
   "how_to_reproduce": "python infra/failures/run_scenario.py run baddeploy-order-001"
 }

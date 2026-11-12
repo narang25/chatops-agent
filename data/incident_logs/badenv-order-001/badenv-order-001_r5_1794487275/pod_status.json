@@ -1,0 +1,10 @@
+{
+  "service": "order-service",
+  "state": "exited",
+  "restart_count": 0,
+  "exit_code": 1,
+  "oom_killed": false,
+  "health": "none",
+  "started_at": "2026-11-12T12:41:16.611853675Z",
+  "memory_limit_mb": null
+}

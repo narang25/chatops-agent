@@ -1,0 +1,10 @@
+{
+  "service": "order-service",
+  "timestamp": "2026-11-12T12:38:09Z",
+  "metrics": {
+    "http_requests_total": 140.0,
+    "app_errors_total": 11.0,
+    "app_memory_bytes": 65044480.0,
+    "app_up": 1.0
+  }
+}

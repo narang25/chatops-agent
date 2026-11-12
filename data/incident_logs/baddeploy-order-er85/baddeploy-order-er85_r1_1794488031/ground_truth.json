@@ -1,0 +1,14 @@
+{
+  "scenario_id": "baddeploy-order-er85",
+  "service": "order-service",
+  "failure_type": "high_error_rate",
+  "root_cause": "Recent deployment on order-service introduced error_rate=0.85 fault returning HTTP 500",
+  "expected_fix": "Rollback deploy or reset error_rate=0.0 on order-service",
+  "signals": [
+    "error_rate=0.85",
+    "deploy_event_recorded"
+  ],
+  "parameters": {
+    "error_rate": 0.85
+  }
+}

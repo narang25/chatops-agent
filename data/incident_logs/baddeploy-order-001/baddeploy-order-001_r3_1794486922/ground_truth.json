@@ -1,0 +1,15 @@
+{
+  "scenario_id": "baddeploy-order-001",
+  "service": "order-service",
+  "failure_type": "high_error_rate",
+  "root_cause": "A simulated bad deployment activates FAULT_ERROR_RATE=0.5 on order-service, causing 50% of non-health requests to return HTTP 500. A deploy event is timestamped in data/deploy_events.jsonl immediately before the error spike, allowing what_changed to link the deploy to the degradation",
+  "expected_fix": "Roll back the deployment by clearing the fault: POST /admin/fault with {\"error_rate\": 0}. In production: use blue-green deployments or canary releases with automated error-rate gates (e.g. reject if error rate > 1% within 5 minutes of deploy)",
+  "signals": [
+    "fault_error_rate=0.5",
+    "http_500_on_50pct_of_requests",
+    "app_errors_total_spike_after_deploy",
+    "deploy_event_in_deploy_events_jsonl",
+    "error_spike_correlated_with_deploy_timestamp"
+  ],
+  "how_to_reproduce": "python infra/failures/run_scenario.py run baddeploy-order-001"
+}

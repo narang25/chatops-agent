@@ -1,0 +1,95 @@
+{
+  "service": "payment-service",
+  "events": [
+    {
+      "timestamp": "2026-11-12T12:40:21Z",
+      "type": "info",
+      "reason": "exec_die",
+      "message": "Container action exec_die"
+    },
+    {
+      "timestamp": "2026-11-12T12:40:21Z",
+      "type": "info",
+      "reason": "stop",
+      "message": "Container action stop"
+    },
+    {
+      "timestamp": "2026-11-12T12:40:21Z",
+      "type": "die",
+      "reason": "ExitCode_0",
+      "message": "Container died with exit code 0"
+    },
+    {
+      "timestamp": "2026-11-12T12:40:23Z",
+      "type": "info",
+      "reason": "update",
+      "message": "Container action update"
+    },
+    {
+      "timestamp": "2026-11-12T12:40:24Z",
+      "type": "info",
+      "reason": "start",
+      "message": "Container action start"
+    },
+    {
+      "timestamp": "2026-11-12T12:40:29Z",
+      "type": "health",
+      "reason": "health_status: healthy",
+      "message": "Health status transition: health_status: healthy"
+    },
+    {
+      "timestamp": "2026-11-12T12:40:30Z",
+      "type": "info",
+      "reason": "kill",
+      "message": "Container action kill"
+    },
+    {
+      "timestamp": "2026-11-12T12:40:31Z",
+      "type": "info",
+      "reason": "stop",
+      "message": "Container action stop"
+    },
+    {
+      "timestamp": "2026-11-12T12:40:31Z",
+      "type": "die",
+      "reason": "ExitCode_0",
+      "message": "Container died with exit code 0"
+    },
+    {
+      "timestamp": "2026-11-12T12:40:37Z",
+      "type": "info",
+      "reason": "update",
+      "message": "Container action update"
+    },
+    {
+      "timestamp": "2026-11-12T12:40:38Z",
+      "type": "info",
+      "reason": "start",
+      "message": "Container action start"
+    },
+    {
+      "timestamp": "2026-11-12T12:40:43Z",
+      "type": "health",
+      "reason": "health_status: healthy",
+      "message": "Health status transition: health_status: healthy"
+    },
+    {
+      "timestamp": "2026-11-12T12:41:00Z",
+      "type": "info",
+      "reason": "update",
+      "message": "Container action update"
+    },
+    {
+      "timestamp": "2026-11-12T12:41:09Z",
+      "type": "info",
+      "reason": "update",
+      "message": "Container action update"
+    },
+    {
+      "timestamp": "2026-11-12T12:41:21Z",
+      "type": "info",
+      "reason": "update",
+      "message": "Container action update"
+    }
+  ]
+}

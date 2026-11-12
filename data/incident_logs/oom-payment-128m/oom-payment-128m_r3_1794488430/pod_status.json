@@ -1,0 +1,10 @@
+{
+  "service": "payment-service",
+  "state": "running",
+  "restart_count": 8,
+  "exit_code": 0,
+  "oom_killed": false,
+  "health": "none",
+  "started_at": "2026-11-12T13:00:36.554968128Z",
+  "memory_limit_mb": 128
+}

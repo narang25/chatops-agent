@@ -1,0 +1,3 @@
+{"timestamp": "2026-11-12T10:07:08.275Z", "service": "order-service", "level": "ERROR", "message": "Payment service unreachable: [Errno -2] Name or service not known"}
+{"timestamp": "2026-11-12T10:07:08.285Z", "service": "order-service", "level": "ERROR", "message": "Payment service unreachable: [Errno -2] Name or service not known"}
+{"timestamp": "2026-11-12T10:07:08.295Z", "service": "order-service", "level": "ERROR", "message": "Payment service unreachable: [Errno -2] Name or service not known"}

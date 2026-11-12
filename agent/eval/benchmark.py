@@ -37,6 +37,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import subprocess
 import sys
 import time
 from datetime import datetime, timezone
@@ -57,6 +58,7 @@ from agent.api import (
     _extract_confidence,
     _extract_failure_type,
     _extract_sources,
+    _get_live_tools,
 )
 from agent.eval.scenarios import BENCHMARK_SCENARIOS, SURPRISE_SCENARIOS
 from agent.llm import clean_output, get_llm
@@ -189,7 +191,16 @@ def _build_ablation_agent(
 
     tools = []
     if ablation in ("full", "with_external", "live_tools_only"):
-        tools.extend(_make_stub_tools())
+        if stub:
+            tools.extend(_make_stub_tools())
+        else:
+            live_tools = [
+                t for t in _get_live_tools()
+                if t.name != "search_runbooks"
+            ]
+            if ablation == "live_tools_only":
+                live_tools = [t for t in live_tools if t.name != "propose_remediation"]
+            tools.extend(live_tools)
 
     if ablation in ("full", "with_external", "rag_only"):
         tools.append(search_runbooks)
@@ -253,6 +264,163 @@ def execute_ablation_ask(
 
 
 # ---------------------------------------------------------------------------
+# Live Scenario Ground Truth & Chaos Injection Helpers
+# ---------------------------------------------------------------------------
+
+_GROUND_TRUTH_DIR = _PROJECT_ROOT / "infra" / "failures" / "ground_truth"
+_SECRET_GT_DIR = _PROJECT_ROOT / "infra" / "failures" / "ground_truth_secret"
+_COMPOSE_FILE = _PROJECT_ROOT / "infra" / "docker-compose.yml"
+
+# Neutral symptom prompts (never leak failure_type keyword to llm_only) + keyword sets
+_LIVE_SCENARIO_SPECS: dict[str, dict[str, Any]] = {
+    "oom-payment-001": {
+        "question": "payment-service keeps restarting and failing requests. What is wrong?",
+        "expected_fix_keywords": ["memory", "limit", "256", "leak"],
+        "expected_runbook_keywords": ["out_of_memory", "oom", "memory"],
+    },
+    "badenv-order-001": {
+        "question": "order-service is failing to start and stay running. What is the root cause?",
+        "expected_fix_keywords": ["PAYMENT_SERVICE_URL", "environment", "variable", "restart"],
+        "expected_runbook_keywords": ["bad_config", "environment", "config"],
+    },
+    "healthfail-inventory-001": {
+        "question": "inventory-service is failing health checks. Investigate why.",
+        "expected_fix_keywords": ["health_fail", "fault", "admin", "restart", "health"],
+        "expected_runbook_keywords": ["health_check_failure", "health", "500"],
+    },
+    "dbtimeout-payment-001": {
+        "question": "payment-service requests are very slow and timing out. What is causing this?",
+        "expected_fix_keywords": ["slow_db", "database", "timeout", "query", "postgres"],
+        "expected_runbook_keywords": ["db_timeout", "timeout", "database"],
+    },
+    "depfail-order-001": {
+        "question": "order-service is returning 5xx errors when processing orders. What is wrong?",
+        "expected_fix_keywords": ["payment-service", "restart", "dependency", "upstream", "circuit"],
+        "expected_runbook_keywords": ["dependency_failure", "dependency", "upstream"],
+    },
+    "cpusat-payment-001": {
+        "question": "payment-service latency spiked dramatically. What is causing it?",
+        "expected_fix_keywords": ["cpu", "burn", "limit", "throttle"],
+        "expected_runbook_keywords": ["cpu_saturation", "cpu", "saturation"],
+    },
+    "diskfull-inventory-001": {
+        "question": "inventory-service is throwing write errors and 507 failures. Why?",
+        "expected_fix_keywords": ["disk", "fill", "reset", "space"],
+        "expected_runbook_keywords": ["disk_full", "disk", "space"],
+    },
+    "nettimeout-order-001": {
+        "question": "order-service calls to downstream services are timing out. What is the cause?",
+        "expected_fix_keywords": ["toxiproxy", "latency", "timeout", "network", "payment"],
+        "expected_runbook_keywords": ["network_timeout", "network", "timeout"],
+    },
+    "baddeploy-order-001": {
+        "question": "order-service suddenly started failing roughly half of its requests. Why?",
+        "expected_fix_keywords": ["rollback", "roll back", "deploy", "error_rate", "500"],
+        "expected_runbook_keywords": ["high_error_rate", "error", "deploy"],
+    },
+    "crashloop-payment-001": {
+        "question": "payment-service is continuously crashing right after launch. Diagnose why.",
+        "expected_fix_keywords": ["crash", "restart", "exit", "container", "startup"],
+        "expected_runbook_keywords": ["crash_loop", "restart", "loop"],
+    },
+    "surprise_1": {
+        "question": "order-service is failing to initialize properly. What is wrong?",
+        "service": "order-service",
+        "failure_type": "unknown",
+        "acceptable_failure_types": ["unknown", "bad_config", "other"],
+        "expected_fix_keywords": ["password", "DATABASE_URL", "postgres", "auth", "credentials"],
+        "expected_runbook_keywords": [],
+    },
+    "surprise_2": {
+        "question": "payment-service requests are failing under high concurrency. What is happening?",
+        "service": "payment-service",
+        "failure_type": "unknown",
+        "acceptable_failure_types": ["unknown", "db_timeout", "other"],
+        "expected_fix_keywords": ["connection", "pool", "max_connections", "postgres", "clients"],
+        "expected_runbook_keywords": [],
+    },
+}
+
+
+def load_live_scenarios(include_surprise: bool = False) -> list[dict]:
+    """Loads ground-truth scenario definitions from infra/failures/ground_truth/*.meta.json."""
+    scenarios: list[dict] = []
+    for meta_path in sorted(_GROUND_TRUTH_DIR.glob("*.meta.json")):
+        with open(meta_path, encoding="utf-8") as f:
+            meta = json.load(f)
+        sid = meta["scenario_id"]
+        spec = _LIVE_SCENARIO_SPECS.get(sid, {})
+        scenarios.append({
+            "scenario_id": sid,
+            "service": meta["service"],
+            "question": spec.get("question", f"{meta['service']} is experiencing an incident. What is wrong?"),
+            "failure_type": meta["failure_type"],
+            "expected_fix": meta.get("expected_fix", ""),
+            "expected_fix_keywords": spec.get("expected_fix_keywords", []),
+            "expected_runbook_keywords": spec.get("expected_runbook_keywords", [meta["failure_type"]]),
+            "is_surprise": False,
+        })
+
+    if include_surprise:
+        for sid in ("surprise_1", "surprise_2"):
+            spec = _LIVE_SCENARIO_SPECS[sid]
+            secret_path = _SECRET_GT_DIR / f"{sid}.meta.json"
+            meta = {}
+            if secret_path.exists():
+                with open(secret_path, encoding="utf-8") as f:
+                    meta = json.load(f)
+            scenarios.append({
+                "scenario_id": sid,
+                "service": meta.get("service", spec["service"]),
+                "question": spec["question"],
+                "failure_type": meta.get("failure_type", spec["failure_type"]),
+                "acceptable_failure_types": spec["acceptable_failure_types"],
+                "expected_fix": meta.get("expected_fix", ""),
+                "expected_fix_keywords": spec["expected_fix_keywords"],
+                "expected_runbook_keywords": [],
+                "is_surprise": True,
+            })
+
+    return scenarios
+
+
+def _inject_live_scenario(sid: str) -> None:
+    """Inject a live Docker chaos scenario and wait for telemetry symptoms."""
+    if sid in ("surprise_1", "surprise_2"):
+        cmd = [sys.executable, str(_PROJECT_ROOT / "infra" / "failures" / f"{sid}.py")]
+    else:
+        cmd = [sys.executable, str(_PROJECT_ROOT / "infra" / "failures" / "run_scenario.py"), "run", sid]
+    res = subprocess.run(cmd, cwd=str(_PROJECT_ROOT), capture_output=True, text=True, timeout=90)
+    if res.returncode != 0:
+        raise RuntimeError(f"Injection failed for {sid}: {(res.stderr or res.stdout)[-300:]}")
+    # Wait one Prometheus scrape interval (5s) + buffer so metrics/logs settle
+    time.sleep(6.0)
+
+
+def _restore_live_stack() -> None:
+    """Restore stack cleanly and recreate app containers so logs/counters reset."""
+    subprocess.run(
+        [sys.executable, str(_PROJECT_ROOT / "infra" / "failures" / "restore.py")],
+        cwd=str(_PROJECT_ROOT),
+        capture_output=True,
+        text=True,
+        timeout=90,
+    )
+    subprocess.run(
+        [
+            "docker", "compose", "-f", str(_COMPOSE_FILE),
+            "up", "-d", "--force-recreate", "--no-deps",
+            "payment-service", "order-service", "inventory-service",
+        ],
+        cwd=str(_PROJECT_ROOT),
+        capture_output=True,
+        text=True,
+        timeout=90,
+    )
+    time.sleep(5.0)
+
+
+# ---------------------------------------------------------------------------
 # Single Scenario Evaluator
 # ---------------------------------------------------------------------------
 
@@ -263,6 +431,7 @@ def evaluate_scenario(
     model_id: str | None = None,
     hold_out: str | None = None,
     trial: int = 1,
+    live: bool = False,
 ) -> dict:
     """Runs a single benchmark scenario and scores output."""
     sid = scenario["scenario_id"]
@@ -270,23 +439,36 @@ def evaluate_scenario(
     question = scenario["question"]
     ground_truth_ft = scenario["failure_type"]
     acceptable_fts = scenario.get("acceptable_failure_types")
-    is_surprise = sid.startswith("surprise-") or (hold_out and ground_truth_ft == hold_out)
+    is_surprise = bool(scenario.get("is_surprise")) or sid.startswith("surprise") or (hold_out and ground_truth_ft == hold_out)
+    needs_injection = live and ablation in ("live_tools_only", "full", "with_external", "multi_agent")
 
     display_model = (model_id or "default").split("/")[-1]
-    print(f"  [{ablation:15s} | {display_model:18s} | T{trial}] {sid:<24} ...", end=" ", flush=True)
+    mode_tag = "live" if live else "stub"
+    print(f"  [{mode_tag} | {ablation:13s} | {display_model:18s} | T{trial}] {sid:<24} ...", end=" ", flush=True)
 
     try:
+        if needs_injection:
+            _inject_live_scenario(sid)
+            # Re-read surprise meta if surprise script just generated it
+            if sid in ("surprise_1", "surprise_2"):
+                secret_path = _SECRET_GT_DIR / f"{sid}.meta.json"
+                if secret_path.exists():
+                    with open(secret_path, encoding="utf-8") as f:
+                        ground_truth_ft = json.load(f).get("failure_type", ground_truth_ft)
+
         res = execute_ablation_ask(
             question=question,
             ablation=ablation,
             model_id=model_id,
             hold_out=hold_out,
+            stub=not live,
         )
     except Exception as exc:
         print(f"ERROR: {exc}")
         return {
             "scenario_id": sid,
             "service": service,
+            "mode": mode_tag,
             "ablation": ablation,
             "model_id": model_id,
             "trial": trial,
@@ -299,13 +481,20 @@ def evaluate_scenario(
             "estimated_cost_usd": 0.0,
             "predicted_failure_type": None,
             "ground_truth_failure_type": ground_truth_ft,
+            "diagnosis": "",
+            "tool_trace": [],
+            "sources": [],
             "error": str(exc),
         }
+    finally:
+        if needs_injection:
+            _restore_live_stack()
 
     ft_match = score_failure_type(res.get("failure_type"), ground_truth_ft, acceptable_fts)
     fix_score = score_fix_keywords(res.get("diagnosis", ""), scenario.get("expected_fix_keywords", []))
     rb_cited = score_runbook_cited(res, scenario.get("expected_runbook_keywords", []), is_unknown=is_surprise)
-    num_tools = len(res.get("tool_trace", []))
+    trace_names = [t.get("tool", str(t)) if isinstance(t, dict) else str(t) for t in res.get("tool_trace", [])]
+    num_tools = len(trace_names)
     lat = res.get("latency_s", -1.0)
     cost = round((num_tools * COST_PER_TOOL_CALL) + (max(0.0, lat) * COST_PER_LATENCY_SEC), 5)
 
@@ -314,6 +503,7 @@ def evaluate_scenario(
     return {
         "scenario_id": sid,
         "service": service,
+        "mode": mode_tag,
         "ablation": ablation,
         "model_id": model_id,
         "trial": trial,
@@ -327,6 +517,9 @@ def evaluate_scenario(
         "predicted_failure_type": res.get("failure_type"),
         "ground_truth_failure_type": ground_truth_ft,
         "confidence": res.get("confidence"),
+        "tool_trace": trace_names,
+        "sources": res.get("sources", []),
+        "diagnosis": res.get("diagnosis", ""),
         "error": None,
     }
 
@@ -447,18 +640,28 @@ def run_benchmark(
     trials: int = 1,
     include_surprise: bool = False,
     hold_out: str | None = None,
+    live: bool = False,
+    scenario_filter: list[str] | None = None,
 ) -> tuple[Path, Path]:
     """Runs full benchmark matrix across selected ablations, models, and trials."""
-    scenarios = list(BENCHMARK_SCENARIOS)
-    if include_surprise:
-        scenarios.extend(SURPRISE_SCENARIOS)
+    if live:
+        scenarios = load_live_scenarios(include_surprise=include_surprise)
+    else:
+        scenarios = list(BENCHMARK_SCENARIOS)
+        if include_surprise:
+            scenarios.extend(SURPRISE_SCENARIOS)
 
-    run_id = f"bm_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
+    if scenario_filter:
+        allowed = {s.strip() for s in scenario_filter if s.strip()}
+        scenarios = [s for s in scenarios if s["scenario_id"] in allowed]
+
+    date_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    run_id = f"benchmark_{date_str}" if live else f"bm_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
     if hold_out:
         run_id += f"_holdout_{hold_out}"
 
     print(f"\n{'='*75}")
-    print(f"  ChatOps SRE Agent Benchmark v2  [{run_id}]")
+    print(f"  ChatOps SRE Agent Benchmark v2  [{run_id}] ({'LIVE DOCKER' if live else 'STUB'})")
     print(f"  Scenarios: {len(scenarios)} | Ablations: {len(ablations)} | Models: {len(models)} | Trials: {trials}")
     if hold_out:
         print(f"  Hold-Out Mode: Runbook '{hold_out}' EXCLUDED from retrieval")
@@ -475,6 +678,7 @@ def run_benchmark(
                         model_id=mdl,
                         hold_out=hold_out,
                         trial=trial,
+                        live=live,
                     )
                     records.append(rec)
 
@@ -526,6 +730,17 @@ if __name__ == "__main__":
         default=None,
         help="Failure type to hold out (exclude from runbook search)",
     )
+    parser.add_argument(
+        "--live",
+        action="store_true",
+        help="Run against live Docker chaos scenarios & .meta.json ground truth",
+    )
+    parser.add_argument(
+        "--scenarios",
+        type=str,
+        default=None,
+        help="Optional comma-separated scenario IDs to run a subset",
+    )
 
     args = parser.parse_args()
 
@@ -543,10 +758,14 @@ if __name__ == "__main__":
     else:
         models_to_run = [m.strip() for m in args.models.split(",") if m.strip()]
 
+    scenario_list = [s.strip() for s in args.scenarios.split(",")] if args.scenarios else None
+
     run_benchmark(
         ablations=ablations_to_run,
         models=models_to_run,
         trials=args.trials,
         include_surprise=args.surprise,
         hold_out=args.hold_out,
+        live=args.live,
+        scenario_filter=scenario_list,
     )

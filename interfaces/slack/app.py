@@ -384,19 +384,58 @@ def handle_approval(ack: Any, body: Any, client: Any) -> None:
         )
         return
 
+    thread_ts = body.get("message", {}).get("thread_ts") or message_ts
+
+    def _post_verification_update(summary: dict[str, Any]) -> None:
+        v_status = summary.get("status", "unknown")
+        rolled_back = summary.get("rolled_back", False)
+        v_audit = summary.get("audit_id", "")
+        v_svc = summary.get("service", "")
+        v_reason = summary.get("reason", "")
+        if rolled_back or v_status == "worse":
+            v_text = (
+                f"🔄 *Post-Fix Verification: Rolled Back* on *{v_svc}*\n"
+                f"• *Outcome:* Metrics/health degraded ({v_reason}) — previous configuration automatically restored.\n"
+                f"• *Audit Reference:* `{v_audit}`"
+            )
+        elif v_status == "improved":
+            v_text = (
+                f"✅ *Post-Fix Verification: Improved* on *{v_svc}*\n"
+                f"• *Outcome:* Service stable ({v_reason}).\n"
+                f"• *Audit Reference:* `{v_audit}`"
+            )
+        else:
+            v_text = (
+                f"ℹ️ *Post-Fix Verification: {v_status.title()}* on *{v_svc}*\n"
+                f"• *Details:* {v_reason}\n"
+                f"• *Audit Reference:* `{v_audit}`"
+            )
+        client.chat_postMessage(
+            channel=channel_id,
+            thread_ts=thread_ts,
+            text=v_text,
+            blocks=[{"type": "section", "text": {"type": "mrkdwn", "text": v_text}}],
+        )
+
     token = record.get("token", "")
-    result = apply_remediation(proposal_id, token, approver=f"slack:{user_name}")
+    result = apply_remediation(
+        proposal_id,
+        token,
+        approver=f"slack:{user_name}",
+        on_verify=_post_verification_update,
+    )
 
     if result.get("status") == "applied":
         audit_id = result.get("audit_id")
         action = result.get("action")
         service = result.get("service")
+        window_s = result.get("verification_window_seconds", 30)
         status_msg = (
             f"✅ *Remediation Applied Successfully*\n"
             f"• *Action:* `{action}` on *{service}*\n"
             f"• *Approved by:* <@{user_id}>\n"
             f"• *Audit Reference:* `{audit_id}`\n"
-            f"• *Verification Window:* 3 minutes"
+            f"• *Verification Window:* {window_s}s (will post result in this thread)"
         )
     else:
         status_msg = f"❌ *Remediation Failed:* {result.get('error', 'Execution error')}"

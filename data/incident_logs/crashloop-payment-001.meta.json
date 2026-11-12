@@ -1,0 +1,16 @@
+{
+  "scenario_id": "crashloop-payment-001",
+  "service": "payment-service",
+  "failure_type": "crash_loop",
+  "root_cause": "payment-service container overridden with a CMD that always exits 1 and Docker restart=always keeps restarting it. Each restart attempt fails immediately, incrementing RestartCount and triggering Docker's exponential back-off.",
+  "expected_fix": "Stop the crash-looping container and restart the original: docker stop payment-service-crashloop && docker rm payment-service-crashloop, then docker compose -f infra/docker-compose.yml up -d payment-service. In production: fix the startup code/configuration causing exit 1.",
+  "signals": [
+    "crash_loop_container_started",
+    "exit_code=1",
+    "restart_count_increased_to_5",
+    "container_state=restarting_or_exited",
+    "restart_count_increasing",
+    "docker_restart_policy=always"
+  ],
+  "how_to_reproduce": "python infra/failures/run_scenario.py run crashloop-payment-001"
+}

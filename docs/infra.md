@@ -34,6 +34,8 @@ export KUBECONFIG=~/.kube/config
 ```
 Manifests are pre-validated in `infra/k8s/` (`00-namespace.yaml` through `05-prometheus.yaml`).
 
+> **Verification Status:** Kubernetes manifests and `K8sBackend` (`mcp_servers/kubernetes/backends/k8s_backend.py`) are implemented and covered by mocked unit tests (`mcp_servers/kubernetes/test_k8s_backend.py`). **A live cluster run (Minikube/kind) was not performed. Docker is the primary runtime.**
+
 ---
 
 ## 2. Services and Network Topology

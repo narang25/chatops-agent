@@ -71,7 +71,8 @@ def _make_samples(baseline: float, minutes: int, jitter: float = 0.05) -> list:
     samples = []
     for i in range(minutes * 2):
         ts = now - (minutes * 60) + i * 30
-        value = round(baseline + random.uniform(-jitter, jitter), 4)
+        delta = random.uniform(-jitter, jitter) if jitter > 0 else 0.0
+        value = max(0.0, round(baseline + delta, 4))
         samples.append([round(ts), value])
     return samples
 
@@ -85,21 +86,23 @@ def stub_get_metrics(service: str, metric: str, minutes: int = 5) -> dict:
     """
     Returns synthetic metric samples for a service.
 
-    Realistic baselines vary by service. Unknown metrics return null values
-    to simulate a metric that has not been instrumented yet.
+    Healthy baseline services return 0.0 error_rate and low latency so
+    unrelated queries do not pick up spurious stub failures. Unknown metrics
+    return null values to simulate an uninstrumented metric.
     """
     p = _profile(service)
+    is_healthy = p["state"] == "running" and p["health"] == "healthy"
 
-    metric_baselines: dict[str, float] = {
-        "cpu_usage": p["cpu_normal"],
-        "memory_usage_mb": p["memory_normal_mb"],
-        "request_rate": round(random.uniform(5.0, 25.0), 2),
-        "error_rate": round(random.uniform(0.0, 0.02), 4),
-        "latency_p95_ms": round(random.uniform(80.0, 250.0), 1),
-        "latency_p99_ms": round(random.uniform(150.0, 600.0), 1),
+    metric_specs: dict[str, tuple[float, float]] = {
+        "cpu_usage": (p["cpu_normal"], 0.02),
+        "memory_usage_mb": (p["memory_normal_mb"], 0.5),
+        "request_rate": (round(random.uniform(8.0, 20.0), 2), 0.5),
+        "error_rate": (0.0 if is_healthy else 0.25, 0.0 if is_healthy else 0.02),
+        "latency_p95_ms": (14.0 if is_healthy else 450.0, 2.0),
+        "latency_p99_ms": (28.0 if is_healthy else 900.0, 3.0),
     }
 
-    if metric not in metric_baselines:
+    if metric not in metric_specs:
         return {
             "service": service,
             "metric": metric,
@@ -110,8 +113,8 @@ def stub_get_metrics(service: str, metric: str, minutes: int = 5) -> dict:
             "samples": [],
         }
 
-    baseline = metric_baselines[metric]
-    samples = _make_samples(baseline, minutes)
+    baseline, jitter = metric_specs[metric]
+    samples = _make_samples(baseline, minutes, jitter=jitter)
     values = [v for _, v in samples]
     return {
         "service": service,

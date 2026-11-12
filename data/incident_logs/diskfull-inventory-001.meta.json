@@ -1,0 +1,12 @@
+{
+  "scenario_id": "diskfull-inventory-001",
+  "service": "inventory-service",
+  "failure_type": "disk_full",
+  "root_cause": "The /fill endpoint writes 10MB chunks to /tmp/disk_fill_payload until [Errno 28] No space left on device is raised, exhausting the container's writable layer disk allocation",
+  "expected_fix": "Call DELETE /fill/reset to remove the fill payload file and reclaim space. In production: add disk usage alerting and implement log rotation / data purging",
+  "signals": [
+    "fill_attempted_no_enospc_detected",
+    "disk_usage_increasing"
+  ],
+  "how_to_reproduce": "python infra/failures/run_scenario.py run diskfull-inventory-001"
+}

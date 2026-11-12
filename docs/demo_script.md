@@ -43,7 +43,7 @@ A structured, 10-minute rehearsal script for the technical demonstration and viv
   ```
 - **Show the Audience**:
   1. The agent discovers no matching internal playbook.
-  2. It queries our **External Knowledge Collection** (50 curated public incident postmortems).
+  2. It queries our **External Knowledge Collection** (105 real public incident postmortems & official troubleshooting docs across 430 chunks).
   3. Returns `source_type: external_postmortem`, cites the exact public incident URL (`https://k8s.af/coredns-crashloop-forward-loop`), and frames it as a *similar public incident* rather than an internal instruction.
 
 ### Minute 5:00 – 6:15 | Demo 3: Remediation Proposal & Safety Guard
@@ -82,11 +82,11 @@ A structured, 10-minute rehearsal script for the technical demonstration and viv
   ```
 - **Show the Audience**: The Before & After comparison table showing transition from `no_confident_match` to instant confident match.
 
-### Minute 8:30 – 9:30 | Benchmark Results & Multi-Agent Tradeoffs
-- **Speaker**: "We evaluated our system across 6 configurations and 4 foundation models."
+### Minute 8:30 – 9:30 | Live Benchmark Results & Honest Limits
+- **Speaker**: "We evaluated our system against live Docker chaos scenarios (`benchmark_2026-11-12.json`, 48 runs across 12 scenarios × 2 trials), plus our external knowledge ablation (`benchmark_2026-11-12_external_ablation.json`)."
 - **Display Charts** (`agent/eval/results/charts/`):
-  1. `accuracy_by_ablation.svg`: Evidence-First (90%) vs RAG-Only (60%) vs LLM-Only (30%).
-  2. `latency_and_cost.svg`: Explain our empirical finding: Parallel Multi-Agent (`--multi`) achieved equal accuracy (90%) but cost 2.4x more in tokens and 1.9x higher latency at this microservice scale. We report this trade-off honestly.
+  1. `accuracy_by_ablation.svg`: Full Evidence-First (`62.5%` live exact match; `69.4%` fix quality; `100%` on 7/10 canonical failures) vs LLM-Only (`20.8%` exact match; `49.4%` fix quality) — a 3× live lift.
+  2. `latency_and_cost.svg`: Average `20.24s` latency / `\$0.0133` per incident (Full) vs `10.91s` / `\$0.0016` (LLM-Only), alongside our honest study limits (reduced matrix: 1 model, 2 trials; Docker primary runtime).
 
 ### Minute 9:30 – 10:00 | Conclusion & Viva Q&A Hand-Off
 - **Speaker**: "In summary, we built an Evidence-First, safety-bounded ChatOps agent backed by dual RAG collections and human-in-the-loop continuous learning. We are now open for technical questions."

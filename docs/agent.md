@@ -342,8 +342,8 @@ The agent replaces the previous RAG-first behavior with an **Evidence-First Prot
 - Scores below threshold flag `no_confident_match: true`.
 - Fallback behavior: Agent classifies incident as `failure_type: "unknown"`, `confidence: "low"`, generates 2–3 unverified hypotheses, recommends safe read-only diagnostics, and never cites unretrieved playbooks.
 
-### 8.3 External Failure Knowledge Collection (Task A17)
-- 50 curated real-world postmortems and troubleshooting guides indexed in a separate Chroma collection `external_knowledge` (201 chunks).
+### 8.3 External Failure Knowledge Collection (Task A17 + Scale-Up)
+- 105 real-world public incident postmortems and official troubleshooting docs indexed in a separate Chroma collection `external_knowledge` (430 chunks): 50 initially curated summaries + 55 live-fetched via `rag/scripts/fetch_external_sources.py` from `k8s.af`, Kubernetes, Prometheus, PostgreSQL, and Docker docs (~10% manually spot-checked against source URLs).
 - Dual-collection search in `mcp_servers/runbooks/server.py`: internal runbooks rank first with $+0.03$ priority tie-breaking; external hits tagged with `source_type` (`external_postmortem` / `external_doc`) and source URLs.
 
 ### 8.4 Parallel Multi-Agent (Task A19)
@@ -361,11 +361,13 @@ The agent replaces the previous RAG-first behavior with an **Evidence-First Prot
 
 ### 8.6 Remediation Proposal & Safety (Task A21)
 - Agent can call `propose_remediation(service, action, params)` for non-destructive dry-run changes and risk ratings.
-- The agent has **no tool that applies changes**. Applying changes requires human approval via single-use tokens (e.g. Slack button).
+- The agent has **no tool that applies changes**. Applying changes requires human approval via single-use tokens (e.g. Slack button), and `_background_verifier` auto-rolls back if health/restarts degrade.
 
-### 8.7 Final Benchmark Results & Charts (Task A22)
-- Evaluated across 6 configurations, 4 foundation models, hold-out experiments, and trials.
-- Output reports: `agent/eval/results/final_benchmark_report.md`
-- Visualizations: `agent/eval/results/charts/` (accuracy by ablation, accuracy by model, latency vs cost, learning curve).
-- Complete Viva defense guide: `docs/viva.md` (25 technical Q&A).
+### 8.7 Final Live Benchmark Results, Charts & Honest Limits
+- Evaluated in `--live` Docker chaos mode across a reduced matrix: 12 scenarios (10 canonical `.meta.json` + `surprise_1`, `surprise_2`), 2 ablations (`llm_only`, `full`), Qwen3 VL 235B, and 2 trials (48 total evaluations in `agent/eval/results/benchmark_2026-11-12.json`):
+  - `llm_only` (0 tools): **20.8%** FT accuracy (`T1: 16.7%`, `T2: 25.0%`), **49.4%** fix quality, `10.91s` avg latency.
+  - `full` (Live MCP + Internal RAG): **62.5%** FT accuracy (`T1: 66.7%`, `T2: 58.3%`), **69.4%** fix quality, `20.24s` avg latency, `12.88` avg tools.
+- With vs without external ablation (`benchmark_2026-11-12_external_ablation.json`, `[oom-payment-001, surprise_1, surprise_2]`): Fix quality improved from **60.0%** (`full`) to **73.3%** (`with_external`).
+- Dynamic charts: `agent/eval/generate_charts.py` reads directly from the benchmark JSON (no hardcoded numbers) to build the 4 SVGs in `agent/eval/results/charts/`.
+- Complete Viva defense guide & verified limits: `docs/viva.md` and `agent/eval/results/final_benchmark_report.md`.
 

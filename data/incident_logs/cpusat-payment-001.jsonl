@@ -1,0 +1,5 @@
+{"timestamp": "2026-11-12T10:05:04.080Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=2960 amount=41.2"}
+{"timestamp": "2026-11-12T10:05:04.136Z", "service": "payment-service", "level": "WARNING", "message": "CPU burn completed: 1000ms"}
+{"timestamp": "2026-11-12T10:05:05.140Z", "service": "payment-service", "level": "WARNING", "message": "CPU burn completed: 1000ms"}
+{"timestamp": "2026-11-12T10:05:06.136Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=2961 amount=93.16"}
+{"timestamp": "2026-11-12T10:05:06.142Z", "service": "payment-service", "level": "WARNING", "message": "CPU burn completed: 1000ms"}

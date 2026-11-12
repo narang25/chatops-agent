@@ -1,0 +1,23 @@
+{"timestamp": "2026-11-12T10:03:44.331Z", "service": "order-service", "level": "INFO", "message": "Order created: id=1302 item=doohickey quantity=5 payment_id=2923"}
+{"timestamp": "2026-11-12T10:03:44.523Z", "service": "order-service", "level": "INFO", "message": "Fault toggles updated: {'error_rate': 0.5}"}
+{"timestamp": "2026-11-12T10:03:44.970Z", "service": "order-service", "level": "INFO", "message": "Order created: id=1303 item=widget quantity=4 payment_id=2924"}
+{"timestamp": "2026-11-12T10:03:45.570Z", "service": "order-service", "level": "INFO", "message": "Order created: id=1304 item=widget quantity=1 payment_id=2925"}
+{"timestamp": "2026-11-12T10:03:45.575Z", "service": "order-service", "level": "ERROR", "message": "Simulated error injected by error_rate fault"}
+{"timestamp": "2026-11-12T10:03:45.578Z", "service": "order-service", "level": "ERROR", "message": "Simulated error injected by error_rate fault"}
+{"timestamp": "2026-11-12T10:03:45.581Z", "service": "order-service", "level": "ERROR", "message": "Simulated error injected by error_rate fault"}
+{"timestamp": "2026-11-12T10:03:45.600Z", "service": "order-service", "level": "INFO", "message": "Order created: id=1305 item=widget quantity=1 payment_id=2926"}
+{"timestamp": "2026-11-12T10:03:45.614Z", "service": "order-service", "level": "INFO", "message": "Order created: id=1306 item=widget quantity=1 payment_id=2927"}
+{"timestamp": "2026-11-12T10:03:45.616Z", "service": "order-service", "level": "ERROR", "message": "Simulated error injected by error_rate fault"}
+{"timestamp": "2026-11-12T10:03:45.620Z", "service": "order-service", "level": "ERROR", "message": "Simulated error injected by error_rate fault"}
+{"timestamp": "2026-11-12T10:03:45.635Z", "service": "order-service", "level": "INFO", "message": "Order created: id=1307 item=widget quantity=1 payment_id=2928"}
+{"timestamp": "2026-11-12T10:03:45.638Z", "service": "order-service", "level": "ERROR", "message": "Simulated error injected by error_rate fault"}
+{"timestamp": "2026-11-12T10:03:45.653Z", "service": "order-service", "level": "INFO", "message": "Order created: id=1308 item=widget quantity=1 payment_id=2929"}
+{"timestamp": "2026-11-12T10:03:45.665Z", "service": "order-service", "level": "INFO", "message": "Order created: id=1309 item=widget quantity=1 payment_id=2930"}
+{"timestamp": "2026-11-12T10:03:45.667Z", "service": "order-service", "level": "ERROR", "message": "Simulated error injected by error_rate fault"}
+{"timestamp": "2026-11-12T10:03:45.669Z", "service": "order-service", "level": "ERROR", "message": "Simulated error injected by error_rate fault"}
+{"timestamp": "2026-11-12T10:03:45.673Z", "service": "order-service", "level": "ERROR", "message": "Simulated error injected by error_rate fault"}
+{"timestamp": "2026-11-12T10:03:45.675Z", "service": "order-service", "level": "ERROR", "message": "Simulated error injected by error_rate fault"}
+{"timestamp": "2026-11-12T10:03:45.678Z", "service": "order-service", "level": "ERROR", "message": "Simulated error injected by error_rate fault"}
+{"timestamp": "2026-11-12T10:03:45.691Z", "service": "order-service", "level": "INFO", "message": "Order created: id=1310 item=widget quantity=1 payment_id=2931"}
+{"timestamp": "2026-11-12T10:03:45.693Z", "service": "order-service", "level": "ERROR", "message": "Simulated error injected by error_rate fault"}
+{"timestamp": "2026-11-12T10:03:45.694Z", "service": "order-service", "level": "ERROR", "message": "Simulated error injected by error_rate fault"}

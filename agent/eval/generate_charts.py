@@ -17,6 +17,8 @@ Outputs are saved in:
 
 from __future__ import annotations
 
+import argparse
+import json
 import sys
 from pathlib import Path
 
@@ -24,8 +26,55 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-CHARTS_DIR = PROJECT_ROOT / "agent" / "eval" / "results" / "charts"
+RESULTS_DIR = PROJECT_ROOT / "agent" / "eval" / "results"
+CHARTS_DIR = RESULTS_DIR / "charts"
 CHARTS_DIR.mkdir(parents=True, exist_ok=True)
+
+
+def _find_latest_benchmark_json() -> Path:
+    candidates = sorted(
+        list(RESULTS_DIR.glob("benchmark_*.json")) + list(RESULTS_DIR.glob("bm_*.json")),
+        key=lambda p: p.stat().st_mtime,
+        reverse=True,
+    )
+    if not candidates:
+        raise FileNotFoundError(
+            f"No benchmark JSON file found in {RESULTS_DIR}. "
+            "Run 'python -m agent.eval.benchmark --live --ablation llm_only,full --surprise --trials 2' first."
+        )
+    return candidates[0]
+
+
+def _load_records(json_path: Path) -> tuple[str, list[dict]]:
+    if not json_path.exists():
+        raise FileNotFoundError(f"Benchmark JSON file not found: {json_path}")
+    with open(json_path, encoding="utf-8") as f:
+        data = json.load(f)
+    records = data.get("records", [])
+    if not records:
+        raise ValueError(f"Benchmark JSON contains 0 records: {json_path}")
+    return str(data.get("run_id", json_path.stem)), records
+
+
+def _aggregate_group(records: list[dict], key_fn) -> dict[str, dict[str, float]]:
+    groups: dict[str, list[dict]] = {}
+    for r in records:
+        k = key_fn(r)
+        groups.setdefault(k, []).append(r)
+
+    summary: dict[str, dict[str, float]] = {}
+    for k, grp in groups.items():
+        n = len(grp)
+        valid_lats = [r["latency_s"] for r in grp if r.get("latency_s", -1) >= 0]
+        summary[k] = {
+            "count": float(n),
+            "ft_acc": round(sum(r.get("failure_type_match", 0) for r in grp) / n * 100, 1),
+            "fix_acc": round(sum(r.get("fix_keyword_score", 0.0) for r in grp) / n * 100, 1),
+            "citation": round(sum(r.get("runbook_cited", 0) for r in grp) / n * 100, 1),
+            "latency": round(sum(valid_lats) / max(1, len(valid_lats)), 2),
+            "cost": round(sum(r.get("estimated_cost_usd", 0.0) for r in grp) / n, 4),
+        }
+    return summary
 
 
 def create_bar_chart_svg(
@@ -114,27 +163,24 @@ def create_bar_chart_svg(
     return "\n".join(svg_parts)
 
 
-def generate_all_charts() -> list[Path]:
-    """Generates the four core benchmark analysis charts."""
+def generate_all_charts(json_path: Path | None = None) -> list[Path]:
+    """Generates the four core benchmark charts dynamically from a real benchmark JSON file."""
+    resolved_path = json_path if json_path else _find_latest_benchmark_json()
+    run_id, records = _load_records(resolved_path)
     generated_files: list[Path] = []
 
     # -------------------------------------------------------------
-    # Chart 1: Accuracy by Ablation Mode
+    # Chart 1: Accuracy by Ablation Mode (computed from JSON)
     # -------------------------------------------------------------
-    ablations = [
-        "LLM Only",
-        "RAG Only",
-        "Live Tools",
-        "Full System",
-        "With External",
-        "Multi-Agent",
-    ]
-    ft_accuracy = [30.0, 60.0, 70.0, 90.0, 100.0, 90.0]
-    fix_quality = [22.0, 58.0, 65.0, 88.0, 94.0, 89.0]
+    by_abl = _aggregate_group(records, lambda r: str(r.get("ablation") or "unknown"))
+    abl_keys = list(by_abl.keys())
+    abl_labels = [k.replace("_", " ").title() for k in abl_keys]
+    ft_accuracy = [by_abl[k]["ft_acc"] for k in abl_keys]
+    fix_quality = [by_abl[k]["fix_acc"] for k in abl_keys]
 
     svg_1 = create_bar_chart_svg(
-        title="Diagnostic Accuracy & Fix Quality Across System Ablations",
-        categories=ablations,
+        title=f"Diagnostic Accuracy & Fix Quality by Ablation ({run_id})",
+        categories=abl_labels,
         series=[
             {"name": "Failure Type Match (%)", "color": "#2563eb", "values": ft_accuracy},
             {"name": "Fix Quality Score (%)", "color": "#10b981", "values": fix_quality},
@@ -146,15 +192,20 @@ def generate_all_charts() -> list[Path]:
     generated_files.append(p1)
 
     # -------------------------------------------------------------
-    # Chart 2: Accuracy by Model Architecture
+    # Chart 2: Accuracy by Model Architecture (computed from JSON)
     # -------------------------------------------------------------
-    models = ["Qwen3 VL 235B", "Kimi K2.5", "DeepSeek V3.2", "Mistral Large 3"]
-    model_ft_acc = [90.0, 80.0, 80.0, 90.0]
-    model_fix_acc = [88.0, 82.0, 84.0, 86.0]
+    def _model_label(rec: dict) -> str:
+        raw = rec.get("model_id") or "default (qwen3-vl-235b)"
+        return str(raw).split("/")[-1]
+
+    by_model = _aggregate_group(records, _model_label)
+    mdl_keys = list(by_model.keys())
+    model_ft_acc = [by_model[k]["ft_acc"] for k in mdl_keys]
+    model_fix_acc = [by_model[k]["fix_acc"] for k in mdl_keys]
 
     svg_2 = create_bar_chart_svg(
-        title="Diagnostic Performance Across Evaluated Foundation Models",
-        categories=models,
+        title=f"Diagnostic Performance by Foundation Model ({run_id})",
+        categories=mdl_keys,
         series=[
             {"name": "Failure Type Accuracy (%)", "color": "#6366f1", "values": model_ft_acc},
             {"name": "Remediation Quality (%)", "color": "#f59e0b", "values": model_fix_acc},
@@ -166,55 +217,50 @@ def generate_all_charts() -> list[Path]:
     generated_files.append(p2)
 
     # -------------------------------------------------------------
-    # Chart 3: Latency vs Cost Comparison
+    # Chart 3: Latency vs Cost Comparison (computed from JSON)
     # -------------------------------------------------------------
-    configs = ["LLM Only", "RAG Only", "Live Tools", "Full System", "Multi-Agent"]
-    latencies = [4.2, 8.5, 12.1, 16.4, 31.8]  # seconds
-    costs = [0.0012, 0.0034, 0.0048, 0.0075, 0.0185]  # USD
+    configs = abl_labels
+    latencies = [by_abl[k]["latency"] for k in abl_keys]
+    costs = [by_abl[k]["cost"] for k in abl_keys]
+    max_lat_axis = max(10.0, ((max(latencies, default=10.0) // 10) + 1) * 10)
+    max_cost_axis = max(0.005, round(max(costs, default=0.005) * 1.25, 4))
 
-    # Generate custom dual-axis chart for Latency vs Cost
     w, h = 780, 420
-    ml, mr, mt, mb = 70, 70, 60, 70
+    ml, mr, mt, mb = 70, 75, 60, 70
     pw = w - ml - mr
     ph = h - mt - mb
-    gw = pw / len(configs)
+    gw = pw / max(1, len(configs))
 
     svg_3 = [
         f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {w} {h}" width="{w}" height="{h}" style="background-color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif;">',
-        f'<text x="{w/2}" y="32" text-anchor="middle" font-size="18" font-weight="bold" fill="#1e293b">Latency (s) vs Estimated Cost ($) Tradeoff</text>',
+        f'<text x="{w/2}" y="32" text-anchor="middle" font-size="18" font-weight="bold" fill="#1e293b">Latency (s) vs Estimated Cost ($) ({run_id})</text>',
     ]
-    # Gridlines
     for i in range(5):
-        y_val = i * 10
+        y_val = (i / 4) * max_lat_axis
         y_pos = mt + ph - (i / 4) * ph
-        cost_val = (i / 4) * 0.020
+        cost_val = (i / 4) * max_cost_axis
         svg_3.append(f'<line x1="{ml}" y1="{y_pos}" x2="{ml+pw}" y2="{y_pos}" stroke="#f1f5f9" stroke-width="1"/>')
-        svg_3.append(f'<text x="{ml-10}" y="{y_pos+4}" text-anchor="end" font-size="11" fill="#64748b">{y_val}s</text>')
-        svg_3.append(f'<text x="{ml+pw+10}" y="{y_pos+4}" text-anchor="start" font-size="11" fill="#64748b">${cost_val:.3f}</text>')
+        svg_3.append(f'<text x="{ml-10}" y="{y_pos+4}" text-anchor="end" font-size="11" fill="#64748b">{y_val:.0f}s</text>')
+        svg_3.append(f'<text x="{ml+pw+10}" y="{y_pos+4}" text-anchor="start" font-size="11" fill="#64748b">${cost_val:.4f}</text>')
 
     svg_3.append(f'<text x="25" y="{mt+ph/2}" text-anchor="middle" font-size="12" font-weight="600" fill="#3b82f6" transform="rotate(-90 25 {mt+ph/2})">Latency (seconds)</text>')
-    svg_3.append(f'<text x="{w-20}" y="{mt+ph/2}" text-anchor="middle" font-size="12" font-weight="600" fill="#ef4444" transform="rotate(90 {w-20} {mt+ph/2})">Cost per Incident (USD)</text>')
+    svg_3.append(f'<text x="{w-15}" y="{mt+ph/2}" text-anchor="middle" font-size="12" font-weight="600" fill="#ef4444" transform="rotate(90 {w-15} {mt+ph/2})">Cost per Incident (USD)</text>')
 
     for idx, cfg in enumerate(configs):
         gx = ml + idx * gw + gw / 2
-        # Latency bar
         lat = latencies[idx]
-        bar_h = (lat / 40.0) * ph
+        bar_h = (lat / max_lat_axis) * ph
         by = mt + ph - bar_h
         svg_3.append(f'<rect x="{gx-24}" y="{by}" width="22" height="{bar_h}" fill="#3b82f6" rx="3"/>')
-        svg_3.append(f'<text x="{gx-13}" y="{by-4}" text-anchor="middle" font-size="10" font-weight="600" fill="#1e40af">{lat}s</text>')
+        svg_3.append(f'<text x="{gx-13}" y="{by-4}" text-anchor="middle" font-size="10" font-weight="600" fill="#1e40af">{lat:.1f}s</text>')
 
-        # Cost bar
         cst = costs[idx]
-        cbar_h = (cst / 0.020) * ph
+        cbar_h = (cst / max_cost_axis) * ph
         cby = mt + ph - cbar_h
         svg_3.append(f'<rect x="{gx+2}" y="{cby}" width="22" height="{cbar_h}" fill="#ef4444" rx="3"/>')
         svg_3.append(f'<text x="{gx+13}" y="{cby-4}" text-anchor="middle" font-size="10" font-weight="600" fill="#991b1b">${cst:.4f}</text>')
-
-        # Label
         svg_3.append(f'<text x="{gx}" y="{mt+ph+22}" text-anchor="middle" font-size="11" font-weight="500" fill="#334155">{cfg}</text>')
 
-    # Legend
     svg_3.append(f'<rect x="{w/2 - 130}" y="{h-25}" width="14" height="14" fill="#3b82f6" rx="2"/><text x="{w/2 - 110}" y="{h-13}" font-size="12" fill="#475569">Average Latency (s)</text>')
     svg_3.append(f'<rect x="{w/2 + 20}" y="{h-25}" width="14" height="14" fill="#ef4444" rx="2"/><text x="{w/2 + 40}" y="{h-13}" font-size="12" fill="#475569">Estimated Cost ($)</text>')
     svg_3.append("</svg>")
@@ -224,20 +270,24 @@ def generate_all_charts() -> list[Path]:
     generated_files.append(p3)
 
     # -------------------------------------------------------------
-    # Chart 4: Hold-Out & Continuous Learning Curve
+    # Chart 4: Known vs Surprise / Unindexed Breakdown (from JSON)
     # -------------------------------------------------------------
-    phases = ["1. Novel Failure (Hold-Out)", "2. Quarantined Draft", "3. Approved & Ingested"]
-    resolution_rate = [0.0, 0.0, 100.0]
-    honest_unknown_rate = [100.0, 100.0, 0.0]
+    by_kind = _aggregate_group(
+        records,
+        lambda r: "Surprise (No Runbook)" if str(r.get("scenario_id", "")).startswith("surprise") else "Canonical (10 Types)",
+    )
+    kind_keys = list(by_kind.keys())
+    kind_ft = [by_kind[k]["ft_acc"] for k in kind_keys]
+    kind_fix = [by_kind[k]["fix_acc"] for k in kind_keys]
 
     svg_4 = create_bar_chart_svg(
-        title="Learning Loop Progression: Unindexed Incident to Verified Resolution",
-        categories=phases,
+        title=f"Canonical vs Surprise Scenario Performance ({run_id})",
+        categories=kind_keys,
         series=[
-            {"name": "Resolution / Fix Match (%)", "color": "#10b981", "values": resolution_rate},
-            {"name": "Honest Unknown Classification (%)", "color": "#f97316", "values": honest_unknown_rate},
+            {"name": "Diagnosis Match (%)", "color": "#10b981", "values": kind_ft},
+            {"name": "Fix Keyword Score (%)", "color": "#f97316", "values": kind_fix},
         ],
-        y_label="Rate (%)",
+        y_label="Score (%)",
     )
     p4 = CHARTS_DIR / "holdout_and_learning_curve.svg"
     p4.write_text(svg_4, encoding="utf-8")
@@ -247,8 +297,18 @@ def generate_all_charts() -> list[Path]:
 
 
 if __name__ == "__main__":
-    files = generate_all_charts()
-    print("✓ Successfully generated benchmark result charts:")
+    parser = argparse.ArgumentParser(description="Generate benchmark SVG charts from JSON results")
+    parser.add_argument("--input", type=str, default=None, help="Path to benchmark JSON output")
+    args = parser.parse_args()
+
+    try:
+        input_path = Path(args.input) if args.input else None
+        files = generate_all_charts(json_path=input_path)
+    except Exception as exc:
+        print(f"ERROR: {exc}", file=sys.stderr)
+        sys.exit(1)
+
+    print(f"Generated {len(files)} chart(s) from real benchmark data:")
     for f in files:
-        print(f"  • {f}")
+        print(f"  - {f}")
 

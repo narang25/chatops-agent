@@ -11,7 +11,6 @@ Architecture & Safety Rules:
 """
 
 import json
-import os
 import subprocess
 import sys
 import threading
@@ -20,6 +19,7 @@ import uuid
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+
 import yaml
 
 # Ensure project root is importable
@@ -132,7 +132,11 @@ def _rollback_action(service: str, action: str, previous_state: dict[str, Any], 
         })
 
 
-def _background_verifier(proposal_id: str, watch_seconds: int = DEFAULT_VERIFY_WINDOW_S):
+def _background_verifier(
+    proposal_id: str,
+    watch_seconds: int = DEFAULT_VERIFY_WINDOW_S,
+    on_verify: Any | None = None,
+):
     """Background monitoring thread watching for health improvement or degradation."""
     time.sleep(watch_seconds)
 
@@ -144,31 +148,36 @@ def _background_verifier(proposal_id: str, watch_seconds: int = DEFAULT_VERIFY_W
     action = record["action"]
     baseline = record.get("baseline", {})
     audit_id = record.get("audit_id", "")
+    reason = ""
 
     try:
         from mcp_servers.kubernetes.server import get_pod_status
         current_status = get_pod_status(service)
         curr_state = current_status.get("state")
         curr_restarts = current_status.get("restart_count", 0)
+        curr_oom = bool(current_status.get("oom_killed"))
 
         # Evaluate condition
         baseline_restarts = baseline.get("restarts", 0)
         worse = (
-            curr_state in ["oom_killed", "exited", "unhealthy"]
-            or curr_restarts > baseline_restarts + 1
+            curr_state in ["oom_killed", "exited", "unhealthy", "restarting"]
+            or curr_oom
+            or curr_restarts > baseline_restarts
         )
 
         if worse:
+            reason = f"State={curr_state}, oom_killed={curr_oom}, restarts={curr_restarts} (baseline {baseline_restarts})"
             record["verification_status"] = "worse"
             record["rolled_back"] = True
             log_audit_event("verification_degraded", {
                 "proposal_id": proposal_id,
                 "audit_id": audit_id,
                 "service": service,
-                "reason": f"State {curr_state}, restarts {curr_restarts} > {baseline_restarts}",
+                "reason": reason,
             })
             _rollback_action(service, action, baseline, audit_id)
         else:
+            reason = f"State={curr_state}, restarts={curr_restarts}"
             record["verification_status"] = "improved"
             record["rolled_back"] = False
             log_audit_event("verification_improved", {
@@ -178,8 +187,23 @@ def _background_verifier(proposal_id: str, watch_seconds: int = DEFAULT_VERIFY_W
                 "current_state": curr_state,
             })
     except Exception as exc:
+        reason = str(exc)
         record["verification_status"] = "error"
         log_audit_event("verification_error", {"proposal_id": proposal_id, "error": str(exc)})
+
+    if callable(on_verify):
+        try:
+            on_verify({
+                "proposal_id": proposal_id,
+                "audit_id": audit_id,
+                "service": service,
+                "action": action,
+                "status": record.get("verification_status", "unknown"),
+                "rolled_back": record.get("rolled_back", False),
+                "reason": reason,
+            })
+        except Exception:
+            pass
 
 
 # ── FastMCP Server Instance ───────────────────────────────────────────────────
@@ -276,6 +300,7 @@ def apply_remediation(
     approval_token: str,
     approver: str = "slack_user",
     watch_seconds: int = DEFAULT_VERIFY_WINDOW_S,
+    on_verify: Any | None = None,
 ) -> dict[str, Any]:
     """Execute a previously approved proposal and launch verification watcher."""
     if proposal_id not in _PROPOSALS:
@@ -346,7 +371,7 @@ def apply_remediation(
         # Launch background verifier thread with auto-rollback capability
         threading.Thread(
             target=_background_verifier,
-            args=(proposal_id, watch_seconds),
+            args=(proposal_id, watch_seconds, on_verify),
             daemon=True,
         ).start()
 

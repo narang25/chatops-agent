@@ -1,0 +1,13 @@
+{
+  "scenario_id": "nettimeout-order-001",
+  "service": "order-service",
+  "failure_type": "network_timeout",
+  "root_cause": "Toxiproxy injects 3000ms latency (+500ms jitter) on the network path from order-service to payment-service. Requests to POST /orders time out waiting for payment confirmation.",
+  "expected_fix": "Remove the Toxiproxy latency toxic via DELETE http://localhost:8474/proxies/payment-proxy/toxics/payment-latency. In production: investigate network congestion, firewall rules, or upstream service degradation",
+  "signals": [
+    "toxiproxy_latency=3000ms",
+    "toxiproxy_jitter=500ms",
+    "network_latency_injected=true"
+  ],
+  "how_to_reproduce": "python infra/failures/run_scenario.py run nettimeout-order-001"
+}

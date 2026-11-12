@@ -63,10 +63,10 @@ Evaluated across `[oom-payment-001, surprise_1, surprise_2]` (`1` live trial eac
 
 | Status | Items |
 |:---|:---|
-| **Proven Live (Docker + Slack + Bedrock)** | OOM diagnosis + Slack Approve (`docker inspect` 256MB), Bad Deploy (`what_changed` + `rollback_deploy`), Multi-turn Slack thread memory, `surprise_1` Postgres auth failure, Bad-Fix Auto-Rollback (`audit_4bc27397d840`), 48-run `--live` reduced benchmark |
+| **Proven Live (Docker + Slack + Bedrock)** | OOM diagnosis + Slack Approve (`docker inspect` 256MB), Bad Deploy (`what_changed` + `rollback_deploy`), Multi-turn Slack thread memory, `surprise_1` Postgres auth failure, Bad-Fix Auto-Rollback (`audit_4bc27397d840`), 48-run `--live` reduced benchmark, **120 live incidents** recorded across 30 scenario variants (`data/incident_logs/chaos_manifest.jsonl` has 130 rows including 10 early dry-run rows with no snapshot) |
 | **Unit / Script Tested** | 39/39 pytest unit tests (including mocked `K8sBackend`), `eval_external` (4/4), `learning_curve`, `adversarial.py` (14/17), non-approver rejection & token replay |
 | **Implemented, Not Run Live** | Kubernetes cluster (`infra/k8s/`, `K8sBackend` mocked-only; Docker is primary runtime) |
-| **Not Completed** | Multi-model (`Kimi`/`DeepSeek`/`Mistral`) & all-6-ablation full live sweep, overnight 60+ `chaos_suite.py` run (currently 10 manifest entries; scheduled next), RCAEval external replay |
+| **Not Completed** | Multi-model (`Kimi`/`DeepSeek`/`Mistral`) & all-6-ablation full live sweep, RCAEval external replay |
 
 ### Explicit Study Limits
 1. **Reduced Benchmark Matrix**: Live evaluation ran 1 model (`Qwen3 VL 235B`), 2 core ablations (`llm_only` vs `full`), and 2 trials per scenario (`48` evaluations total); results are indicative rather than statistically high-power.

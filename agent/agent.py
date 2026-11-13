@@ -276,6 +276,8 @@ def ask(question: str, stub: bool = True) -> dict[str, Any]:
             "messages": list,
         }
     """
+    from mcp_servers.runbooks.evidence_gate import reset_evidence
+    reset_evidence()
     graph = build_agent(stub=stub)
     result = graph.invoke(
         {"messages": [{"role": "user", "content": question}]}

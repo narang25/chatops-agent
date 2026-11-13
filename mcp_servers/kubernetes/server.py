@@ -63,6 +63,11 @@ def get_pod_status(service: str) -> dict[str, Any]:
         service: Name of the microservice ('payment-service' | 'order-service' | 'inventory-service')
     """
     try:
+        from mcp_servers.runbooks.evidence_gate import record_evidence
+        record_evidence("get_pod_status", service=service)
+    except Exception:
+        pass
+    try:
         return _get_active_backend().get_pod_status(service)
     except Exception as exc:
         return {"error": f"get_pod_status failed: {exc}"}
@@ -112,6 +117,11 @@ def get_logs(
         limit: Maximum number of log lines to return (default 100)
     """
     try:
+        from mcp_servers.runbooks.evidence_gate import record_evidence
+        record_evidence("get_logs", service=service)
+    except Exception:
+        pass
+    try:
         return _get_active_backend().get_logs(
             service=service, minutes=minutes, level=level, limit=limit
         )
@@ -129,6 +139,11 @@ def list_services() -> dict[str, Any]:
     """
     List all registered microservices and their current state.
     """
+    try:
+        from mcp_servers.runbooks.evidence_gate import record_evidence
+        record_evidence("list_services")
+    except Exception:
+        pass
     try:
         return _get_active_backend().list_services()
     except Exception as exc:

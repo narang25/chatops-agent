@@ -323,6 +323,9 @@ def ask(
         from agent.multi.sub_agents import multi_agent_ask
         return multi_agent_ask(question=question, model_id=model_id, stub=stub)
 
+    from mcp_servers.runbooks.evidence_gate import reset_evidence
+    reset_evidence()
+
     agent = _get_or_build_agent(model_id=model_id, stub=stub)
     effective_thread = thread_id or f"stateless-{uuid.uuid4().hex[:12]}"
     config: dict[str, Any] = {"configurable": {"thread_id": effective_thread}}

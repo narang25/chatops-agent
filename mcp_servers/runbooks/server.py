@@ -29,6 +29,7 @@ from mcp.server.mcpserver import MCPServer
 
 from rag.ingest import DEFAULT_DB_PATH, query_runbooks
 from rag.ingest_external import query_external_docs
+from mcp_servers.runbooks.evidence_gate import check_evidence_gate, record_evidence, reset_evidence
 
 mcp = MCPServer(
     name="chatops-runbooks",
@@ -56,6 +57,7 @@ def search_runbooks(
     query: str,
     top_k: int = 3,
     include_external: bool = True,
+    enforce_evidence: bool = True,
 ) -> dict:
     """
     Search internal runbooks and curated external postmortems for the given query.
@@ -64,6 +66,7 @@ def search_runbooks(
         query:            Natural-language description of incident symptoms or errors.
         top_k:            Number of results to return (default 3, max 10).
         include_external: Whether to search external knowledge collection (default True).
+        enforce_evidence: Whether to enforce the evidence-first gate (default True).
 
     Returns:
         Contract shape from contracts/mcp_tools.md:
@@ -84,6 +87,11 @@ def search_runbooks(
             "no_confident_match": bool
         }
     """
+    if enforce_evidence:
+        gate_err = check_evidence_gate(query)
+        if gate_err:
+            return gate_err
+
     try:
         top_k = max(1, min(int(top_k), 10))
 

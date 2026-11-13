@@ -219,11 +219,17 @@ def _build_ablation_agent(
 
     # Search runbooks tool wrapper respecting hold_out and ablation flags
     include_ext = (ablation == "with_external")
+    enforce_gate = (ablation not in ("rag_only", "runbooks_only", "llm_only"))
 
     @tool
     def search_runbooks(query: str, top_k: int = 3) -> str:
         """Search SRE runbooks knowledge base."""
-        res = _search_runbooks_fn(query=query, top_k=top_k, include_external=include_ext)
+        res = _search_runbooks_fn(
+            query=query,
+            top_k=top_k,
+            include_external=include_ext,
+            enforce_evidence=enforce_gate,
+        )
         if hold_out and isinstance(res, dict) and "results" in res:
             # Filter out hold-out failure type from search results
             filtered = [
@@ -274,6 +280,9 @@ def execute_ablation_ask(
             model_id=model_id,
             stub=stub,
         )
+
+    from mcp_servers.runbooks.evidence_gate import reset_evidence
+    reset_evidence()
 
     agent = _build_ablation_agent(
         ablation=ablation,

@@ -129,6 +129,11 @@ def stub_get_metrics(service: str, metric: str, minutes: int = 5) -> dict:
 
 def stub_get_pod_status(service: str) -> dict:
     """Returns a synthetic container status for a service."""
+    try:
+        from mcp_servers.runbooks.evidence_gate import record_evidence
+        record_evidence("stub_get_pod_status", service=service)
+    except Exception:
+        pass
     p = _profile(service)
     if p["state"] not in {"running", "restarting", "exited", "oom_killed", "unhealthy", "not_found"}:
         state = "running"
@@ -170,6 +175,11 @@ def stub_get_events(service: str, minutes: int = 15) -> dict:
 
 def stub_list_services() -> dict:
     """Returns a synthetic list of registered microservices and their states."""
+    try:
+        from mcp_servers.runbooks.evidence_gate import record_evidence
+        record_evidence("stub_list_services")
+    except Exception:
+        pass
     services = []
     for svc_name in ["payment-service", "order-service", "inventory-service"]:
         p = _profile(svc_name)
@@ -184,6 +194,11 @@ def stub_get_logs(
     limit: int = 100,
 ) -> dict:
     """Returns synthetic application log lines for a service."""
+    try:
+        from mcp_servers.runbooks.evidence_gate import record_evidence
+        record_evidence("stub_get_logs", service=service)
+    except Exception:
+        pass
     p = _profile(service)
     state = p.get("state", "running")
     now = _now_iso()

@@ -1,0 +1,66 @@
+{
+  "timestamp": "2026-11-13 19:13:16Z",
+  "evaluation": "incident_memory_generalisation",
+  "archetypes_tested": 3,
+  "total_training_runs_indexed": 15,
+  "total_hold_out_queries": 3,
+  "generalisation_accuracy_pct": 100.0,
+  "wrong_type_retrieval_rate_pct": 0.0,
+  "hold_out_leak_checks_passed": true,
+  "cases": [
+    {
+      "failure_type": "out_of_memory",
+      "scenario_id": "oom-payment-001",
+      "hold_out_query_run_id": "oom-payment-001_r6_1794487370",
+      "retrieved_precedent_run_id": "oom-payment-001_r4_1794487110",
+      "retrieved_all_runs": [
+        "oom-payment-001_r4_1794487110",
+        "oom-payment-001_r5_1794487207",
+        "oom-payment-001_r2_1794486862"
+      ],
+      "similarity_score": 0.8812,
+      "archetype_matched": true,
+      "hold_out_run_absent_from_index": true,
+      "withheld_internal_runbook_resolution": {
+        "resolved_via_incident_memory": true,
+        "precedent_run": "oom-payment-001_r4_1794487110"
+      }
+    },
+    {
+      "failure_type": "bad_config",
+      "scenario_id": "badenv-order-001",
+      "hold_out_query_run_id": "badenv-order-001_r6_1794487424",
+      "retrieved_precedent_run_id": "badenv-order-001_r3_1794487012",
+      "retrieved_all_runs": [
+        "badenv-order-001_r3_1794487012",
+        "badenv-order-001_r4_1794487089",
+        "badenv-order-001_r1_1794486746"
+      ],
+      "similarity_score": 0.8456,
+      "archetype_matched": true,
+      "hold_out_run_absent_from_index": true,
+      "withheld_internal_runbook_resolution": {
+        "resolved_via_incident_memory": true,
+        "precedent_run": "badenv-order-001_r3_1794487012"
+      }
+    },
+    {
+      "failure_type": "disk_full",
+      "scenario_id": "diskfull-inventory-001",
+      "hold_out_query_run_id": "diskfull-inventory-001_r6_1794487446",
+      "retrieved_precedent_run_id": "diskfull-inventory-001_r5_1794487244",
+      "retrieved_all_runs": [
+        "diskfull-inventory-001_r5_1794487244",
+        "diskfull-inventory-001_r4_1794487166",
+        "diskfull-inventory-001_r3_1794486933"
+      ],
+      "similarity_score": 0.8736,
+      "archetype_matched": true,
+      "hold_out_run_absent_from_index": true,
+      "withheld_internal_runbook_resolution": {
+        "resolved_via_incident_memory": true,
+        "precedent_run": "diskfull-inventory-001_r5_1794487244"
+      }
+    }
+  ]
+}

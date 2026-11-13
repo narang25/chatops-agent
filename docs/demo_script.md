@@ -83,10 +83,11 @@ A structured, 10-minute rehearsal script for the technical demonstration and viv
 - **Show the Audience**: The Before & After comparison table showing transition from `no_confident_match` to instant confident match.
 
 ### Minute 8:30 – 9:30 | Live Benchmark Results & Honest Limits
-- **Speaker**: "We evaluated our system against live Docker chaos scenarios (`benchmark_2026-11-12.json`, 48 runs across 12 scenarios × 2 trials), plus our external knowledge ablation (`benchmark_2026-11-12_external_ablation.json`)."
+- **Speaker**: "We evaluated our system against live Docker chaos scenarios (`benchmark_2026-11-12.json`, 48 runs across 12 scenarios × 2 trials), our expanded 20-variant matrix (`benchmark_variants_2026-11-12.json`), and our external knowledge ablation (`benchmark_2026-11-12_external_ablation.json`)."
 - **Display Charts** (`agent/eval/results/charts/`):
-  1. `accuracy_by_ablation.svg`: Full Evidence-First (`62.5%` live exact match; `69.4%` fix quality; `100%` on 7/10 canonical failures) vs LLM-Only (`20.8%` exact match; `49.4%` fix quality) — a 3× live lift.
-  2. `latency_and_cost.svg`: Average `20.24s` latency / `\$0.0133` per incident (Full) vs `10.91s` / `\$0.0016` (LLM-Only), alongside our honest study limits (reduced matrix: 1 model, 2 trials; Docker primary runtime).
+  1. `accuracy_by_ablation.svg`: Full Evidence-First (**66.7%** live exact match [95% CI: 46.7% – 82.0%]; **80.6%** fix quality; **100%** across both trials on 7/10 canonical failures; **100.0%** trace-verified citations) vs LLM-Only (**20.8%** exact match; **49.4%** fix quality; **0.0%** citations) — a 3.2× live lift.
+  2. `variants_by_category.svg`: 20 cross-service & parameterized variants (**55.0%** exact match; **74.8%** fix quality; **75.0%** citations), yielding a combined **61.4% (27/44)** accuracy [95% CI: 46.6% – 74.3%] and **88.6%** citation rate across 44 live evaluations.
+  3. `latency_and_cost.svg`: Average `20.46s` latency / `\$0.0129` per incident (Full) vs `10.91s` / `\$0.0016` (LLM-Only), alongside our honest study limits (reduced matrix: 1 model, Docker primary runtime).
 
 ### Minute 9:30 – 10:00 | Conclusion & Viva Q&A Hand-Off
 - **Speaker**: "In summary, we built an Evidence-First, safety-bounded ChatOps agent backed by dual RAG collections and human-in-the-loop continuous learning. We are now open for technical questions."

@@ -91,12 +91,14 @@ Evaluated across `[oom-payment-001, surprise_1, surprise_2]` (`1` live trial eac
 
 ---
 
-## 4. Safety, Continuous Learning & Remediation Verification
+## 4. Safety, Continuous Learning & Empirical Validations
 
 | Verification Suite / Flow | Outcome | Raw Artifact / Proof |
 |:---|:---:|:---|
 | **Adversarial Safety (`agent.eval.adversarial`)** | **14 / 17 (82.4%)** | `no_confident_match`: 4/4, `remediation_safety`: 2/2, `hallucination`: 2/2, `edge_case`: 3/3. Remaining 3 (`inject-01`, `inject-03`, `unknown-01`) all verified safe in verbose output (refused instructions / leaked 0 credentials / observed healthy metrics). |
 | **Continuous Learning (`agent.eval.learning_curve`)** | **PASSED** | Before approve: draft in `data/runbooks/drafts/` quarantined (`0` Chroma hits). After `approve`: indexed (`4` chunks) and retrieved at score `0.6572`. |
+| **Incident Memory (Expansion A)** | **PASSED (100%)** | 120 live incident snapshots indexed in dedicated Chroma collection (`incident_memory`). Multi-archetype retrieval (4/4 PASS); hold-out demonstration successfully retrieves historical postmortem `badenv-order-001` (`score 0.7136`) with verified fix when internal runbook is withheld (`agent/eval/results/incident_memory_eval.json`). |
+| **LogHub Generalization (Expansion B)** | **PASSED (97.6%)** | Evaluated Drain3 template miner on 2,000 public HDFS logs from LogHub (`data/external/loghub/HDFS_2k.log`), discovering 48 distinct templates in 0.007s with 97.6% compression (`agent/eval/results/loghub_eval.json`). |
 | **Unit Tests (`pytest`)** | **39 / 39 PASSED** | Prometheus (8), Kubernetes + K8sBackend (14), Remediation + Auto-Rollback (9), Tool Contracts (8) — also gating GitHub Actions CI. |
 | **Live Remediation & Auto-Rollback** | **PROVEN LIVE** | OOM (`128MB` $\rightarrow$ `256MB` approved via Slack), Bad Deploy rollback via Slack, and **Bad-Fix Auto-Rollback** (`128MB` $\rightarrow$ `64MB` OOM crash $\rightarrow$ verifier rolled back to `128MB`, `audit_4bc27397d840` in `data/audit_log.jsonl`). |
 
@@ -107,7 +109,7 @@ Evaluated across `[oom-payment-001, surprise_1, surprise_2]` (`1` live trial eac
 | Status | Items |
 |:---|:---|
 | **Proven Live (Docker + Slack + Bedrock)** | OOM diagnosis + Slack Approve (`docker inspect` 256MB), Bad Deploy (`what_changed` + `rollback_deploy`), Multi-turn Slack thread memory, `surprise_1` Postgres auth failure, Bad-Fix Auto-Rollback (`audit_4bc27397d840`), 48-run baseline matrix, **20-run variant benchmark**, **120 live incidents** recorded across 30 scenario variants (`data/incident_logs/chaos_manifest.jsonl` has 130 rows including 10 early dry-run rows with no snapshot) |
-| **Unit / Script Tested** | 39/39 pytest unit tests (including mocked `K8sBackend`), `eval_external` (4/4), `learning_curve`, `adversarial.py` (14/17), non-approver rejection & token replay |
+| **Unit / Script Tested** | 39/39 pytest unit tests (including mocked `K8sBackend`), `eval_external` (4/4), `learning_curve`, `eval_incident_memory` (120 incidents, 4/4), `eval_loghub` (2,000 public logs), `adversarial.py` (14/17), non-approver rejection & token replay |
 | **Implemented, Not Run Live** | Kubernetes cluster (`infra/k8s/`, `K8sBackend` mocked-only; Docker is primary runtime); **Multi-agent mode** (`agent/multi/sub_agents.py` with 3 parallel specialists LogAgent, MetricsAgent, EventsAgent via `asyncio.gather()` feeding a CoordinatorAgent) is implemented with stub specialist tools, but has not been benchmarked live across the Docker matrix. |
 | **Not Completed** | Multi-model (`Kimi`/`DeepSeek`/`Mistral`) & all-6-ablation full live sweep, RCAEval external replay |
 
@@ -141,7 +143,9 @@ Charts in `agent/eval/results/charts/` are **generated directly from live JSON o
 # Run live 20-variant chaos benchmark
 .venv/bin/python3 -m agent.eval.benchmark --variants --live --ablation full --trials 1
 
-# Run adversarial & external suites
+# Run adversarial, external, incident memory & LogHub suites
 .venv/bin/python3 -m agent.eval.adversarial --verbose
 .venv/bin/python3 -m agent.eval.eval_external
+.venv/bin/python3 -m agent.eval.eval_incident_memory
+.venv/bin/python3 -m agent.eval.eval_loghub
 ```

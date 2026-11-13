@@ -1,0 +1,47 @@
+{
+  "timestamp": "2026-11-13 17:27:54Z",
+  "collection_name": "incident_memory",
+  "total_incident_memories": 120,
+  "retrieval_accuracy_pct": 100.0,
+  "holdout_demonstration": {
+    "query": "order-service failed to start with KeyError PAYMENT_SERVICE_URL",
+    "resolved_via_incident_memory": true,
+    "retrieved_precedent": "badenv-order-001",
+    "precedent_failure_type": "bad_config",
+    "similarity_score": 0.7136
+  },
+  "retrieval_benchmarks": [
+    {
+      "query": "payment-service container killed by Linux kernel OOM killer",
+      "expected_failure_type": "out_of_memory",
+      "top_hit_scenario": "oom-payment-001",
+      "top_hit_failure_type": "out_of_memory",
+      "top_hit_score": 0.8214,
+      "match": true
+    },
+    {
+      "query": "order-service missing PAYMENT_SERVICE_URL environment variable startup crash",
+      "expected_failure_type": "bad_config",
+      "top_hit_scenario": "badenv-order-001",
+      "top_hit_failure_type": "bad_config",
+      "top_hit_score": 0.7223,
+      "match": true
+    },
+    {
+      "query": "inventory-service disk full errno 28 no space left on device",
+      "expected_failure_type": "disk_full",
+      "top_hit_scenario": "diskfull-inventory-001",
+      "top_hit_failure_type": "disk_full",
+      "top_hit_score": 0.7798,
+      "match": true
+    },
+    {
+      "query": "order-service high error rate bad deployment rollback",
+      "expected_failure_type": "high_error_rate",
+      "top_hit_scenario": "baddeploy-order-001",
+      "top_hit_failure_type": "high_error_rate",
+      "top_hit_score": 0.7287,
+      "match": true
+    }
+  ]
+}

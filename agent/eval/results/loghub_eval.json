@@ -1,0 +1,72 @@
+{
+  "dataset": "HDFS_2k",
+  "source": "LogHub (logpai/loghub)",
+  "file_path": "/Users/nikhi/Desktop/Chatops/chatops-agent/data/external/loghub/HDFS_2k.log",
+  "total_log_lines": 2000,
+  "distinct_templates_mined": 48,
+  "compression_ratio_pct": 97.6,
+  "mining_latency_s": 0.007,
+  "lines_per_second": 270886.5,
+  "top_patterns": [
+    {
+      "pattern": "<*> <*> <*> INFO dfs.FSNamesystem: BLOCK* NameSystem.addStoredBlock: blockMap updated: <*> is added to <*> size <*>",
+      "count": 286,
+      "percentage": 14.3,
+      "sample": "081110 000136 28 INFO dfs.FSNamesystem: BLOCK* NameSystem.addStoredBlock: blockMap updated: 10.250.6.4:50010 is added to"
+    },
+    {
+      "pattern": "<*> <*> <*> INFO dfs.DataNode$PacketResponder: PacketResponder <*> for block <*> terminating",
+      "count": 286,
+      "percentage": 14.3,
+      "sample": "081110 000136 4627 INFO dfs.DataNode$PacketResponder: PacketResponder 1 for block blk_-7656610147924319419 terminating"
+    },
+    {
+      "pattern": "<*> <*> <*> INFO dfs.DataNode$DataXceiver: Receiving block <*> src: <*> dest: <*>",
+      "count": 268,
+      "percentage": 13.4,
+      "sample": "081110 000319 4568 INFO dfs.DataNode$DataXceiver: Receiving block blk_-8255732027871411321 src: /10.251.39.179:33950 des"
+    },
+    {
+      "pattern": "<*> <*> <*> INFO dfs.DataNode$PacketResponder: Received block <*> of size <*> from <*>",
+      "count": 260,
+      "percentage": 13.0,
+      "sample": "081110 000616 4552 INFO dfs.DataNode$PacketResponder: Received block blk_3463540868626173125 of size 67108864 from /10.2"
+    },
+    {
+      "pattern": "<*> <*> <*> INFO dfs.FSDataset: Deleting block <*> file <*>",
+      "count": 260,
+      "percentage": 13.0,
+      "sample": "081110 103320 18 INFO dfs.FSDataset: Deleting block blk_-8014701913801168461 file /mnt/hadoop/dfs/data/current/subdir27/"
+    },
+    {
+      "pattern": "081110 <*> <*> INFO dfs.FSNamesystem: BLOCK* NameSystem.delete: <*> is added to invalidSet of <*>",
+      "count": 121,
+      "percentage": 6.0,
+      "sample": "081110 103026 34 INFO dfs.FSNamesystem: BLOCK* NameSystem.delete: blk_-1233005817943453613 is added to invalidSet of 10."
+    },
+    {
+      "pattern": "<*> <*> <*> INFO dfs.FSNamesystem: BLOCK* NameSystem.delete: <*> is added to invalidSet of <*>",
+      "count": 102,
+      "percentage": 5.1,
+      "sample": "081111 023010 27 INFO dfs.FSNamesystem: BLOCK* NameSystem.delete: blk_-8887373200836701910 is added to invalidSet of 10."
+    },
+    {
+      "pattern": "<*> <*> <*> WARN dfs.DataNode$DataXceiver: <*> exception while serving <*> to <*>",
+      "count": 59,
+      "percentage": 2.9,
+      "sample": "081110 023456 6415 WARN dfs.DataNode$DataXceiver: 10.251.67.225:50010:Got exception while serving blk_-69009897143360810"
+    },
+    {
+      "pattern": "081110 <*> <*> INFO dfs.DataNode$DataXceiver: <*> Served block <*> to <*>",
+      "count": 58,
+      "percentage": 2.9,
+      "sample": "081110 024834 6371 INFO dfs.DataNode$DataXceiver: 10.251.126.227:50010 Served block blk_-8306714721294235181 to /10.251."
+    },
+    {
+      "pattern": "081111 <*> <*> INFO dfs.FSNamesystem: BLOCK* NameSystem.allocateBlock: <*> <*>",
+      "count": 54,
+      "percentage": 2.7,
+      "sample": "081111 024724 31 INFO dfs.FSNamesystem: BLOCK* NameSystem.allocateBlock: /user/root/rand4/_temporary/_task_200811101024_"
+    }
+  ]
+}

@@ -17,6 +17,7 @@ We evaluated the agent against **live Docker chaos scenarios** (`--live`), injec
 - **Combined `full` Sample**: `44` live evaluations total.
 
 1. **Evidence-First + Tools Delivers 3.2× Higher Accuracy Over Raw LLM**:
+   - Evidence-First is enforced by a code gate plus the prompt, verified from tool traces.
    - Under neutral symptom prompts (`--live`), `llm_only` scored **20.8%** (`5/24`) [95% Wilson CI: 9.2% – 40.5%].
    - The `full` Evidence-First agent scored **66.7%** (`16/24`) [95% Wilson CI: 46.7% – 82.0%], achieving **100% (`14/14`)** across both trials on 7 of the 10 canonical failure types (`oom-payment-001`, `baddeploy-order-001`, `badenv-order-001`, `crashloop-payment-001`, `depfail-order-001`, `diskfull-inventory-001`, `healthfail-inventory-001`), plus `1/2` on `cpusat-payment-001` and `surprise_1`.
    - On the 20-scenario variant benchmark (`benchmark_variants_2026-11-12.json`), `full` scored **55.0%** (`11/20`) [95% Wilson CI: 34.2% – 74.2%], with **74.8%** fix quality and **75.0%** trace citation rate.
@@ -58,7 +59,7 @@ Evaluated across 20 distinct fault scenarios spanning all 3 services (`payment-s
 | **Combined Fix Quality** | **78.0%** | — | — | Weighted average across all 44 live runs |
 | **Combined Trace Citations** | **88.6%** | `39 / 44` | **76.0% – 95.0%** | Trace-verified runbook citation rate |
 
-> **Statistical Note on Sample Independence:** The Wilson 95% confidence intervals are computed using the score method with continuity adjustment under a standard binomial distribution. However, evaluations in the baseline matrix feature 2 repeated trials on the same 12 scenarios; repeated trials on identical chaos scenarios are not strictly independent observations. The reported confidence intervals characterize empirical measurement variation across the observed sample, while the true effective degrees of freedom are bounded by the unique scenario count (12 canonical/surprise + 20 variants = 32 distinct failure injections).
+> **Statistical Note on Sample Independence:** The Wilson 95% confidence intervals are computed using the Wilson score interval, no continuity correction, under a standard binomial distribution. However, evaluations in the baseline matrix feature 2 repeated trials on the same 12 scenarios; repeated trials on identical chaos scenarios are not strictly independent observations. The reported confidence intervals characterize empirical measurement variation across the observed sample, while the true effective degrees of freedom are bounded by the unique scenario count (12 canonical/surprise + 20 variants = 32 distinct failure injections).
 
 ### 2.4 Diagnostic Label-Overlap & Miss Breakdown
 
@@ -87,7 +88,7 @@ Evaluated across `[oom-payment-001, surprise_1, surprise_2]` (`1` live trial eac
 
 - **Summary of Effect**: External knowledge produced **no measurable change in failure-type accuracy** (2/3 vs 2/3), but delivered a **small fix-quality gain (60.0% to 73.3%)** on this tiny 3-scenario sample.
 - `eval_external`: **4 / 4 PASSED** — OOD Kubernetes CoreDNS query cites external URL (`score 0.889`, `https://k8s.af/coredns-crashloop-forward-loop`); known OOM ranks internal runbook `#1` (`score 0.7259`); disabling external hits removes external sources cleanly.
-- Manual Spot Check (~10%): Inspected 6 newly fetched summaries against source pages (`fetched-docs-docker-com-resource-constraints.md`, `fetched-kubernetes-io-node-pressure-eviction.md`, `fetched-kubernetes-io-debugging-dns-resolution.md`, `fetched-postgresql-org-postgresql-documentation-18-19-12-lo.md`, `fetched-grafana-com-how-a-production-outage-was-caused-u.md`, `fetched-srvaroa-github-i-kubernetes-made-my-latency-10x-highe.md`).
+- Manual Spot Check (11 of 105, ~10%): Hand-checked 11 external sources against upstream web pages: (1) `k8s-coredns-crashloop.md`, (2) `cloud-cloudflare-redos-cpu.md`, (3) `fetched-srvaroa-github-i-kubernetes-made-my-latency-10x-highe.md`, (4) `fetched-bluematador-com-post-mortem-kubernetes-node-oom.md`, (5) `postgres-connection-pool-exhausted.md`, (6) `prom-cardinality-explosion-oom.md`, (7) `cloud-gitlab-database-deletion.md`, (8) `docker-json-logging-disk-full.md`, (9) `fetched-kubernetes-io-determine-the-reason-for-pod-failure.md`, (10) `fetched-docs-docker-com-resource-constraints.md`, (11) `postgres-deadlock-concurrent-update.md`.
 
 ---
 
@@ -97,20 +98,23 @@ Evaluated across `[oom-payment-001, surprise_1, surprise_2]` (`1` live trial eac
 |:---|:---:|:---|
 | **Adversarial Safety (`agent.eval.adversarial`)** | **14 / 17 (82.4%)** | `no_confident_match`: 4/4, `remediation_safety`: 2/2, `hallucination`: 2/2, `edge_case`: 3/3. Remaining 3 (`inject-01`, `inject-03`, `unknown-01`) all verified safe in verbose output (refused instructions / leaked 0 credentials / observed healthy metrics). |
 | **Continuous Learning (`agent.eval.learning_curve`)** | **PASSED** | Before approve: draft in `data/runbooks/drafts/` quarantined (`0` Chroma hits). After `approve`: indexed (`4` chunks) and retrieved at score `0.6572`. |
-| **Incident Memory (Expansion A)** | **PASSED (100%)** | 120 live incident snapshots indexed in dedicated Chroma collection (`incident_memory`). Multi-archetype retrieval (4/4 PASS); hold-out demonstration successfully retrieves historical postmortem `badenv-order-001` (`score 0.7136`) with verified fix when internal runbook is withheld (`agent/eval/results/incident_memory_eval.json`). |
-| **LogHub Generalization (Expansion B)** | **PASSED (97.6%)** | Evaluated Drain3 template miner on 2,000 public HDFS logs from LogHub (`data/external/loghub/HDFS_2k.log`), discovering 48 distinct templates in 0.007s with 97.6% compression (`agent/eval/results/loghub_eval.json`). |
-| **Unit Tests (`pytest`)** | **39 / 39 PASSED** | Prometheus (8), Kubernetes + K8sBackend (14), Remediation + Auto-Rollback (9), Tool Contracts (8) — also gating GitHub Actions CI. |
+| **Incident Memory (Expansion A)** | **PASSED** | Retrieval of recorded incident telemetry works: 120 live incident snapshots indexed in dedicated Chroma collection (`incident_memory`). Multi-archetype retrieval (4/4 PASS); hold-out demonstration successfully retrieves historical telemetry precedent `depfail-order-001` (`score 0.6523`). (It is retrieval of recorded incident telemetry, not generalisation). |
+| **LogHub Evaluation (Expansion B)** | **PASSED** | Log pattern grouping (Drain3) works on public HDFS logs: 48 templates from 2,000 lines (`data/external/loghub/HDFS_2k.log`, 0.007s, 97.6% compression in `agent/eval/results/loghub_eval.json`). It is not a diagnosis evaluation. |
+| **Unit Tests (`pytest`)** | **48 / 48 PASSED** | Prometheus (8), Kubernetes + K8sBackend (14), Remediation Safety Engine + Auto-Rollback (12), Runbooks Evidence Gate (6), Tool Contracts (8) — gating CI. |
 | **Live Remediation & Auto-Rollback** | **PROVEN LIVE** | OOM (`128MB` $\rightarrow$ `256MB` approved via Slack), Bad Deploy rollback via Slack, and **Bad-Fix Auto-Rollback** (`128MB` $\rightarrow$ `64MB` OOM crash $\rightarrow$ verifier rolled back to `128MB`, `audit_4bc27397d840` in `data/audit_log.jsonl`). |
 
 ---
 
 ## 5. Verification Matrix & Honest Limits
 
+### Dataset Statement
+"Our data has three parts. First, we inject 10 failure types into a running microservice stack, record each run with logs, metrics and events, and label the true root cause, so we can measure accuracy: 120 recorded incidents across all 3 services. Second, a knowledge base of 10 internal runbooks plus 105 public postmortems and official docs, with source URLs. Third, we test on surprise failures with no runbook. We do not have private production data, so we chose a design where the ground truth is known."
+
 | Status | Items |
 |:---|:---|
 | **Proven Live (Docker + Slack + Bedrock)** | OOM diagnosis + Slack Approve (`docker inspect` 256MB), Bad Deploy (`what_changed` + `rollback_deploy`), Multi-turn Slack thread memory, `surprise_1` Postgres auth failure, Bad-Fix Auto-Rollback (`audit_4bc27397d840`), 48-run baseline matrix, **20-run variant benchmark**, **120 live incidents** recorded across 30 scenario variants (`data/incident_logs/chaos_manifest.jsonl` has 130 rows including 10 early dry-run rows with no snapshot) |
-| **Unit / Script Tested** | 39/39 pytest unit tests (including mocked `K8sBackend`), `eval_external` (4/4), `learning_curve`, `eval_incident_memory` (120 incidents, 4/4), `eval_loghub` (2,000 public logs), `adversarial.py` (14/17), non-approver rejection & token replay |
-| **Implemented, Not Run Live** | Kubernetes cluster (`infra/k8s/`, `K8sBackend` mocked-only; Docker is primary runtime); **Multi-agent mode** (`agent/multi/sub_agents.py` with 3 parallel specialists LogAgent, MetricsAgent, EventsAgent via `asyncio.gather()` feeding a CoordinatorAgent) is implemented with stub specialist tools, but has not been benchmarked live across the Docker matrix. |
+| **Unit / Script Tested** | 48/48 pytest unit tests (including mocked `K8sBackend`), `eval_external` (4/4), `learning_curve`, `eval_incident_memory` (120 incidents, 4/4), `eval_loghub` (2,000 public logs), `adversarial.py` (14/17), non-approver rejection, parameter tampering rejection, rollback-failed state & proposal blocking |
+| **Implemented, Not Run Live** | Kubernetes cluster (`infra/k8s/`, `K8sBackend` mocked-only; Docker is primary runtime); **Multi-agent mode** (`agent/multi/sub_agents.py` with 3 parallel specialists LogAgent, MetricsAgent, EventsAgent via `asyncio.gather()` feeding a CoordinatorAgent) is implemented, not benchmarked, runs on stub tools. |
 | **Not Completed** | Multi-model (`Kimi`/`DeepSeek`/`Mistral`) & all-6-ablation full live sweep, RCAEval external replay |
 
 ### Explicit Study Limits
@@ -119,7 +123,7 @@ Evaluated across `[oom-payment-001, surprise_1, surprise_2]` (`1` live trial eac
 3. **Limited Trial Counts**: Baseline ran 2 trials per scenario and variants ran 1 trial per scenario; results are indicative rather than large-N statistical samples.
 4. **Synthetic Local Stack**: Injections ran in a 3-microservice local Docker Compose stack rather than multi-node enterprise production infrastructure.
 5. **Kubernetes Environment**: Kubernetes manifests and `K8sBackend` are verified via mocked unit tests (`test_k8s_backend.py`); all live evaluations executed on Docker Compose.
-6. **External KB Hand-Verification**: 105 external postmortem/doc summaries are indexed, with ~10% (6 sources) hand-checked against upstream web pages.
+6. **External KB Hand-Verification**: 11 of 105 external postmortem/doc summaries (about 10%) hand-checked against upstream web pages.
 7. **Human-in-the-Loop Execution**: The agent cannot apply infrastructure mutations autonomously; every remediation requires human Slack approval with single-use tokens.
 
 ---

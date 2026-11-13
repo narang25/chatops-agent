@@ -23,7 +23,7 @@ A comprehensive guide of 25 technical viva questions and concise, rigorous answe
 
 ### Q3: What is the "Evidence-First" protocol, and why does it outperform "RAG-First"?
 **Answer:** In a RAG-first system, the agent queries playbooks immediately based on user-provided questions. If a user mistakenly claims "payment-service is OOM killed", a RAG-first agent retrieves the OOM runbook and diagnoses OOM regardless of reality.  
-Under **Evidence-First**:
+Under **Evidence-First** (enforced by a code gate plus the prompt, verified from tool traces):
 1. The agent first queries container status, error logs, and metrics (`list_services`, `get_pod_status`, `get_logs`, `get_metrics`, `get_events`, `get_anomalies`, `what_changed`).
 2. It discovers the real symptoms from telemetry.
 3. It searches runbooks using the *observed error signatures*, not user claims.  
@@ -40,7 +40,7 @@ In our live Docker benchmark (`benchmark_2026-11-12.json`, 48 runs across 12 sce
 ---
 
 ### Q5: What is the purpose of the "External Knowledge" collection, and how is it isolated?
-**Answer:** Internal runbooks only cover failures we anticipated (10 scenarios). To handle the long tail, we built a collection of **105 real-world external sources (430 chunks)**: 50 initially curated postmortem/doc summaries plus 55 live-fetched summaries via `rag/scripts/fetch_external_sources.py` from `k8s.af`, Kubernetes, PostgreSQL, Docker, and Prometheus official docs (with ~10% manually spot-checked against their source URLs).  
+**Answer:** Internal runbooks only cover failures we anticipated (10 scenarios). To handle the long tail, we built a collection of **105 real-world external sources (430 chunks)**: 50 initially curated postmortem/doc summaries plus 55 live-fetched summaries via `rag/scripts/fetch_external_sources.py` from `k8s.af`, Kubernetes, PostgreSQL, Docker, and Prometheus official docs (with 11 of 105, ~10%, hand-checked against their upstream source pages).  
 Crucially, external data is stored in a **separate Chroma collection** (`external_knowledge`) so it never pollutes internal company playbooks. Internal runbooks always win ties (+0.03 boost) and rank first; external hits cite their public URLs. On our external ablation (`[oom-payment-001, surprise_1, surprise_2]`), adding external knowledge produced no measurable change in failure-type accuracy (2/3 vs 2/3), but delivered a small fix-quality gain from **60.0% to 73.3%** on a tiny 3-scenario sample.
 
 ---
@@ -153,7 +153,7 @@ It proved that:
 
 ### Q21: What metrics did you track across benchmark trials?
 **Answer:**
-1. **Failure Type Exact Match (%)**: Binary score against ground-truth label (with 95% Wilson confidence intervals).
+1. **Failure Type Exact Match (%)**: Binary score against ground-truth label (with 95% Wilson score interval, no continuity correction).
 2. **Remediation Quality (%)**: Keyword recall against expected recovery steps.
 3. **Trace-Verified Runbook Citation Rate (%)**: Audited strictly — requires `search_runbooks` in `tool_trace` and matching returned source title, path, or URL (`llm_only` is 0.0%, `full` is 100.0% baseline, 88.6% combined).
 4. **Tool Call Count**: Telemetry query efficiency (avg 12.25 on baseline, 11.60 on variants).
@@ -177,17 +177,17 @@ It proved that:
 1. **Reduced Benchmark Matrix**: Live evaluation covered 1 model (`Qwen3 VL 235B`), 2 ablations (`llm_only`, `full`), and 2 trials across 12 baseline scenarios (`48` evaluations total), plus 20 cross-service variant scenarios (44 total `full` evaluations), and a targeted external ablation (`6` runs).
 2. **Synthetic Local Stack**: Failures are injected into a 3-service local Docker Compose stack rather than production multi-node infrastructure.
 3. **Kubernetes Live Cluster**: `K8sBackend` and `infra/k8s/` manifests pass mocked unit tests, but were not run live on Minikube/kind (Docker is the primary runtime).
-4. **Multi-Agent Live Execution**: Multi-agent specialist mode is implemented in `agent/multi/sub_agents.py` with stub specialist tools, but has not been benchmarked live across the Docker matrix.
+4. **Multi-Agent Live Execution**: Multi-agent specialist mode (`agent/multi/sub_agents.py`) is implemented, not benchmarked, runs on stub tools.
 5. **LLM & Approval Boundary**: Frontier model inference relies on AWS Bedrock internet access, and remediation always requires an authorized human Slack click (no autonomous mutation).
 
 ---
 
 ### Q25: What is your dataset, and how do you answer "What is proven vs. not done?"
 **Answer ("What is your dataset?"):**
-> *"Our data has three parts. First, we inject 10 canonical failure types into a running microservice stack, record logs, metrics, and events, and label true root causes in `.meta.json` so accuracy is objectively measurable. In total, 120 live incidents across 30 scenario variants are recorded in `data/incident_logs/` (130 manifest lines including 10 dry runs). Second, we built a knowledge base of 10 internal runbooks plus 105 real-world public postmortems and official docs (430 chunks) with source URLs. Third, we evaluate on 2 unseen surprise scenarios with no runbook (`surprise_1`, `surprise_2`), plus 20 parameterized and cross-service variants."*
+> *"Our data has three parts. First, we inject 10 failure types into a running microservice stack, record each run with logs, metrics and events, and label the true root cause, so we can measure accuracy: 120 recorded incidents across all 3 services. Second, a knowledge base of 10 internal runbooks plus 105 public postmortems and official docs, with source URLs. Third, we test on surprise failures with no runbook. We do not have private production data, so we chose a design where the ground truth is known."*
 
-- **Proven Live**: OOM diagnosis + Slack Approve (`docker inspect` 256MB), bad deploy + `rollback_deploy`, Slack thread memory, `surprise_1` Postgres auth failure, **bad-fix auto-rollback (`audit_4bc27397d840` restoring 128MB)**, 48-eval baseline matrix (**66.7% vs 20.8%**), 20-scenario variant benchmark (**55.0%**), and combined 44-eval live matrix (**61.4%** [95% CI: 46.6% – 74.3%]).
-- **Unit / Script Tested**: `39/39` pytest unit tests (including mocked `K8sBackend` and 9 remediation tests), `eval_external` (`4/4`), `learning_curve`, and `adversarial.py` (`14/17`).
-- **Implemented, Not Run Live**: Live Kubernetes Minikube/kind cluster execution; multi-agent specialist mode on live Docker chaos matrix.
-- **Future Work**: RCAEval public replay, full 4-model live matrix, and OpenTelemetry trace spans.
+- **Proven Live**: OOM diagnosis + Slack Approve (`docker inspect` 256MB), bad deploy + `rollback_deploy`, Slack thread memory, `surprise_1` Postgres auth failure, **bad-fix auto-rollback (`audit_4bc27397d840` restoring 128MB)**, 48-eval baseline matrix (**66.7% vs 20.8%**), 20-scenario variant benchmark (**55.0%**), and combined 44-eval live matrix (**61.4%** [95% Wilson CI: 46.6% – 74.3%]).
+- **Unit / Script Tested**: `48/48` pytest unit tests (including mocked `K8sBackend`, 12 remediation/safety tests, 6 evidence gate tests), `eval_external` (`4/4`), `learning_curve`, `eval_incident_memory` (120 incidents, retrieval of recorded incident telemetry works, not generalisation), `eval_loghub` (log pattern grouping Drain3 works on public HDFS logs: 48 templates from 2,000 lines; not a diagnosis evaluation), and `adversarial.py` (`14/17`).
+- **Implemented, Not Run Live**: Live Kubernetes Minikube/kind cluster execution; multi-agent mode (implemented, not benchmarked, runs on stub tools).
+- **Future Work**: RCAEval public replay, full multi-model live matrix, and OpenTelemetry trace spans.
 

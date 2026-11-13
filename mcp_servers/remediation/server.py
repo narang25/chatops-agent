@@ -10,7 +10,9 @@ Architecture & Safety Rules:
 - Audit Log: Every proposal, approval, rejection, verification, and rollback is written to `data/audit_log.jsonl`.
 """
 
+import hashlib
 import json
+import os
 import subprocess
 import sys
 import threading
@@ -34,6 +36,18 @@ TOKEN_EXPIRY_SECONDS = 300  # 5 minutes
 DEFAULT_VERIFY_WINDOW_S = 30  # 30 seconds for test/demo responsiveness
 
 _PROPOSALS: dict[str, dict[str, Any]] = {}
+_BLOCKED_SERVICES: set[str] = set()
+
+
+def compute_param_hash(action: str, service: str, params: dict[str, Any]) -> str:
+    """Deterministic SHA-256 hash of action, service, and params for token binding."""
+    normalized = {
+        "action": action,
+        "service": service,
+        "params": {k: str(v) for k, v in sorted(params.items())},
+    }
+    serialized = json.dumps(normalized, sort_keys=True)
+    return hashlib.sha256(serialized.encode("utf-8")).hexdigest()
 
 
 def load_policy() -> dict[str, Any]:
@@ -104,7 +118,35 @@ def _capture_baseline(service: str) -> dict[str, Any]:
     return baseline
 
 
-def _rollback_action(service: str, action: str, previous_state: dict[str, Any], audit_id: str):
+def _notify_rollback_failed(service: str, action: str, error: str, audit_id: str):
+    """Post an emergency Slack alert and record critical status."""
+    alert_text = (
+        f"🚨 *CRITICAL ALERT: Emergency Rollback Failed for {service}*\n"
+        f"• *Action:* `{action}`\n"
+        f"• *Audit ID:* `{audit_id}`\n"
+        f"• *Error:* {error}\n"
+        f"• *Action Required:* Automated remediation blocked on *{service}*. "
+        f"Immediate manual human intervention required!"
+    )
+    slack_token = os.environ.get("SLACK_BOT_TOKEN")
+    alert_channel = os.environ.get("SLACK_ALERT_CHANNEL") or os.environ.get("SLACK_CHANNEL", "#general")
+    if slack_token:
+        try:
+            from slack_sdk import WebClient
+            client = WebClient(token=slack_token)
+            client.chat_postMessage(channel=alert_channel, text=alert_text)
+        except Exception:
+            pass
+
+
+def _rollback_action(
+    service: str,
+    action: str,
+    previous_state: dict[str, Any],
+    audit_id: str,
+    on_verify: Any | None = None,
+    proposal_id: str = "",
+) -> bool:
     """Emergency rollback when post-remediation metrics degrade."""
     try:
         if action == "set_memory_limit":
@@ -123,13 +165,31 @@ def _rollback_action(service: str, action: str, previous_state: dict[str, Any], 
             "action": action,
             "restored_state": previous_state,
         })
+        return True
     except Exception as exc:
-        log_audit_event("auto_rollback_failed", {
+        _BLOCKED_SERVICES.add(service)
+        log_audit_event("rollback_failed", {
             "audit_id": audit_id,
             "service": service,
             "action": action,
             "error": str(exc),
+            "manual_action_required": True,
         })
+        _notify_rollback_failed(service=service, action=action, error=str(exc), audit_id=audit_id)
+        if callable(on_verify):
+            try:
+                on_verify({
+                    "proposal_id": proposal_id,
+                    "audit_id": audit_id,
+                    "service": service,
+                    "action": action,
+                    "status": "rollback_failed",
+                    "rolled_back": False,
+                    "reason": f"Rollback failed: {exc}. Manual human action required.",
+                })
+            except Exception:
+                pass
+        return False
 
 
 def _background_verifier(
@@ -167,15 +227,23 @@ def _background_verifier(
 
         if worse:
             reason = f"State={curr_state}, oom_killed={curr_oom}, restarts={curr_restarts} (baseline {baseline_restarts})"
-            record["verification_status"] = "worse"
-            record["rolled_back"] = True
             log_audit_event("verification_degraded", {
                 "proposal_id": proposal_id,
                 "audit_id": audit_id,
                 "service": service,
                 "reason": reason,
             })
-            _rollback_action(service, action, baseline, audit_id)
+            rollback_ok = _rollback_action(
+                service, action, baseline, audit_id, on_verify=on_verify, proposal_id=proposal_id
+            )
+            if rollback_ok:
+                record["verification_status"] = "worse"
+                record["rolled_back"] = True
+            else:
+                record["verification_status"] = "rollback_failed"
+                record["rolled_back"] = False
+                # on_verify was called in _rollback_action
+                return
         else:
             reason = f"State={curr_state}, restarts={curr_restarts}"
             record["verification_status"] = "improved"
@@ -222,9 +290,27 @@ mcp = MCPServer(
         "Returns a dry-run analysis and requires human approval via Slack."
     )
 )
-def propose_remediation(service: str, action: str, params: dict[str, Any] | None = None) -> dict[str, Any]:
+def propose_remediation(
+    service: str,
+    action: str,
+    params: dict[str, Any] | None = None,
+    allowed_approvers: list[str] | None = None,
+) -> dict[str, Any]:
     """Propose an operational fix. Safe by design: changes nothing."""
     params = params or {}
+
+    # Check if service is blocked from a previous failed rollback
+    if service in _BLOCKED_SERVICES:
+        log_audit_event("proposal_rejected_service_blocked", {
+            "service": service,
+            "action": action,
+            "reason": "Service is blocked due to previous rollback failure. Manual action required.",
+        })
+        return {
+            "error": f"Service '{service}' is blocked due to a previous rollback failure. Manual human action is required before new proposals can be made.",
+            "allowed": False,
+            "service_blocked": True,
+        }
 
     allowed, reason = check_policy(action, service, params)
     if not allowed:
@@ -242,6 +328,7 @@ def propose_remediation(service: str, action: str, params: dict[str, Any] | None
     proposal_id = str(uuid.uuid4())
     approval_token = str(uuid.uuid4())
     now = time.time()
+    p_hash = compute_param_hash(action, service, params)
 
     changes = []
     risk = "low"
@@ -261,6 +348,8 @@ def propose_remediation(service: str, action: str, params: dict[str, Any] | None
         "service": service,
         "action": action,
         "params": params,
+        "param_hash": p_hash,
+        "allowed_approvers": allowed_approvers,
         "token": approval_token,
         "created_at": now,
         "expires_at": now + TOKEN_EXPIRY_SECONDS,
@@ -286,6 +375,7 @@ def propose_remediation(service: str, action: str, params: dict[str, Any] | None
         "action": action,
         "service": service,
         "params": params,
+        "param_hash": p_hash,
         "dry_run": {
             "changes": changes,
             "risk": risk,
@@ -299,6 +389,7 @@ def apply_remediation(
     proposal_id: str,
     approval_token: str,
     approver: str = "slack_user",
+    params: dict[str, Any] | None = None,
     watch_seconds: int = DEFAULT_VERIFY_WINDOW_S,
     on_verify: Any | None = None,
 ) -> dict[str, Any]:
@@ -320,6 +411,37 @@ def apply_remediation(
     if record.get("token") != approval_token:
         log_audit_event("apply_failed_invalid_token", {"proposal_id": proposal_id, "approver": approver})
         return {"error": "Invalid approval token.", "status": "rejected"}
+
+    # Token binding check 1: Approver authorization
+    allowed_approvers = record.get("allowed_approvers")
+    if allowed_approvers is not None:
+        clean_approver = approver.replace("slack:", "")
+        clean_allowed = [a.replace("slack:", "") for a in allowed_approvers]
+        if clean_approver not in clean_allowed and approver not in allowed_approvers:
+            log_audit_event("apply_failed_unauthorized_approver", {
+                "proposal_id": proposal_id,
+                "approver": approver,
+                "allowed_approvers": allowed_approvers,
+            })
+            return {
+                "error": f"Unauthorized approver: '{approver}' is not authorized to approve this proposal.",
+                "status": "rejected",
+            }
+
+    # Token binding check 2: Parameter tampering check
+    if params is not None:
+        current_hash = compute_param_hash(record["action"], record["service"], params)
+        if current_hash != record.get("param_hash"):
+            log_audit_event("apply_failed_parameter_tampering", {
+                "proposal_id": proposal_id,
+                "approver": approver,
+                "expected_params": record.get("params"),
+                "provided_params": params,
+            })
+            return {
+                "error": "Parameter tampering detected: apply parameters do not match approved proposal.",
+                "status": "rejected",
+            }
 
     record["used"] = True
     audit_id = f"audit_{uuid.uuid4().hex[:12]}"
@@ -407,6 +529,23 @@ def verify_remediation(proposal_id: str) -> dict[str, Any]:
         "rolled_back": record.get("rolled_back", False),
         "audit_id": record.get("audit_id"),
     }
+
+
+def is_service_blocked(service: str) -> bool:
+    """Return True if service is currently blocked due to a rollback failure."""
+    return service in _BLOCKED_SERVICES
+
+
+def clear_blocked_service(service: str, cleared_by: str = "human_operator") -> dict[str, Any]:
+    """Admin function to clear the blocked rollback failure state for a service."""
+    if service in _BLOCKED_SERVICES:
+        _BLOCKED_SERVICES.remove(service)
+        log_audit_event("service_unblocked", {
+            "service": service,
+            "cleared_by": cleared_by,
+        })
+        return {"status": "cleared", "service": service}
+    return {"status": "not_blocked", "service": service}
 
 
 if __name__ == "__main__":

@@ -9,7 +9,10 @@ from mcp_servers.remediation.server import (
     apply_remediation,
     verify_remediation,
     check_policy,
+    is_service_blocked,
+    clear_blocked_service,
     _PROPOSALS,
+    AUDIT_LOG_FILE,
 )
 
 
@@ -124,3 +127,97 @@ def test_verification_triggers_auto_rollback_when_worse(monkeypatch):
 
     # Assert rollback docker update command was executed
     assert any("update" in cmd and "payment-service" in cmd for cmd in executed_commands)
+
+
+# ── Safety Hardening Tests (Task T3) ──────────────────────────────────────────
+
+def test_apply_remediation_refuses_parameter_tampering(monkeypatch):
+    """Token parameter binding: modifying parameters after approval must be rejected."""
+    monkeypatch.setattr("subprocess.run", lambda *args, **kwargs: None)
+
+    res = propose_remediation("payment-service", "set_memory_limit", {"memory_mb": 256})
+    p_id = res["proposal_id"]
+    token = _PROPOSALS[p_id]["token"]
+
+    # Attempt to apply with altered memory_mb = 512
+    tampered_res = apply_remediation(
+        p_id,
+        token,
+        approver="test_user",
+        params={"memory_mb": 512},
+        watch_seconds=1,
+    )
+    assert tampered_res["status"] == "rejected"
+    assert "Parameter tampering detected" in tampered_res["error"]
+
+
+def test_apply_remediation_refuses_unauthorized_approver(monkeypatch):
+    """Token approver binding: approvers not in allowed_approvers must be rejected."""
+    monkeypatch.setattr("subprocess.run", lambda *args, **kwargs: None)
+
+    res = propose_remediation(
+        "order-service",
+        "restart_service",
+        {},
+        allowed_approvers=["U_LEAD_SRE", "U_OPS_MANAGER"],
+    )
+    p_id = res["proposal_id"]
+    token = _PROPOSALS[p_id]["token"]
+
+    # Non-authorized approver tries to apply
+    unauth_res = apply_remediation(
+        p_id,
+        token,
+        approver="slack:U_UNAUTHORIZED_GUEST",
+        watch_seconds=1,
+    )
+    assert unauth_res["status"] == "rejected"
+    assert "Unauthorized approver" in unauth_res["error"]
+
+
+def test_rollback_failure_blocks_service_and_writes_audit(monkeypatch):
+    """Rollback failure state: if rollback fails, write rollback_failed audit entry and block proposals."""
+    clear_blocked_service("payment-service")
+
+    def failing_subprocess_run(cmd, *args, **kwargs):
+        # Allow the initial apply docker update to succeed, but fail during rollback
+        if "update" in cmd and "128m" in cmd:
+            raise RuntimeError("Simulated Docker daemon failure during emergency rollback")
+        return None
+
+    monkeypatch.setattr("subprocess.run", failing_subprocess_run)
+    monkeypatch.setattr(
+        "mcp_servers.kubernetes.server.get_pod_status",
+        lambda svc: {"state": "oom_killed", "restart_count": 10},
+    )
+
+    res = propose_remediation("payment-service", "set_memory_limit", {"memory_mb": 256})
+    p_id = res["proposal_id"]
+    token = _PROPOSALS[p_id]["token"]
+
+    apply_remediation(p_id, token, approver="test_user", watch_seconds=1)
+
+    time.sleep(1.5)
+
+    # 1. Service must now be in blocked rollback_failed state
+    assert is_service_blocked("payment-service") is True
+
+    # 2. Subsequent proposal on payment-service must be refused
+    blocked_prop = propose_remediation("payment-service", "restart_service", {})
+    assert blocked_prop.get("allowed") is False
+    assert blocked_prop.get("service_blocked") is True
+    assert "blocked due to a previous rollback failure" in blocked_prop.get("error", "")
+
+    # 3. Verify rollback_failed audit log entry
+    with open(AUDIT_LOG_FILE, "r", encoding="utf-8") as f:
+        log_lines = f.readlines()
+    assert any('"event": "rollback_failed"' in line for line in log_lines)
+
+    # 4. Human operator clears blocked service -> proposals allowed again
+    clear_res = clear_blocked_service("payment-service", cleared_by="sre_oncall")
+    assert clear_res["status"] == "cleared"
+    assert is_service_blocked("payment-service") is False
+
+    new_prop = propose_remediation("payment-service", "set_memory_limit", {"memory_mb": 256})
+    assert new_prop.get("requires_approval") is True
+

@@ -5,9 +5,9 @@
   "root_cause": "Downstream dependency payment-service is unreachable (stopped); order-service fails with HTTP 502",
   "expected_fix": "Restart payment-service container: docker start payment-service",
   "signals": [
-    "connection_refused_payment_service",
     "dependency_down=payment-service",
-    "http_status=502"
+    "http_status=502",
+    "connection_refused_payment_service"
   ],
   "how_to_reproduce": "python infra/failures/dependency_failure.py"
 }

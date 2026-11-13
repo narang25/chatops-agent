@@ -11,6 +11,6 @@
     "http_error_rate_spike_confirmed",
     "app_errors_total_spike_after_deploy"
   ],
-  "deploy_timestamp": "2026-11-12T12:43:56.779001+00:00",
+  "deploy_timestamp": "2026-11-12T13:41:35.159902+00:00",
   "how_to_reproduce": "python infra/failures/run_scenario.py run baddeploy-order-001"
 }

@@ -1,0 +1,1018 @@
+{
+  "run_id": "benchmark_variants_2026-11-12",
+  "timestamp": "2026-11-13T17:18:05.775351+00:00",
+  "ablations": [
+    "full"
+  ],
+  "models": [
+    "default"
+  ],
+  "hold_out": null,
+  "total_evaluations": 20,
+  "records": [
+    {
+      "scenario_id": "healthfail-payment-v1",
+      "service": "payment-service",
+      "mode": "live",
+      "ablation": "full",
+      "model_id": null,
+      "trial": 1,
+      "hold_out": null,
+      "warmup_s": 6.0,
+      "failure_type_match": 0,
+      "fix_keyword_score": 0.8,
+      "runbook_cited": 1,
+      "tool_calls_used": 11,
+      "latency_s": 28.149,
+      "estimated_cost_usd": 0.01302,
+      "predicted_failure_type": "other",
+      "ground_truth_failure_type": "health_check_failure",
+      "confidence": null,
+      "tool_trace": [
+        "list_services",
+        "get_pod_status",
+        "get_logs",
+        "get_metrics",
+        "get_events",
+        "get_logs",
+        "get_metrics",
+        "get_metrics",
+        "search_runbooks",
+        "get_anomalies",
+        "what_changed"
+      ],
+      "retrieved_sources": [
+        {
+          "title": "Downstream Dependency Failure: Order Service Cannot Reach Payment Service",
+          "source": "data/runbooks/dependency_failure-order.md",
+          "url": null,
+          "source_type": "internal_runbook",
+          "failure_type": "dependency_failure",
+          "score": 0.7089
+        },
+        {
+          "title": "Network Timeout: Payment Service Downstream Calls Timing Out",
+          "source": "data/runbooks/network_timeout-payment.md",
+          "url": null,
+          "source_type": "internal_runbook",
+          "failure_type": "network_timeout",
+          "score": 0.6875
+        }
+      ],
+      "sources": [
+        "No direct runbook match for fault injection, but the logs explicitly state the cause.",
+        "Internal runbook: \"Downstream Dependency Failure: Order Service Cannot Reach Payment Service\" (not applicable, as the issue is not dependency-related).",
+        "Internal runbook: \"Network Timeout: Payment Service Downstream Calls Timing Out\" (not applicable, as there are no timeout errors in logs)."
+      ],
+      "diagnosis": "**Diagnosis**: The payment-service is intentionally failing health checks due to a fault injection toggle being activated. The service is otherwise healthy, processing payments normally, and not experiencing resource exhaustion or configuration issues. The root cause is a deliberate test or debugging action, not a production failure.\n\n**Failure Type**: other\n\n**Evidence**:\n- `get_pod_status`: Service state is \"unhealthy\", but `oom_killed` is false and `restart_count` is 0, indicating no crash or OOM event.\n- `get_logs`: No ERROR or CRITICAL logs. Instead, logs show repeated `WARNING: Health check failed (fault injected)` and `INFO: Fault toggles updated: {'health_fail': True}` at 2026-11-13T17:00:04.304Z.\n- `get_metrics`: Memory usage is stable at 55.5 MB (well under 128 MB limit), and CPU usage is not reporting any data (likely because the service is not under load or metrics are not being scraped during the fault state).\n- `get_events`: Events show `exec_die` and `health_status: unhealthy` starting at 17:00:05Z, which aligns with the log timestamps of the fault injection.\n- `get_anomalies`: No metric anomalies detected. Log anomalies show a drop in `/health` 200 responses and payment creation logs, consistent with the service being marked unhealthy.\n- `what_changed`: No recent deploys, commits, or container updates in the last 60 minutes.\n\n**How to confirm**:\n1. Check the service logs for the message `Fault toggles updated: {'health_fail': True}` to confirm fault injection is active.\n2. Verify the health endpoint manually: `curl -v http://payment-service:8000/health` should return a non-200 status.\n3. Check if any SRE or QA team is running a chaos test or debugging session.\n\n**Recommended fix**:\n1. If this is an unintended fault injection, disable the `health_fail` toggle by sending a POST request to the service\u2019s toggle endpoint (if exposed) or by restarting the service to clear the state.\n2. If this is a planned test, no action is required \u2014 the service will return to normal once the test concludes.\n\n**Proposed action**:\n```json\n{\n  \"action\": \"restart_service\",\n  \"service\": \"payment-service\",\n  \"params\": {}\n}\n```\n**Risk Level**: Low \u2014 restarting the service will clear any in-memory fault toggles and restore health checks without data loss or downtime, as the service is not crashing and is processing payments normally.\n\n**Sources**:\n- No direct runbook match for fault injection, but the logs explicitly state the cause.\n- Internal runbook: \"Downstream Dependency Failure: Order Service Cannot Reach Payment Service\" (not applicable, as the issue is not dependency-related).\n- Internal runbook: \"Network Timeout: Payment Service Downstream Calls Timing Out\" (not applicable, as there are no timeout errors in logs).",
+      "error": null
+    },
+    {
+      "scenario_id": "healthfail-order-v1",
+      "service": "order-service",
+      "mode": "live",
+      "ablation": "full",
+      "model_id": null,
+      "trial": 1,
+      "hold_out": null,
+      "warmup_s": 6.0,
+      "failure_type_match": 1,
+      "fix_keyword_score": 0.8,
+      "runbook_cited": 1,
+      "tool_calls_used": 10,
+      "latency_s": 19.217,
+      "estimated_cost_usd": 0.01088,
+      "predicted_failure_type": "health_check_failure",
+      "ground_truth_failure_type": "health_check_failure",
+      "confidence": null,
+      "tool_trace": [
+        "list_services",
+        "get_pod_status",
+        "get_logs",
+        "get_metrics",
+        "get_events",
+        "get_logs",
+        "get_metrics",
+        "get_anomalies",
+        "what_changed",
+        "search_runbooks"
+      ],
+      "retrieved_sources": [
+        {
+          "title": "Downstream Dependency Failure: Order Service Cannot Reach Payment Service",
+          "source": "data/runbooks/dependency_failure-order.md",
+          "url": null,
+          "source_type": "internal_runbook",
+          "failure_type": "dependency_failure",
+          "score": 0.7038
+        },
+        {
+          "title": "High Error Rate: Order Service Returning 5xx Errors",
+          "source": "data/runbooks/high_error_rate-order.md",
+          "url": null,
+          "source_type": "internal_runbook",
+          "failure_type": "high_error_rate",
+          "score": 0.6862
+        }
+      ],
+      "sources": [
+        "Runbook: \u201cDownstream Dependency Failure: Order Service Cannot Reach Payment Service\u201d (internal_runbook)",
+        "Runbook: \u201cHigh Error Rate: Order Service Returning 5xx Errors\u201d (internal_runbook)"
+      ],
+      "diagnosis": "**Diagnosis**: The order-service is failing health checks due to a deliberately injected fault, as indicated by repeated log messages stating \u201cHealth check failed (fault injected)\u201d. This is not a production failure but a test or debugging scenario. The service is otherwise healthy, processing orders successfully, and not experiencing memory pressure, crashes, or dependency failures.\n\n**Failure Type**: health_check_failure\n\n**Evidence**:\n- Pod status: `health: unhealthy`, but `oom_killed: false`, `exit_code: 0`, and `restart_count: 0` \u2014 no crash or OOM.\n- Logs: Multiple `WARNING: Health check failed (fault injected)` messages starting at 17:00:54Z, with no ERROR or CRITICAL logs.\n- Metrics: Memory usage stable at ~60\u201378 MB (well under 128 MB limit); error_rate metric is null (no actual errors being recorded).\n- Events: No restarts or failures \u2014 only container lifecycle events and health status transition to unhealthy.\n- Anomalies: No metric or log anomalies detected.\n- Changes: Only a container start event 60 minutes ago \u2014 no recent deploy or config change.\n\n**How to confirm**:\n- Check if fault injection is active by reviewing recent test or debug deployments.\n- Verify if the \u201chealth_fail\u201d toggle was set to True in the service\u2019s configuration or feature flags.\n\n**Recommended fix**:\n1. If this is intentional (e.g., for testing), no action is needed \u2014 the service is functioning correctly.\n2. If this is unintended, disable the fault injection by resetting the \u201chealth_fail\u201d toggle or restarting the service without the fault flag.\n\n**Proposed action**:\nNone \u2014 no remediation required unless fault injection is unintended. If unintended, propose a restart to clear the fault state.\n\n**Sources**:\n- Runbook: \u201cDownstream Dependency Failure: Order Service Cannot Reach Payment Service\u201d (internal_runbook)\n- Runbook: \u201cHigh Error Rate: Order Service Returning 5xx Errors\u201d (internal_runbook)",
+      "error": null
+    },
+    {
+      "scenario_id": "healthfail-inventory-v1",
+      "service": "inventory-service",
+      "mode": "live",
+      "ablation": "full",
+      "model_id": null,
+      "trial": 1,
+      "hold_out": null,
+      "warmup_s": 6.0,
+      "failure_type_match": 1,
+      "fix_keyword_score": 0.8,
+      "runbook_cited": 1,
+      "tool_calls_used": 11,
+      "latency_s": 17.562,
+      "estimated_cost_usd": 0.01143,
+      "predicted_failure_type": "health_check_failure",
+      "ground_truth_failure_type": "health_check_failure",
+      "confidence": null,
+      "tool_trace": [
+        "list_services",
+        "get_pod_status",
+        "get_logs",
+        "get_metrics",
+        "get_events",
+        "get_logs",
+        "get_metrics",
+        "get_metrics",
+        "get_anomalies",
+        "what_changed",
+        "search_runbooks"
+      ],
+      "retrieved_sources": [
+        {
+          "title": "Health Check Failure: Inventory Service Returning 500",
+          "source": "data/runbooks/health_check_failure-inventory.md",
+          "url": null,
+          "source_type": "internal_runbook",
+          "failure_type": "health_check_failure",
+          "score": 0.6949
+        }
+      ],
+      "sources": [
+        "Runbook: \u201cHealth Check Failure: Inventory Service Returning 500\u201d (internal_runbook)"
+      ],
+      "diagnosis": "**Diagnosis**: The inventory-service is failing health checks due to an active fault injection toggle (`health_fail: True`) that was deliberately set during startup. This is not a production failure but a controlled test condition. The service is otherwise healthy, with stable memory usage (54\u201355 MB), no OOM kills, and no recent deploys or anomalies.\n\n**Failure Type**: health_check_failure\n\n**Evidence**:\n- Logs show repeated `WARNING: Health check failed (fault injected)` messages starting at 2026-11-13T17:01:31Z.\n- The log line `Fault toggles updated: {'health_fail': True}` confirms the fault injection was explicitly enabled.\n- Pod status shows `health: healthy` and `oom_killed: false`, indicating the container is running normally.\n- Memory usage is stable at ~55 MB, well under the 128 MB limit.\n- No recent deploys or container changes beyond the initial startup.\n- No CPU or error rate metrics anomalies detected.\n\n**How to confirm**:\n1. Check the current fault toggle state by calling `get_logs` with `level=None` to see if `health_fail` is still active.\n2. Verify the service\u2019s health endpoint manually (e.g., `curl http://inventory-service:8000/health`) to confirm it returns 500.\n3. Review the runbook \u201cHealth Check Failure: Inventory Service Returning 500\u201d for steps to disable the fault toggle.\n\n**Recommended fix**:\n1. Disable the fault injection toggle by calling the admin endpoint: `POST /admin/fault` with payload `{\"health_fail\": false}`.\n2. Wait 30 seconds and verify the health check returns 200 OK.\n3. Monitor logs for any new warnings or errors.\n\n**Proposed action**:\nNone \u2014 this is a test condition, not a production incident. No remediation is needed unless the fault injection was unintended. If unintended, propose a remediation to disable the toggle.\n\n**Sources**:\n- Runbook: \u201cHealth Check Failure: Inventory Service Returning 500\u201d (internal_runbook)",
+      "error": null
+    },
+    {
+      "scenario_id": "dbtimeout-payment-v1",
+      "service": "payment-service",
+      "mode": "live",
+      "ablation": "full",
+      "model_id": null,
+      "trial": 1,
+      "hold_out": null,
+      "warmup_s": 6.0,
+      "failure_type_match": 0,
+      "fix_keyword_score": 0.4,
+      "runbook_cited": 0,
+      "tool_calls_used": 12,
+      "latency_s": 20.301,
+      "estimated_cost_usd": 0.01265,
+      "predicted_failure_type": "other",
+      "ground_truth_failure_type": "db_timeout",
+      "confidence": null,
+      "tool_trace": [
+        "list_services",
+        "get_pod_status",
+        "get_logs",
+        "get_metrics",
+        "get_metrics",
+        "get_events",
+        "get_logs",
+        "get_metrics",
+        "get_metrics",
+        "search_runbooks",
+        "get_anomalies",
+        "what_changed"
+      ],
+      "retrieved_sources": [
+        {
+          "title": "Network Timeout: Payment Service Downstream Calls Timing Out",
+          "source": "data/runbooks/network_timeout-payment.md",
+          "url": null,
+          "source_type": "internal_runbook",
+          "failure_type": "network_timeout",
+          "score": 0.7224
+        },
+        {
+          "title": "Database Connection Timeout: Payment Service Unable to Reach Postgres",
+          "source": "data/runbooks/db_timeout-payment.md",
+          "url": null,
+          "source_type": "internal_runbook",
+          "failure_type": "db_timeout",
+          "score": 0.6901
+        }
+      ],
+      "sources": [],
+      "diagnosis": "**Diagnosis**: The payment-service is experiencing high latency due to an artificial fault toggle being enabled that simulates slow database responses. This is not a production failure but a controlled test condition. The service is healthy, not crashing, and has no memory or CPU pressure.\n\n**Failure Type**: other\n\n**Evidence**:\n- `get_logs` shows: `\"Fault toggles updated: {'slow_db': True}\"` at 2026-11-13T17:02:10.517Z.\n- `get_metrics` for `latency_p95_ms` shows a spike from ~7ms to 370ms, confirming the slowdown.\n- `get_anomalies` reports a 573% increase in latency_p95_ms, consistent with a deliberate fault injection.\n- `get_pod_status` confirms the service is healthy, not OOM-killed, and has no restarts.\n- `get_metrics` for memory_usage_mb shows stable usage at ~55MB, well under the 128MB limit.\n- `get_events` shows no warnings or restarts, only normal startup events.\n- `search_runbooks` returned no confident match for \u201chigh latency with no errors,\u201d which is consistent with this being a non-standard, test-induced condition.\n\n**How to confirm**:\n1. Check the logs for the message `\"Fault toggles updated: {'slow_db': True}\"` to confirm the toggle was set.\n2. Verify the service is not under resource pressure by checking `memory_usage_mb` and `cpu_usage`.\n3. Confirm no recent deploys or config changes via `what_changed` \u2014 the only change was the container start, which is normal.\n\n**Recommended fix**:\n1. Disable the `slow_db` fault toggle if this is not intended for testing.\n2. If this is part of a test, no action is required \u2014 the behavior is expected.\n\n**Proposed action**: None \u2014 this is a controlled test condition, not a failure requiring remediation.\n\n**Sources**: No confident runbook match \u2014 this is a test-induced condition, not a documented failure type.",
+      "error": null
+    },
+    {
+      "scenario_id": "dbtimeout-order-v1",
+      "service": "order-service",
+      "mode": "live",
+      "ablation": "full",
+      "model_id": null,
+      "trial": 1,
+      "hold_out": null,
+      "warmup_s": 6.0,
+      "failure_type_match": 0,
+      "fix_keyword_score": 0.2,
+      "runbook_cited": 0,
+      "tool_calls_used": 12,
+      "latency_s": 20.806,
+      "estimated_cost_usd": 0.01272,
+      "predicted_failure_type": "other",
+      "ground_truth_failure_type": "db_timeout",
+      "confidence": null,
+      "tool_trace": [
+        "list_services",
+        "get_pod_status",
+        "get_logs",
+        "get_metrics",
+        "get_metrics",
+        "get_events",
+        "get_logs",
+        "get_metrics",
+        "get_metrics",
+        "search_runbooks",
+        "get_anomalies",
+        "what_changed"
+      ],
+      "retrieved_sources": [
+        {
+          "title": "High Error Rate: Order Service Returning 5xx Errors",
+          "source": "data/runbooks/high_error_rate-order.md",
+          "url": null,
+          "source_type": "internal_runbook",
+          "failure_type": "high_error_rate",
+          "score": 0.6985
+        }
+      ],
+      "sources": [
+        "No confident runbook match for \"high latency no errors\" \u2014 the returned runbook was for \"high error rate\", which does not apply here."
+      ],
+      "diagnosis": "**Diagnosis**: The `order-service` is experiencing high latency (p95 latency spiked from ~12ms to over 800ms) with no corresponding errors or resource exhaustion. The root cause is likely a deliberate or accidental configuration change that introduced a \"slow_db\" fault toggle, as indicated by the log entry at `2026-11-13T17:03:01.126Z`. This is not a production failure but a simulated or misconfigured delay.\n\n**Failure Type**: other\n\n**Evidence**:\n- `get_metrics`: `latency_p95_ms` spiked from 12.6ms to 821.7ms in the last 5 minutes.\n- `get_logs`: Log entry at `2026-11-13T17:03:01.126Z` states: `\"Fault toggles updated: {'slow_db': True}\"`.\n- `get_anomalies`: Confirmed a 616.84% increase in `latency_p95_ms` with no log anomalies.\n- `get_pod_status`: Service is healthy, not OOM-killed, and has 0 restarts.\n- `get_metrics`: Memory usage is stable at ~62MB (well under 128MB limit); CPU usage data is unavailable but not indicative of saturation.\n- `get_events`: No restarts or warnings; service started cleanly at `2026-11-13T17:02:56Z`.\n\n**How to confirm**:\n1. Check if the `slow_db` fault toggle is intentionally enabled for testing.\n2. Review recent deployments or configuration changes that might have set this toggle.\n3. Verify if this is a test environment or if the toggle was accidentally left on in production.\n\n**Recommended fix**:\n1. If this is a test environment, no action is needed.\n2. If this is production, disable the `slow_db` fault toggle by updating the service configuration or environment variable.\n3. If the toggle was set via a recent deployment, roll back to the previous version.\n\n**Proposed action**: None (no automated remediation is safe without human confirmation; this appears to be a configuration issue, not a system failure).\n\n**Sources**:\n- No confident runbook match for \"high latency no errors\" \u2014 the returned runbook was for \"high error rate\", which does not apply here.",
+      "error": null
+    },
+    {
+      "scenario_id": "dbtimeout-inventory-v1",
+      "service": "inventory-service",
+      "mode": "live",
+      "ablation": "full",
+      "model_id": null,
+      "trial": 1,
+      "hold_out": null,
+      "warmup_s": 6.0,
+      "failure_type_match": 0,
+      "fix_keyword_score": 0.2,
+      "runbook_cited": 0,
+      "tool_calls_used": 14,
+      "latency_s": 20.067,
+      "estimated_cost_usd": 0.01421,
+      "predicted_failure_type": "other",
+      "ground_truth_failure_type": "db_timeout",
+      "confidence": null,
+      "tool_trace": [
+        "list_services",
+        "get_pod_status",
+        "get_logs",
+        "get_metrics",
+        "get_metrics",
+        "get_events",
+        "get_logs",
+        "get_metrics",
+        "get_metrics",
+        "get_anomalies",
+        "search_runbooks",
+        "get_metrics",
+        "what_changed",
+        "get_logs"
+      ],
+      "retrieved_sources": [
+        {
+          "title": "Crash Loop: Inventory Service Restarting Repeatedly",
+          "source": "data/runbooks/crash_loop-inventory.md",
+          "url": null,
+          "source_type": "internal_runbook",
+          "failure_type": "crash_loop",
+          "score": 0.6714
+        },
+        {
+          "title": "CPU Saturation: High Latency and Event Loop Throttling",
+          "source": "data/runbooks/cpu_saturation-any.md",
+          "url": null,
+          "source_type": "internal_runbook",
+          "failure_type": "cpu_saturation",
+          "score": 0.6711
+        }
+      ],
+      "sources": [],
+      "diagnosis": "**Diagnosis**: The inventory-service is experiencing high latency due to an intentional fault toggle (`slow_db: True`) that was activated at startup. This is not a production failure but a simulated performance degradation for testing purposes. The service is healthy, not restarting, and has no resource constraints.\n\n**Failure Type**: other\n\n**Evidence**:\n- `get_pod_status` shows the service is `running`, `healthy`, with `restart_count: 0` and `oom_killed: false`.\n- `get_logs` reveals the log line: `\"Fault toggles updated: {'slow_db': True}\"` at 2026-11-13T17:03:48Z, indicating a deliberate slowdown.\n- `get_metrics` for `latency_p95_ms` shows a spike from ~5ms to 454ms, confirming the slowdown.\n- `get_anomalies` reports a 713% increase in latency, consistent with a fault injection.\n- `what_changed` shows no recent deploy or config change \u2014 the only event is the container start.\n- `get_metrics` for `cpu_usage` and `memory_usage_mb` show no saturation or pressure.\n\n**How to confirm**:\n1. Check the logs for the `slow_db` toggle message.\n2. Verify the service is not restarting or OOM-killed.\n3. Confirm no recent deploy or config change occurred.\n\n**Recommended fix**:\nThis is not a failure requiring remediation. If this is unintended, disable the `slow_db` toggle in the service configuration or environment variables. If this is intentional for testing, no action is needed.\n\n**Proposed action**: None\n\n**Sources**: No confident runbook match \u2014 this is a known test configuration, not a production incident.",
+      "error": null
+    },
+    {
+      "scenario_id": "dberror-payment-v1",
+      "service": "payment-service",
+      "mode": "live",
+      "ablation": "full",
+      "model_id": null,
+      "trial": 1,
+      "hold_out": null,
+      "warmup_s": 6.0,
+      "failure_type_match": 0,
+      "fix_keyword_score": 0.6,
+      "runbook_cited": 1,
+      "tool_calls_used": 11,
+      "latency_s": 17.043,
+      "estimated_cost_usd": 0.01136,
+      "predicted_failure_type": "db_timeout",
+      "ground_truth_failure_type": "high_error_rate",
+      "confidence": null,
+      "tool_trace": [
+        "list_services",
+        "get_pod_status",
+        "get_logs",
+        "get_metrics",
+        "get_events",
+        "get_logs",
+        "get_metrics",
+        "get_metrics",
+        "get_anomalies",
+        "what_changed",
+        "search_runbooks"
+      ],
+      "retrieved_sources": [
+        {
+          "title": "Database Connection Timeout: Payment Service Unable to Reach Postgres",
+          "source": "data/runbooks/db_timeout-payment.md",
+          "url": null,
+          "source_type": "internal_runbook",
+          "failure_type": "db_timeout",
+          "score": 0.6999
+        },
+        {
+          "title": "Downstream Dependency Failure: Order Service Cannot Reach Payment Service",
+          "source": "data/runbooks/dependency_failure-order.md",
+          "url": null,
+          "source_type": "internal_runbook",
+          "failure_type": "dependency_failure",
+          "score": 0.6753
+        }
+      ],
+      "sources": [
+        "Runbook: \"Database Connection Timeout: Payment Service Unable to Reach Postgres\" (internal_runbook, data/runbooks/db_timeout-payment.md)"
+      ],
+      "diagnosis": "**Diagnosis**: The payment-service is failing requests due to a simulated database error, as indicated by repeated ERROR logs stating \"Payment failed: Simulated database error (db_error fault is ON)\". This is not a real infrastructure failure but a deliberate fault injection for testing purposes. The service is healthy, not OOM-killed, and memory usage is stable at ~55MB, well under its 128MB limit. Latency and error rate metrics show a sharp increase, consistent with the injected fault.\n\n**Failure Type**: db_timeout\n\n**Evidence**:\n- Logs: 14 ERROR entries in 10 minutes, all with message \"Payment failed: Simulated database error (db_error fault is ON)\".\n- Metrics: error_rate spiked to 0.1487 (14.87% failure rate) and latency_p95_ms increased by 946.96%.\n- Pod status: healthy, no restarts, not OOM-killed, memory_usage_mb stable at 54.6MB.\n- Events: No warnings or restarts; service started cleanly 10 minutes ago.\n- Anomalies: Confirmed sharp increase in error_rate and latency_p95_ms.\n- Runbook match: \"Database Connection Timeout: Payment Service Unable to Reach Postgres\" (score 0.6999) matches the symptom.\n\n**How to confirm**: \n1. Check if the `db_error` fault flag is intentionally enabled in the test environment.\n2. Run a test payment request to verify the error persists: `curl -X POST http://localhost:8001/pay -H \"Content-Type: application/json\" -d '{\"order_id\": 999, \"amount\": 10.0}'`.\n\n**Recommended fix**: \n1. If this is a test, no action is needed; the fault is intentional.\n2. If this is unintended, disable the `db_error` fault flag in the payment-service configuration or environment variables.\n3. If the fault is part of a chaos engineering test, ensure it is scheduled and documented.\n\n**Proposed action**: None (this is a simulated fault; no remediation needed unless it is unintended).\n\n**Sources**: \n- Runbook: \"Database Connection Timeout: Payment Service Unable to Reach Postgres\" (internal_runbook, data/runbooks/db_timeout-payment.md)",
+      "error": null
+    },
+    {
+      "scenario_id": "dberror-order-v1",
+      "service": "order-service",
+      "mode": "live",
+      "ablation": "full",
+      "model_id": null,
+      "trial": 1,
+      "hold_out": null,
+      "warmup_s": 6.0,
+      "failure_type_match": 0,
+      "fix_keyword_score": 0.8,
+      "runbook_cited": 1,
+      "tool_calls_used": 11,
+      "latency_s": 19.237,
+      "estimated_cost_usd": 0.01169,
+      "predicted_failure_type": "db_timeout",
+      "ground_truth_failure_type": "high_error_rate",
+      "confidence": null,
+      "tool_trace": [
+        "list_services",
+        "get_pod_status",
+        "get_logs",
+        "get_metrics",
+        "get_events",
+        "get_logs",
+        "get_metrics",
+        "get_anomalies",
+        "search_runbooks",
+        "get_logs",
+        "what_changed"
+      ],
+      "retrieved_sources": [
+        {
+          "title": "High Error Rate: Order Service Returning 5xx Errors",
+          "source": "data/runbooks/high_error_rate-order.md",
+          "url": null,
+          "source_type": "internal_runbook",
+          "failure_type": "high_error_rate",
+          "score": 0.6798
+        },
+        {
+          "title": "Downstream Dependency Failure: Order Service Cannot Reach Payment Service",
+          "source": "data/runbooks/dependency_failure-order.md",
+          "url": null,
+          "source_type": "internal_runbook",
+          "failure_type": "dependency_failure",
+          "score": 0.6558
+        }
+      ],
+      "sources": [
+        "Internal Runbook: \"High Error Rate: Order Service Returning 5xx Errors\" (score: 0.6798)",
+        "Internal Runbook: \"Downstream Dependency Failure: Order Service Cannot Reach Payment Service\" (score: 0.6558)"
+      ],
+      "diagnosis": "**Diagnosis**: The `order-service` is failing requests due to a simulated database error triggered by an active fault injection toggle (`db_error` set to `True`). This is not a production failure but a controlled test condition. The service itself is healthy and running normally, but it is intentionally returning 500 errors to simulate a database failure.\n\n**Failure Type**: `db_timeout` (simulated)\n\n**Evidence**:\n- Logs show repeated `ERROR` messages: `\"Failed to save order to database: Simulated database error (db_error fault is ON)\"`.\n- The `db_error` fault toggle was explicitly updated to `True` at `2026-11-13T17:05:15.550Z`, immediately preceding the error logs.\n- Metrics show a sharp increase in `error_rate` (from 0.0 to 0.2438) and `latency_p95_ms` (up 859.68% from baseline), consistent with a simulated failure.\n- No restarts, OOM kills, or health check failures \u2014 the service is stable and running.\n- `what_changed` shows no recent code deploys or config changes \u2014 the only change was the container start event, which is normal.\n\n**How to confirm**:\n1. Check the fault toggle status: `get_logs --service order-service --minutes 10` (already done \u2014 shows `db_error: True`).\n2. Verify no recent deployments: `what_changed --service order-service --minutes 60` (already done \u2014 no code/config changes).\n3. Confirm service health: `get_pod_status --service order-service` (already done \u2014 healthy, no restarts).\n\n**Recommended fix**:\n1. Disable the `db_error` fault toggle to restore normal operation.\n2. If this was intentional (e.g., for testing), no action is needed \u2014 the service is behaving as designed.\n3. If this was accidental, investigate who enabled the fault toggle and disable it.\n\n**Proposed action**: None \u2014 this is a simulated failure, not a production incident. No remediation is required unless the fault toggle was enabled by mistake.\n\n**Sources**:\n- Internal Runbook: \"High Error Rate: Order Service Returning 5xx Errors\" (score: 0.6798)\n- Internal Runbook: \"Downstream Dependency Failure: Order Service Cannot Reach Payment Service\" (score: 0.6558)",
+      "error": null
+    },
+    {
+      "scenario_id": "dberror-inventory-v1",
+      "service": "inventory-service",
+      "mode": "live",
+      "ablation": "full",
+      "model_id": null,
+      "trial": 1,
+      "hold_out": null,
+      "warmup_s": 6.0,
+      "failure_type_match": 0,
+      "fix_keyword_score": 0.8,
+      "runbook_cited": 0,
+      "tool_calls_used": 11,
+      "latency_s": 15.18,
+      "estimated_cost_usd": 0.01108,
+      "predicted_failure_type": "dependency_failure",
+      "ground_truth_failure_type": "high_error_rate",
+      "confidence": null,
+      "tool_trace": [
+        "list_services",
+        "get_pod_status",
+        "get_logs",
+        "get_metrics",
+        "get_events",
+        "get_logs",
+        "get_metrics",
+        "get_metrics",
+        "search_runbooks",
+        "get_anomalies",
+        "what_changed"
+      ],
+      "retrieved_sources": [
+        {
+          "title": "Crash Loop: Inventory Service Restarting Repeatedly",
+          "source": "data/runbooks/crash_loop-inventory.md",
+          "url": null,
+          "source_type": "internal_runbook",
+          "failure_type": "crash_loop",
+          "score": 0.735
+        },
+        {
+          "title": "High Error Rate: Order Service Returning 5xx Errors",
+          "source": "data/runbooks/high_error_rate-order.md",
+          "url": null,
+          "source_type": "internal_runbook",
+          "failure_type": "high_error_rate",
+          "score": 0.7184
+        }
+      ],
+      "sources": [],
+      "diagnosis": "**Diagnosis**: The inventory-service is failing with HTTP 500 errors due to a simulated database error, as indicated by repeated log messages stating \"Stock lookup failed: Simulated database error (db_error fault is ON)\". This is not a production failure but a deliberate fault injection for testing purposes. The service is healthy, not restarting, and memory usage is stable, ruling out resource exhaustion or crash loops.\n\n**Failure Type**: dependency_failure\n\n**Evidence**:\n- Logs show 9 ERROR entries in the last 10 minutes, all with the message: \"Stock lookup failed: Simulated database error (db_error fault is ON)\".\n- The service pod status is \"running\", \"healthy\", with 0 restarts and no OOM kills.\n- Error rate is 6.43% (0.0643), and latency P95 has spiked to 906ms (from a baseline of ~5ms), consistent with a failing dependency.\n- No critical logs or memory pressure (memory usage is stable at ~54MB, well below the 128MB limit).\n- Anomalies report a 100% increase in error rate and 886% increase in latency, confirming a sudden degradation.\n- No recent code deploys or config changes; the only event is the container start 10 minutes ago, which aligns with the fault injection.\n\n**How to confirm**: Check if the \"db_error fault\" is intentionally enabled in the test environment or if it was accidentally left on. Verify with the team running the fault injection test.\n\n**Recommended fix**: Disable the \"db_error fault\" flag in the test configuration. If this is unintended, roll back the test configuration or restart the service after disabling the fault.\n\n**Proposed action**: None (no automated remediation needed; this is a test scenario).\n\n**Sources**: No runbook directly matches this scenario, as it is a simulated fault. The \"Crash Loop\" and \"High Error Rate\" runbooks were reviewed but do not apply, as the service is not crashing or misconfigured.",
+      "error": null
+    },
+    {
+      "scenario_id": "oom-payment-48m",
+      "service": "payment-service",
+      "mode": "live",
+      "ablation": "full",
+      "model_id": null,
+      "trial": 1,
+      "hold_out": null,
+      "warmup_s": 6.0,
+      "failure_type_match": 1,
+      "fix_keyword_score": 1.0,
+      "runbook_cited": 1,
+      "tool_calls_used": 11,
+      "latency_s": 18.715,
+      "estimated_cost_usd": 0.01161,
+      "predicted_failure_type": "out_of_memory",
+      "ground_truth_failure_type": "out_of_memory",
+      "confidence": null,
+      "tool_trace": [
+        "list_services",
+        "get_pod_status",
+        "get_logs",
+        "get_metrics",
+        "get_events",
+        "get_logs",
+        "get_metrics",
+        "get_anomalies",
+        "what_changed",
+        "search_runbooks",
+        "propose_remediation"
+      ],
+      "retrieved_sources": [
+        {
+          "title": "OOMKilled: Payment Service Memory Limit Exceeded",
+          "source": "data/runbooks/out_of_memory-payment.md",
+          "url": null,
+          "source_type": "internal_runbook",
+          "failure_type": "out_of_memory",
+          "score": 0.7228
+        }
+      ],
+      "sources": [
+        "Runbook: \u201cOOMKilled: Payment Service Memory Limit Exceeded\u201d (source_type: internal_runbook)"
+      ],
+      "diagnosis": "**Diagnosis**: The payment-service is restarting due to being killed by the OOM (Out of Memory) killer. The service\u2019s memory limit is set to 48MB, but its actual usage consistently exceeds 53MB, triggering container termination and restarts. This causes intermittent request drops and elevated error rates (up to 0.34). The root cause is insufficient memory allocation for the current transaction load.\n\n**Failure Type**: out_of_memory\n\n**Evidence**:\n- `get_pod_status`: `memory_limit_mb: 48`, `oom_killed: false` (last state), but `restart_count: 1` and events show OOMKilled.\n- `get_events`: Multiple \u201cOOMKilled\u201d events at 2026-11-13T17:06:28Z and 17:06:44Z.\n- `get_metrics`: Memory usage consistently at 53.9\u201354.8MB, exceeding the 48MB limit.\n- `get_anomalies`: Error rate increased 100% from 0.0 to 0.2516; latency p95 increased 747%.\n- `what_changed`: Container die/start events with exit code 137 (SIGKILL, typically OOM).\n- `search_runbooks`: Matched runbook \u201cOOMKilled: Payment Service Memory Limit Exceeded\u201d with score 0.7228.\n\n**How to confirm**:\n- Run `get_metrics` for `memory_usage_mb` and `error_rate` over the next 5 minutes to verify memory pressure and error rate trends.\n- Check `get_pod_status` after applying the memory increase to confirm no further OOMKilled events.\n\n**Recommended fix**:\n1. Increase the memory limit for payment-service from 48MB to 256MB to accommodate current load.\n2. Monitor memory usage and error rate for 10 minutes post-change.\n3. If memory usage stabilizes below 256MB, consider profiling the service for memory leaks (e.g., check for `/leak` endpoints or unreleased caches).\n\n**Proposed action**:\n```json\n{\n  \"proposal_id\": \"6d99d988-6461-457b-ae5b-635923f608c6\",\n  \"action\": \"set_memory_limit\",\n  \"service\": \"payment-service\",\n  \"params\": {\n    \"memory_mb\": 256\n  },\n  \"dry_run\": {\n    \"changes\": [\n      \"Update container memory limit to 256MB on payment-service\"\n    ],\n    \"risk\": \"medium\"\n  },\n  \"requires_approval\": true,\n  \"expires_in_seconds\": 300\n}\n```\n\n**Sources**:\n- Runbook: \u201cOOMKilled: Payment Service Memory Limit Exceeded\u201d (source_type: internal_runbook)",
+      "error": null
+    },
+    {
+      "scenario_id": "oom-payment-64m",
+      "service": "payment-service",
+      "mode": "live",
+      "ablation": "full",
+      "model_id": null,
+      "trial": 1,
+      "hold_out": null,
+      "warmup_s": 6.0,
+      "failure_type_match": 1,
+      "fix_keyword_score": 1.0,
+      "runbook_cited": 1,
+      "tool_calls_used": 11,
+      "latency_s": 21.096,
+      "estimated_cost_usd": 0.01196,
+      "predicted_failure_type": "out_of_memory",
+      "ground_truth_failure_type": "out_of_memory",
+      "confidence": null,
+      "tool_trace": [
+        "list_services",
+        "get_pod_status",
+        "get_logs",
+        "get_metrics",
+        "get_events",
+        "get_logs",
+        "get_metrics",
+        "get_anomalies",
+        "what_changed",
+        "search_runbooks",
+        "propose_remediation"
+      ],
+      "retrieved_sources": [
+        {
+          "title": "OOMKilled: Payment Service Memory Limit Exceeded",
+          "source": "data/runbooks/out_of_memory-payment.md",
+          "url": null,
+          "source_type": "internal_runbook",
+          "failure_type": "out_of_memory",
+          "score": 0.7499
+        }
+      ],
+      "sources": [
+        "Runbook: \u201cOOMKilled: Payment Service Memory Limit Exceeded\u201d (source_type: internal_runbook)"
+      ],
+      "diagnosis": "**Diagnosis**: The payment-service is experiencing out-of-memory (OOM) crashes due to a memory leak, causing it to restart repeatedly and drop requests. The service is currently allocated only 64MB of memory, but logs show it is allocating and leaking memory (e.g., \u201cMemory leak: allocated 10 MB, total leaked: 20 MB\u201d) before being killed by the OOM killer (exit code 137). Metrics confirm high error rates and latency spikes, consistent with OOM-induced instability.\n\n**Failure Type**: out_of_memory\n\n**Evidence**:\n- `get_pod_status`: `oom_killed: false` (current state), but `restart_count: 1` and `memory_limit_mb: 64`.\n- `get_events`: Two OOMKilled events at `2026-11-13T17:07:10Z` with reason \u201cContainer terminated due to out-of-memory\u201d.\n- `get_logs`: Warnings of memory leaks (\u201cMemory leak: allocated 10 MB, total leaked: 20 MB\u201d) just before restart.\n- `get_metrics`: Memory usage is ~54MB, close to the 64MB limit, and error rate spiked to 0.3627.\n- `get_anomalies`: Latency increased 748% and error rate increased 100%.\n- `what_changed`: Container died and restarted at `2026-11-13T17:07:10Z` with exit code 137 (OOMKilled).\n- `search_runbooks`: Matched runbook \u201cOOMKilled: Payment Service Memory Limit Exceeded\u201d with score 0.7499.\n\n**How to confirm**: \n- Check if memory usage consistently approaches the limit before restarts.\n- Monitor for recurring \u201cMemory leak\u201d warnings in logs.\n- Verify OOMKilled events in `get_events`.\n\n**Recommended fix**: \n1. Increase the memory limit for payment-service from 64MB to 256MB to accommodate the leak while a code fix is developed.\n2. Deploy a memory profiling tool to identify and fix the leak in the application code.\n3. Monitor error rate and latency after the memory increase to confirm stability.\n\n**Proposed action**: \n- Action: `set_memory_limit`\n- Parameters: `{\"memory_mb\": 256}`\n- Risk: medium (increasing memory may mask the underlying leak but prevents immediate outages)\n- Rationale: The service is currently under-provisioned and crashing due to OOM. Increasing memory is a safe, immediate mitigation while the root cause (memory leak) is investigated.\n\n**Sources**: \n- Runbook: \u201cOOMKilled: Payment Service Memory Limit Exceeded\u201d (source_type: internal_runbook)",
+      "error": null
+    },
+    {
+      "scenario_id": "oom-payment-128m",
+      "service": "payment-service",
+      "mode": "live",
+      "ablation": "full",
+      "model_id": null,
+      "trial": 1,
+      "hold_out": null,
+      "warmup_s": 6.0,
+      "failure_type_match": 1,
+      "fix_keyword_score": 1.0,
+      "runbook_cited": 1,
+      "tool_calls_used": 11,
+      "latency_s": 45.797,
+      "estimated_cost_usd": 0.01567,
+      "predicted_failure_type": "out_of_memory",
+      "ground_truth_failure_type": "out_of_memory",
+      "confidence": null,
+      "tool_trace": [
+        "list_services",
+        "get_pod_status",
+        "get_logs",
+        "get_metrics",
+        "get_events",
+        "get_logs",
+        "get_metrics",
+        "get_anomalies",
+        "search_runbooks",
+        "what_changed",
+        "get_metrics"
+      ],
+      "retrieved_sources": [
+        {
+          "title": "OOMKilled: Payment Service Memory Limit Exceeded",
+          "source": "data/runbooks/out_of_memory-payment.md",
+          "url": null,
+          "source_type": "internal_runbook",
+          "failure_type": "out_of_memory",
+          "score": 0.7228
+        }
+      ],
+      "sources": [
+        "Runbook: \u201cOOMKilled: Payment Service Memory Limit Exceeded\u201d (internal_runbook, data/runbooks/out_of_memory-payment.md)"
+      ],
+      "diagnosis": "**Diagnosis**: The payment-service is experiencing an out-of-memory (OOM) condition due to a memory leak, causing it to restart and drop requests. The service\u2019s memory limit (128 MB) is insufficient for its current workload, and logs show a progressive memory leak accumulating 10 MB per warning until the container is killed. The error rate spiked to 0.34, and latency increased by 726%, confirming service degradation.\n\n**Failure Type**: out_of_memory\n\n**Evidence**:\n- `get_pod_status`: `oom_killed: false` (current state), but `restart_count: 1` and `memory_limit_mb: 128`.\n- `get_events`: Two OOMKilled events at `2026-11-13T17:07:55Z`, followed by restarts.\n- `get_logs`: Repeated warnings: \u201cMemory leak: allocated 10 MB, total leaked: X MB\u201d (up to 90 MB), then service restarts.\n- `get_metrics`: `error_rate` peaked at 0.34; `memory_usage_mb` was stable at ~54 MB, but this is likely the post-restart baseline, not the peak before OOM.\n- `get_anomalies`: `error_rate` increased 100% (from 0.0 to 0.34); `latency_p95_ms` increased 726%.\n- `search_runbooks`: Matched \u201cOOMKilled: Payment Service Memory Limit Exceeded\u201d runbook with score 0.7228, confirming out_of_memory as the failure type.\n\n**How to confirm**:\n- Check if the memory leak is reproducible by sending a burst of payment requests and monitoring `memory_usage_mb` and logs for \u201cMemory leak\u201d warnings.\n- Verify the service\u2019s memory limit is 128 MB via `get_pod_status`.\n\n**Recommended fix**:\n1. Increase the memory limit for payment-service to 256 MB to accommodate the leak while a code fix is developed.\n2. Investigate and patch the memory leak in the payment processing code (e.g., unreleased caches or unbounded collections).\n3. Monitor error rate and latency after the memory increase to confirm stability.\n\n**Proposed action**:\n```json\n{\n  \"service\": \"payment-service\",\n  \"action\": \"set_memory_limit\",\n  \"params\": {\n    \"memory_mb\": 256\n  },\n  \"risk_level\": \"low\",\n  \"rationale\": \"Increasing memory limit from 128 MB to 256 MB is a safe, non-destructive change to prevent OOMKills. It does not alter code or data, only resource allocation. This is a temporary mitigation while the memory leak is fixed.\"\n}\n```\n\n**Sources**:\n- Runbook: \u201cOOMKilled: Payment Service Memory Limit Exceeded\u201d (internal_runbook, data/runbooks/out_of_memory-payment.md)",
+      "error": null
+    },
+    {
+      "scenario_id": "baddeploy-order-er20",
+      "service": "order-service",
+      "mode": "live",
+      "ablation": "full",
+      "model_id": null,
+      "trial": 1,
+      "hold_out": null,
+      "warmup_s": 6.0,
+      "failure_type_match": 1,
+      "fix_keyword_score": 0.8,
+      "runbook_cited": 1,
+      "tool_calls_used": 13,
+      "latency_s": 30.293,
+      "estimated_cost_usd": 0.01494,
+      "predicted_failure_type": "high_error_rate",
+      "ground_truth_failure_type": "high_error_rate",
+      "confidence": null,
+      "tool_trace": [
+        "list_services",
+        "get_pod_status",
+        "get_logs",
+        "get_metrics",
+        "get_events",
+        "get_logs",
+        "get_metrics",
+        "get_anomalies",
+        "search_runbooks",
+        "what_changed",
+        "get_metrics",
+        "get_metrics",
+        "propose_remediation"
+      ],
+      "retrieved_sources": [
+        {
+          "title": "High Error Rate: Order Service Returning 5xx Errors",
+          "source": "data/runbooks/high_error_rate-order.md",
+          "url": null,
+          "source_type": "internal_runbook",
+          "failure_type": "high_error_rate",
+          "score": 0.7272
+        }
+      ],
+      "sources": [
+        "Runbook: \"High Error Rate: Order Service Returning 5xx Errors\" (internal_runbook)"
+      ],
+      "diagnosis": "**Diagnosis**: The `order-service` is returning HTTP 500 errors due to a simulated fault injection, not a production failure. The error rate spiked to 34.55% and logs explicitly state \"Simulated error injected by error_rate fault\". This was triggered by a recent deploy of a bad image (`infra-order-service:bad-er20`) as part of a chaos engineering scenario.\n\n**Failure Type**: high_error_rate\n\n**Evidence**:\n- `get_logs` (ERROR level): 3 ERROR logs with message \"Simulated error injected by error_rate fault\".\n- `get_logs` (all levels): Log at `2026-11-13T17:09:03.326Z` shows \"Fault toggles updated: {'error_rate': 0.2}\".\n- `get_metrics` (error_rate): Max error rate reached 0.3455 (34.55%) in the last 5 minutes.\n- `what_changed`: Recent deploy at `2026-11-13T17:09:03Z` with description \"Simulated bad deploy on order-service with 20% error rate\" and image `infra-order-service:bad-er20`.\n- `get_anomalies`: Confirmed a 100% increase in error_rate and 780% increase in latency_p95_ms, consistent with fault injection.\n- `search_runbooks`: Matched runbook \"High Error Rate: Order Service Returning 5xx Errors\" with score 0.7272.\n\n**How to confirm**:\n1. Check the deploy history for `order-service` using `what_changed` to confirm the bad image was deployed.\n2. Review the full logs for the \"Fault toggles updated\" message to confirm the error rate was intentionally set.\n3. Verify the service is not OOM-killed or CPU-saturated (both metrics are normal).\n\n**Recommended fix**:\n1. Roll back the `order-service` to the previous stable version to stop the simulated errors.\n2. Investigate why the bad image was deployed to production (if this was unintended) or document the chaos scenario if intentional.\n\n**Proposed action**:\nA rollback deployment has been proposed for `order-service` to revert to the previous stable version. This action is a dry-run and requires human approval before execution. The risk level is medium as it involves restarting the service, which may cause brief downtime.\n\n**Sources**:\n- Runbook: \"High Error Rate: Order Service Returning 5xx Errors\" (internal_runbook)",
+      "error": null
+    },
+    {
+      "scenario_id": "baddeploy-order-er50",
+      "service": "order-service",
+      "mode": "live",
+      "ablation": "full",
+      "model_id": null,
+      "trial": 1,
+      "hold_out": null,
+      "warmup_s": 6.0,
+      "failure_type_match": 1,
+      "fix_keyword_score": 0.8,
+      "runbook_cited": 1,
+      "tool_calls_used": 11,
+      "latency_s": 26.854,
+      "estimated_cost_usd": 0.01283,
+      "predicted_failure_type": "high_error_rate",
+      "ground_truth_failure_type": "high_error_rate",
+      "confidence": null,
+      "tool_trace": [
+        "list_services",
+        "get_pod_status",
+        "get_logs",
+        "get_metrics",
+        "get_events",
+        "get_logs",
+        "get_metrics",
+        "get_anomalies",
+        "what_changed",
+        "search_runbooks",
+        "propose_remediation"
+      ],
+      "retrieved_sources": [
+        {
+          "title": "High Error Rate: Order Service Returning 5xx Errors",
+          "source": "data/runbooks/high_error_rate-order.md",
+          "url": null,
+          "source_type": "internal_runbook",
+          "failure_type": "high_error_rate",
+          "score": 0.6977
+        }
+      ],
+      "sources": [
+        "Runbook: \u201cHigh Error Rate: Order Service Returning 5xx Errors\u201d (internal_runbook)"
+      ],
+      "diagnosis": "**Diagnosis**: The `order-service` is returning a high rate of HTTP 500 errors because a simulated fault was injected during a recent deploy. The logs explicitly state \u201cSimulated error injected by error_rate fault,\u201d and the deploy history confirms a \u201cSimulated bad deploy on order-service with 50% error rate.\u201d The service is otherwise healthy, with no OOM kills, restarts, or latency spikes, indicating this is an intentional, non-production failure.\n\n**Failure Type**: high_error_rate\n\n**Evidence**:\n- `get_logs` (ERROR level): 5 ERROR lines with message \u201cSimulated error injected by error_rate fault\u201d.\n- `get_logs` (all levels): Log line at 17:09:52.183Z: \u201cFault toggles updated: {'error_rate': 0.5}\u201d.\n- `what_changed`: Deploy event at 17:09:52Z: \u201cSimulated bad deploy on order-service with 50% error rate\u201d, image `infra-order-service:bad-er50`.\n- `get_metrics`: `error_rate` spiked to 0.3455 (34.55%) within 5 minutes.\n- `get_pod_status`: Service is running, healthy, and not OOM-killed.\n- `get_anomalies`: Confirmed \u201cerror_rate\u201d anomaly with 100% increase from baseline 0.0 to 0.0746.\n\n**How to confirm**:\n1. Check `get_logs` for \u201cSimulated error injected by error_rate fault\u201d.\n2. Verify `what_changed` for recent deploy with \u201cSimulated bad deploy\u201d description.\n3. Confirm `get_metrics` shows elevated `error_rate` but stable `latency_p95_ms`.\n\n**Recommended fix**:\n1. Roll back the faulty deploy to restore normal behavior.\n2. If this is a test, document the scenario and ensure it\u2019s isolated from production.\n\n**Proposed action**:\n- **Action**: `rollback_deploy`\n- **Service**: `order-service`\n- **Risk**: Medium (may cause brief downtime during rollback)\n- **Rationale**: The deploy introduced a simulated fault causing 50% error rate. Rolling back will remove the fault and restore service health.\n- **Approval Required**: Yes (via Slack approval token)\n\n**Sources**:\n- Runbook: \u201cHigh Error Rate: Order Service Returning 5xx Errors\u201d (internal_runbook)",
+      "error": null
+    },
+    {
+      "scenario_id": "baddeploy-order-er85",
+      "service": "order-service",
+      "mode": "live",
+      "ablation": "full",
+      "model_id": null,
+      "trial": 1,
+      "hold_out": null,
+      "warmup_s": 6.0,
+      "failure_type_match": 1,
+      "fix_keyword_score": 0.8,
+      "runbook_cited": 1,
+      "tool_calls_used": 11,
+      "latency_s": 23.115,
+      "estimated_cost_usd": 0.01227,
+      "predicted_failure_type": "high_error_rate",
+      "ground_truth_failure_type": "high_error_rate",
+      "confidence": "high",
+      "tool_trace": [
+        "list_services",
+        "get_pod_status",
+        "get_logs",
+        "get_metrics",
+        "get_events",
+        "get_logs",
+        "get_metrics",
+        "get_anomalies",
+        "what_changed",
+        "search_runbooks",
+        "propose_remediation"
+      ],
+      "retrieved_sources": [
+        {
+          "title": "High Error Rate: Order Service Returning 5xx Errors",
+          "source": "data/runbooks/high_error_rate-order.md",
+          "url": null,
+          "source_type": "internal_runbook",
+          "failure_type": "high_error_rate",
+          "score": 0.7339
+        }
+      ],
+      "sources": [
+        "Runbook: \"High Error Rate: Order Service Returning 5xx Errors\" (internal_runbook)"
+      ],
+      "diagnosis": "**Diagnosis**: The `order-service` is failing with HTTP 500 errors due to a recent bad deployment that injected a simulated error rate of 85%. The logs explicitly state \"Simulated error injected by error_rate fault,\" and the `what_changed` tool confirms a deploy event with the image `infra-order-service:bad-er85` triggered by a chaos injection scenario. The error rate metric spiked to 0.36 (36%) and remains elevated, while latency also increased significantly. The service is healthy and not OOM-killed, ruling out resource exhaustion. Confidence: **high**.\n\n**Failure Type**: high_error_rate\n\n**Evidence**:\n- `get_logs`: 9 ERROR logs with message \"Simulated error injected by error_rate fault\" in the last 10 minutes.\n- `get_metrics`: `error_rate` peaked at 0.36 (36%) and is currently 0.0727 (7.27%).\n- `what_changed`: Deploy event at `2026-11-13T17:10:40Z` with image `infra-order-service:bad-er85` and description \"Simulated bad deploy on order-service with 85% error rate\".\n- `get_anomalies`: `error_rate` anomaly with 100% increase from baseline 0.0 to current 0.0816.\n- `get_pod_status`: Service is running, healthy, and not OOM-killed.\n\n**How to confirm**: Check the deploy history for `order-service` using `what_changed` and verify the image tag `bad-er85` is associated with the error injection. Review the runbook \"High Error Rate: Order Service Returning 5xx Errors\" for standard remediation steps.\n\n**Recommended fix**:\n1. Roll back the `order-service` to the previous stable version to eliminate the injected errors.\n2. Investigate the cause of the bad deploy (e.g., CI/CD pipeline failure, manual error) to prevent recurrence.\n3. Monitor error rate and latency metrics after rollback to confirm resolution.\n\n**Proposed action**:\n- **Action**: `rollback_deploy`\n- **Service**: `order-service`\n- **Risk**: medium\n- **Rationale**: Rolling back will revert the service to a known good state, removing the injected errors. The risk is medium because it involves a service restart, which may cause brief downtime.\n- **Approval Required**: Yes (Slack approval token needed).\n\n**Sources**:\n- Runbook: \"High Error Rate: Order Service Returning 5xx Errors\" (internal_runbook)",
+      "error": null
+    },
+    {
+      "scenario_id": "cpusat-payment-500ms",
+      "service": "payment-service",
+      "mode": "live",
+      "ablation": "full",
+      "model_id": null,
+      "trial": 1,
+      "hold_out": null,
+      "warmup_s": 80.0,
+      "failure_type_match": 1,
+      "fix_keyword_score": 1.0,
+      "runbook_cited": 1,
+      "tool_calls_used": 12,
+      "latency_s": 23.2,
+      "estimated_cost_usd": 0.01308,
+      "predicted_failure_type": "cpu_saturation",
+      "ground_truth_failure_type": "cpu_saturation",
+      "confidence": null,
+      "tool_trace": [
+        "list_services",
+        "get_pod_status",
+        "get_logs",
+        "get_metrics",
+        "get_metrics",
+        "get_events",
+        "get_logs",
+        "get_metrics",
+        "get_anomalies",
+        "what_changed",
+        "search_runbooks",
+        "get_metrics"
+      ],
+      "retrieved_sources": [
+        {
+          "title": "Network Timeout: Payment Service Downstream Calls Timing Out",
+          "source": "data/runbooks/network_timeout-payment.md",
+          "url": null,
+          "source_type": "internal_runbook",
+          "failure_type": "network_timeout",
+          "score": 0.6832
+        }
+      ],
+      "sources": [
+        "Runbook: \"Network Timeout: Payment Service Downstream Calls Timing Out\" (internal_runbook) \u2014 although the failure type is network_timeout, the symptoms do not match (no network errors or timeouts detected). The actual issue is CPU saturation, not network issues."
+      ],
+      "diagnosis": "**Diagnosis**: The payment-service is experiencing high latency (spiking to 311ms from a baseline of ~6ms) under heavy compute load, as indicated by repeated \"CPU burn completed: 500ms\" warnings in the logs. The service is not crashing or restarting, and memory usage is stable at ~55MB (well under its 128MB limit). No recent deployments or configuration changes were found. The root cause is likely CPU saturation due to the compute-intensive workload, which is not being throttled or scaled appropriately.\n\n**Failure Type**: cpu_saturation\n\n**Evidence**:\n- Latency_p95_ms spiked from 6ms to 311ms in the last 5 minutes.\n- Logs show repeated \"CPU burn completed: 500ms\" warnings, indicating intentional or unintentional CPU-intensive operations.\n- Memory usage is stable at 55MB, ruling out out_of_memory.\n- No restarts, OOM kills, or recent deploys detected.\n- get_metrics for cpu_usage returned null, suggesting the metric is not being collected or is not available, but the log warnings strongly imply CPU pressure.\n- get_anomalies confirmed a 53.5% increase in latency_p95_ms and a 100% increase in error_rate (from 0 to 0.1822), consistent with CPU saturation causing timeouts or degraded performance.\n\n**How to confirm**: \n- Check if the \"CPU burn\" is intentional (e.g., a test or benchmark) or a bug causing infinite loops or heavy computation.\n- Verify if the service is running on a node with sufficient CPU resources.\n- Monitor CPU usage via node-level metrics if service-level CPU metrics are unavailable.\n\n**Recommended fix**: \n1. Increase the CPU limit for the payment-service if it is running in a containerized environment.\n2. Optimize the code to reduce CPU-intensive operations or add rate limiting to prevent overload.\n3. Scale the service horizontally by adding more replicas to distribute the load.\n\n**Proposed action**: None (requires human intervention to adjust CPU limits or optimize code).\n\n**Sources**: \n- Runbook: \"Network Timeout: Payment Service Downstream Calls Timing Out\" (internal_runbook) \u2014 although the failure type is network_timeout, the symptoms do not match (no network errors or timeouts detected). The actual issue is CPU saturation, not network issues.",
+      "error": null
+    },
+    {
+      "scenario_id": "cpusat-payment-1500ms",
+      "service": "payment-service",
+      "mode": "live",
+      "ablation": "full",
+      "model_id": null,
+      "trial": 1,
+      "hold_out": null,
+      "warmup_s": 80.0,
+      "failure_type_match": 1,
+      "fix_keyword_score": 0.75,
+      "runbook_cited": 1,
+      "tool_calls_used": 12,
+      "latency_s": 24.652,
+      "estimated_cost_usd": 0.0133,
+      "predicted_failure_type": "cpu_saturation",
+      "ground_truth_failure_type": "cpu_saturation",
+      "confidence": null,
+      "tool_trace": [
+        "list_services",
+        "get_pod_status",
+        "get_logs",
+        "get_metrics",
+        "get_metrics",
+        "get_events",
+        "get_logs",
+        "get_metrics",
+        "get_anomalies",
+        "what_changed",
+        "search_runbooks",
+        "get_metrics"
+      ],
+      "retrieved_sources": [
+        {
+          "title": "Network Timeout: Payment Service Downstream Calls Timing Out",
+          "source": "data/runbooks/network_timeout-payment.md",
+          "url": null,
+          "source_type": "internal_runbook",
+          "failure_type": "network_timeout",
+          "score": 0.6832
+        }
+      ],
+      "sources": [
+        "Runbook: \"Network Timeout: Payment Service Downstream Calls Timing Out\" (internal_runbook) \u2014 not directly applicable as no network timeouts were observed."
+      ],
+      "diagnosis": "**Diagnosis**: The payment-service is experiencing high latency (p95 up to 587ms) under heavy compute load, but there are no errors, restarts, or memory pressure. The logs show repeated \"CPU burn completed: 1500ms\" warnings, indicating intentional CPU-intensive work is being performed, which is likely the root cause of the latency spike. The service is healthy and not OOM-killed, and no recent deploys or config changes were found.\n\n**Failure Type**: cpu_saturation\n\n**Evidence**:\n- `get_metrics` for `latency_p95_ms`: Spiked from ~6ms to 587ms.\n- `get_logs`: Repeated \"CPU burn completed: 1500ms\" warnings, indicating heavy CPU usage.\n- `get_pod_status`: No OOM kills, restarts, or health issues.\n- `get_metrics` for `memory_usage_mb`: Stable at ~55MB (well under 128MB limit).\n- `get_anomalies`: Confirmed 85.68% increase in latency_p95_ms.\n- `what_changed`: No recent deploys or commits.\n- `get_events`: No lifecycle events or warnings.\n\n**How to confirm**: Check if the \"CPU burn\" is intentional (e.g., a test or benchmark) or a bug. Review recent code changes or feature flags that might have introduced this behavior.\n\n**Recommended fix**: If the CPU burn is intentional and causing unacceptable latency, consider:\n1. Increasing the CPU limit for the service (if possible).\n2. Offloading the CPU-intensive work to a separate worker service.\n3. Optimizing the code to reduce CPU usage.\n\n**Proposed action**: None (no immediate remediation needed as the service is healthy; further investigation required to determine if the CPU burn is intentional).\n\n**Sources**: \n- Runbook: \"Network Timeout: Payment Service Downstream Calls Timing Out\" (internal_runbook) \u2014 not directly applicable as no network timeouts were observed.",
+      "error": null
+    },
+    {
+      "scenario_id": "nettimeout-order-1000ms",
+      "service": "order-service",
+      "mode": "live",
+      "ablation": "full",
+      "model_id": null,
+      "trial": 1,
+      "hold_out": null,
+      "warmup_s": 6.0,
+      "failure_type_match": 1,
+      "fix_keyword_score": 0.8,
+      "runbook_cited": 1,
+      "tool_calls_used": 13,
+      "latency_s": 20.594,
+      "estimated_cost_usd": 0.01349,
+      "predicted_failure_type": "network_timeout",
+      "ground_truth_failure_type": "network_timeout",
+      "confidence": null,
+      "tool_trace": [
+        "list_services",
+        "get_pod_status",
+        "get_logs",
+        "get_metrics",
+        "get_metrics",
+        "get_events",
+        "get_logs",
+        "get_logs",
+        "get_metrics",
+        "get_metrics",
+        "get_anomalies",
+        "search_runbooks",
+        "what_changed"
+      ],
+      "retrieved_sources": [
+        {
+          "title": "High Error Rate: Order Service Returning 5xx Errors",
+          "source": "data/runbooks/high_error_rate-order.md",
+          "url": null,
+          "source_type": "internal_runbook",
+          "failure_type": "high_error_rate",
+          "score": 0.6891
+        }
+      ],
+      "sources": [
+        "Runbook: \u201cHigh Error Rate: Order Service Returning 5xx Errors\u201d (internal_runbook)"
+      ],
+      "diagnosis": "**Diagnosis**: The order-service is experiencing intermittent high latency and elevated error rates, but no critical errors or resource exhaustion are evident. The service is healthy, not restarting, and memory usage is well below its 128MB limit. The recent container start event suggests a fresh deployment, but no configuration or code changes are visible in the last 60 minutes. The root cause is likely a transient network or dependency issue, possibly with the payment-service, which the order-service depends on.\n\n**Failure Type**: network_timeout\n\n**Evidence**:\n- `get_pod_status`: `order-service` is running, healthy, with 0 restarts and `oom_killed: false`.\n- `get_metrics`: `latency_p95_ms` spiked to 43.85ms (from a baseline of ~10ms) and `error_rate` reached 0.1273 (12.73%).\n- `get_logs`: No ERROR or CRITICAL logs; only INFO logs showing successful order creation.\n- `get_anomalies`: Confirmed a significant spike in latency and error rate over the last 10 minutes.\n- `what_changed`: Only a container start event 15 minutes ago; no code or config changes detected.\n- `search_runbooks`: Matched \u201cHigh Error Rate: Order Service Returning 5xx Errors\u201d runbook, which suggests input validation or unhandled exceptions \u2014 but no such logs are present.\n\n**How to confirm**:\n- Check the health and logs of the `payment-service`, as `order-service` depends on it.\n- Run `get_metrics` for `payment-service` to see if it is also experiencing latency or errors.\n- Use `get_logs` for `payment-service` to look for ERROR or CRITICAL messages.\n\n**Recommended fix**:\n1. Investigate the `payment-service` for any signs of degradation or timeouts.\n2. If `payment-service` is healthy, check network connectivity between `order-service` and `payment-service`.\n3. If no issues are found, consider increasing the timeout threshold for calls from `order-service` to `payment-service`.\n\n**Proposed action**: None \u2014 manual investigation required.\n\n**Sources**:\n- Runbook: \u201cHigh Error Rate: Order Service Returning 5xx Errors\u201d (internal_runbook)",
+      "error": null
+    },
+    {
+      "scenario_id": "nettimeout-order-2500ms",
+      "service": "order-service",
+      "mode": "live",
+      "ablation": "full",
+      "model_id": null,
+      "trial": 1,
+      "hold_out": null,
+      "warmup_s": 6.0,
+      "failure_type_match": 0,
+      "fix_keyword_score": 0.8,
+      "runbook_cited": 1,
+      "tool_calls_used": 12,
+      "latency_s": 25.624,
+      "estimated_cost_usd": 0.01344,
+      "predicted_failure_type": "high_error_rate",
+      "ground_truth_failure_type": "network_timeout",
+      "confidence": null,
+      "tool_trace": [
+        "list_services",
+        "get_pod_status",
+        "get_logs",
+        "get_metrics",
+        "get_metrics",
+        "get_events",
+        "get_logs",
+        "get_metrics",
+        "get_metrics",
+        "search_runbooks",
+        "get_anomalies",
+        "what_changed"
+      ],
+      "retrieved_sources": [
+        {
+          "title": "High Error Rate: Order Service Returning 5xx Errors",
+          "source": "data/runbooks/high_error_rate-order.md",
+          "url": null,
+          "source_type": "internal_runbook",
+          "failure_type": "high_error_rate",
+          "score": 0.6891
+        }
+      ],
+      "sources": [
+        "Runbook: \"High Error Rate: Order Service Returning 5xx Errors\" (internal_runbook)"
+      ],
+      "diagnosis": "**Diagnosis**: The order-service is experiencing high latency and error rates, but the service is healthy and not restarting. The error rate is around 10%, and latency is spiking up to 49ms, which is high for this service. The service was recently started, and there are no recent deploys or configuration changes. The memory usage is within limits (62MB out of 128MB), and CPU usage data is unavailable. The runbook for high error rates suggests adding structured exception logging and input validation, but no specific root cause is identified from the current data.\n\n**Failure Type**: high_error_rate\n\n**Evidence**:\n- `get_pod_status`: order-service is running, healthy, with 0 restarts and no OOM kills.\n- `get_logs`: No ERROR or CRITICAL logs found; only INFO logs about order creation.\n- `get_metrics`: latency_p95_ms peaks at 49.0688ms, error_rate is 0.0999 (10%).\n- `get_events`: No warnings or restarts; service started cleanly.\n- `get_logs` (all levels): No errors, only INFO logs.\n- `get_metrics` (cpu_usage): No data available.\n- `get_metrics` (memory_usage_mb): 62.5742MB used, well under 128MB limit.\n- `search_runbooks`: Matched \"High Error Rate: Order Service Returning 5xx Errors\" with score 0.6891.\n- `get_anomalies`: Latency and error rate are down from baseline, but still high.\n- `what_changed`: Service was started 60 minutes ago, no recent deploys.\n\n**How to confirm**: Check for network issues or dependency failures (e.g., payment-service) that might cause timeouts. Also, verify if the error rate is due to bad input or unhandled exceptions.\n\n**Recommended fix**: \n1. Add structured exception logging with full tracebacks and request IDs.\n2. Implement an API input validation layer to return 400 Bad Request instead of 500 Internal Server Error.\n3. Monitor network latency and dependency health (e.g., payment-service).\n\n**Proposed action**: None (manual investigation required to confirm root cause).\n\n**Sources**: \n- Runbook: \"High Error Rate: Order Service Returning 5xx Errors\" (internal_runbook)",
+      "error": null
+    },
+    {
+      "scenario_id": "nettimeout-order-5000ms",
+      "service": "order-service",
+      "mode": "live",
+      "ablation": "full",
+      "model_id": null,
+      "trial": 1,
+      "hold_out": null,
+      "warmup_s": 6.0,
+      "failure_type_match": 0,
+      "fix_keyword_score": 0.8,
+      "runbook_cited": 0,
+      "tool_calls_used": 12,
+      "latency_s": 29.571,
+      "estimated_cost_usd": 0.01404,
+      "predicted_failure_type": "other",
+      "ground_truth_failure_type": "network_timeout",
+      "confidence": null,
+      "tool_trace": [
+        "list_services",
+        "get_pod_status",
+        "get_logs",
+        "get_metrics",
+        "get_metrics",
+        "get_events",
+        "get_logs",
+        "get_metrics",
+        "get_metrics",
+        "search_runbooks",
+        "get_anomalies",
+        "what_changed"
+      ],
+      "retrieved_sources": [
+        {
+          "title": "High Error Rate: Order Service Returning 5xx Errors",
+          "source": "data/runbooks/high_error_rate-order.md",
+          "url": null,
+          "source_type": "internal_runbook",
+          "failure_type": "high_error_rate",
+          "score": 0.6985
+        }
+      ],
+      "sources": [],
+      "diagnosis": "**Diagnosis**: The order-service is experiencing high latency (up to 44ms p95) despite no errors and healthy pod status. The service was recently started (17:16:57Z), and metrics show a recent drop in latency from a higher baseline (118ms to 17ms), suggesting the service is still warming up or stabilizing after a restart. No configuration or code changes were detected in the last 60 minutes.\n\n**Failure Type**: other\n\n**Evidence**:\n- Pod status: `state=running`, `health=healthy`, `restart_count=0`, `oom_killed=false`.\n- Logs: No ERROR/CRITICAL logs; only INFO logs showing successful order creation.\n- Metrics: `latency_p95_ms` peaked at 44ms, `error_rate` is null (no errors), `memory_usage_mb` is stable at ~62MB (well under 128MB limit), `cpu_usage` is unavailable.\n- Events: Service started at 17:16:57Z, no restarts or warnings.\n- Anomalies: Latency decreased by 85.7% from baseline (118ms to 17ms), suggesting recent stabilization.\n- Changes: Only a container start event detected; no code or config deployments.\n\n**How to confirm**:\n- Monitor latency over the next 5-10 minutes to see if it stabilizes below 20ms.\n- Check if the latency spike correlates with a specific request pattern or dependency call (e.g., payment-service).\n\n**Recommended fix**:\n- No immediate action required. The service appears to be recovering from a recent start. If latency remains high (>50ms) after 10 minutes, investigate dependency timeouts or network issues.\n\n**Proposed action**: None\n\n**Sources**: No confident runbook match \u2014 manual monitoring recommended.",
+      "error": null
+    }
+  ]
+}

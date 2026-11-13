@@ -37,12 +37,17 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import subprocess
 import sys
 import time
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+
+# Force offline mode for local sentence-transformers / huggingface hub to avoid DNS/timeout delays
+os.environ.setdefault("HF_HUB_OFFLINE", "1")
+os.environ.setdefault("TRANSFORMERS_OFFLINE", "1")
 
 # Ensure project root is in path
 _PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
@@ -449,6 +454,55 @@ def load_live_scenarios(include_surprise: bool = False) -> list[dict]:
     return scenarios
 
 
+_VARIANT_FIX_KEYWORDS: dict[str, list[str]] = {
+    "health_check_failure": ["health_fail", "fault", "admin", "restart", "health"],
+    "db_timeout": ["slow_db", "database", "timeout", "query", "postgres"],
+    "high_error_rate": ["error", "fault", "rollback", "db_error", "500"],
+    "out_of_memory": ["memory", "limit", "oom", "leak"],
+    "cpu_saturation": ["cpu", "burn", "limit", "throttle"],
+    "network_timeout": ["toxiproxy", "latency", "timeout", "network", "payment"],
+}
+
+_VARIANT_QUESTION_TEMPLATES: dict[str, str] = {
+    "health_check_failure": "{service} is failing health checks and returning errors. Investigate why.",
+    "db_timeout": "{service} database-backed requests are very slow and experiencing delays. What is causing this?",
+    "high_error_rate": "{service} suddenly started failing a large fraction of requests with HTTP 500 errors. Why?",
+    "out_of_memory": "{service} keeps restarting and dropping requests unexpectedly. What is wrong?",
+    "cpu_saturation": "{service} response latency spiked under heavy compute load. What is causing it?",
+    "network_timeout": "{service} calls across the network are stalling or timing out. What is the cause?",
+}
+
+
+def load_variant_scenarios() -> list[dict]:
+    """Load the 20 recorded parameterized/cross-service variant scenarios from chaos_variants.py."""
+    from infra.failures.chaos_variants import VARIANTS
+
+    incident_logs_dir = _PROJECT_ROOT / "data" / "incident_logs"
+    scenarios: list[dict] = []
+    for spec in VARIANTS:
+        gt_files = sorted((incident_logs_dir / spec.scenario_id).glob("*/ground_truth.json"))
+        meta: dict[str, Any] = {}
+        if gt_files:
+            with open(gt_files[-1], encoding="utf-8") as f:
+                meta = json.load(f)
+        ft = meta.get("failure_type", spec.failure_type)
+        svc = meta.get("service", spec.service)
+        q_tmpl = _VARIANT_QUESTION_TEMPLATES.get(ft, "{service} is experiencing an incident. What is wrong?")
+        scenarios.append({
+            "scenario_id": spec.scenario_id,
+            "service": svc,
+            "question": q_tmpl.format(service=svc),
+            "failure_type": ft,
+            "expected_fix": meta.get("expected_fix", ""),
+            "expected_fix_keywords": _VARIANT_FIX_KEYWORDS.get(ft, []),
+            "expected_runbook_keywords": [ft],
+            "is_surprise": False,
+            "is_variant": True,
+            "variant_parameters": meta.get("parameters", spec.params),
+        })
+    return scenarios
+
+
 DEFAULT_WARMUP_S = 6.0
 CPU_SATURATION_WARMUP_S = 80.0
 
@@ -461,14 +515,24 @@ def _scenario_warmup_seconds(sid: str, failure_type: str | None = None) -> float
 
 
 def _inject_live_scenario(sid: str, failure_type: str | None = None) -> float:
-    """Inject a live Docker chaos scenario and wait for telemetry symptoms."""
-    if sid in ("surprise_1", "surprise_2"):
-        cmd = [sys.executable, str(_PROJECT_ROOT / "infra" / "failures" / f"{sid}.py")]
+    """Inject a live Docker chaos scenario (standard, surprise, or variant) and wait for telemetry."""
+    from infra.failures.chaos_variants import VARIANTS, inject_variant
+
+    variant_map = {v.scenario_id: v for v in VARIANTS}
+    burn_duration_ms = 1000
+    if sid in variant_map:
+        spec = variant_map[sid]
+        inject_variant(spec)
+        if spec.kind == "cpu_burn":
+            burn_duration_ms = int(spec.params.get("duration_ms", 1000))
     else:
-        cmd = [sys.executable, str(_PROJECT_ROOT / "infra" / "failures" / "run_scenario.py"), "run", sid]
-    res = subprocess.run(cmd, cwd=str(_PROJECT_ROOT), capture_output=True, text=True, timeout=90)
-    if res.returncode != 0:
-        raise RuntimeError(f"Injection failed for {sid}: {(res.stderr or res.stdout)[-300:]}")
+        if sid in ("surprise_1", "surprise_2"):
+            cmd = [sys.executable, str(_PROJECT_ROOT / "infra" / "failures" / f"{sid}.py")]
+        else:
+            cmd = [sys.executable, str(_PROJECT_ROOT / "infra" / "failures" / "run_scenario.py"), "run", sid]
+        res = subprocess.run(cmd, cwd=str(_PROJECT_ROOT), capture_output=True, text=True, timeout=90)
+        if res.returncode != 0:
+            raise RuntimeError(f"Injection failed for {sid}: {(res.stderr or res.stdout)[-300:]}")
 
     warmup_s = _scenario_warmup_seconds(sid, failure_type)
     if failure_type == "cpu_saturation" or sid.startswith("cpusat"):
@@ -479,7 +543,7 @@ def _inject_live_scenario(sid: str, failure_type: str | None = None) -> float:
         with httpx.Client(timeout=15.0) as client:
             while time.monotonic() < deadline:
                 try:
-                    client.get("http://localhost:8001/burn?duration_ms=1000")
+                    client.get(f"http://localhost:8001/burn?duration_ms={burn_duration_ms}")
                 except Exception:
                     pass
                 time.sleep(0.25)
@@ -738,9 +802,12 @@ def run_benchmark(
     live: bool = False,
     scenario_filter: list[str] | None = None,
     run_id: str | None = None,
+    include_variants: bool = False,
 ) -> tuple[Path, Path]:
     """Runs full benchmark matrix across selected ablations, models, and trials."""
-    if live:
+    if include_variants:
+        scenarios = load_variant_scenarios()
+    elif live:
         scenarios = load_live_scenarios(include_surprise=include_surprise)
     else:
         scenarios = list(BENCHMARK_SCENARIOS)
@@ -753,7 +820,10 @@ def run_benchmark(
 
     date_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     if not run_id:
-        run_id = f"benchmark_{date_str}" if live else f"bm_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
+        if include_variants:
+            run_id = f"benchmark_variants_{date_str}"
+        else:
+            run_id = f"benchmark_{date_str}" if live else f"bm_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
         if hold_out:
             run_id += f"_holdout_{hold_out}"
 
@@ -844,6 +914,11 @@ if __name__ == "__main__":
         default=None,
         help="Optional custom output run ID (writes <run_id>.json/.md)",
     )
+    parser.add_argument(
+        "--variants",
+        action="store_true",
+        help="Run the 20 parameterized/cross-service variant scenarios from chaos_variants.py",
+    )
 
     args = parser.parse_args()
 
@@ -872,4 +947,5 @@ if __name__ == "__main__":
         live=args.live,
         scenario_filter=scenario_list,
         run_id=args.run_id,
+        include_variants=args.variants,
     )

@@ -22,6 +22,8 @@ import json
 import sys
 from pathlib import Path
 
+import math
+
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
@@ -31,7 +33,32 @@ CHARTS_DIR = RESULTS_DIR / "charts"
 CHARTS_DIR.mkdir(parents=True, exist_ok=True)
 
 
+def wilson_interval(successes: int, total: int, z: float = 1.95996) -> tuple[float, float]:
+    """Compute 95% Wilson score confidence interval (returns percentages 0.0 - 100.0)."""
+    if total <= 0:
+        return (0.0, 0.0)
+    p = successes / total
+    denom = 1 + (z ** 2) / total
+    center = (p + (z ** 2) / (2 * total)) / denom
+    margin = (z * math.sqrt((p * (1 - p)) / total + (z ** 2) / (4 * (total ** 2)))) / denom
+    lower = max(0.0, center - margin) * 100.0
+    upper = min(1.0, center + margin) * 100.0
+    return (round(lower, 1), round(upper, 1))
+
+
 def _find_latest_benchmark_json() -> Path:
+    # Prefer primary multi-ablation baseline benchmark JSON
+    base_candidates = sorted(
+        [
+            p for p in RESULTS_DIR.glob("benchmark_*.json")
+            if not any(skip in p.stem for skip in ("variants", "cpusat", "external", "holdout"))
+        ],
+        key=lambda p: p.stat().st_mtime,
+        reverse=True,
+    )
+    if base_candidates:
+        return base_candidates[0]
+
     candidates = sorted(
         list(RESULTS_DIR.glob("benchmark_*.json")) + list(RESULTS_DIR.glob("bm_*.json")),
         key=lambda p: p.stat().st_mtime,
@@ -293,7 +320,61 @@ def generate_all_charts(json_path: Path | None = None) -> list[Path]:
     p4.write_text(svg_4, encoding="utf-8")
     generated_files.append(p4)
 
+    # -------------------------------------------------------------
+    # Chart 5: Variant Category Breakdown (if variants JSON exists)
+    # -------------------------------------------------------------
+    v_chart = generate_variants_chart()
+    if v_chart:
+        generated_files.append(v_chart)
+
     return generated_files
+
+
+def generate_variants_chart(variants_path: Path | None = None) -> Path | None:
+    """Generate variant failure category SVG breakdown if variants benchmark exists."""
+    v_path = variants_path
+    if not v_path:
+        candidates = sorted(RESULTS_DIR.glob("benchmark_variants_*.json"), key=lambda p: p.stat().st_mtime, reverse=True)
+        if candidates:
+            v_path = candidates[0]
+    if not v_path or not v_path.exists():
+        return None
+
+    run_id, records = _load_records(v_path)
+
+    def _variant_group(r: dict) -> str:
+        sid = str(r.get("scenario_id", ""))
+        if "healthfail" in sid:
+            return "Health Check"
+        if "dbtimeout" in sid:
+            return "DB Timeout"
+        if "dberror" in sid or "baddeploy" in sid:
+            return "Error Rate"
+        if "oom" in sid:
+            return "OOM Limits"
+        if "cpusat" in sid:
+            return "CPU Saturation"
+        if "nettimeout" in sid:
+            return "Net Latency"
+        return "Other"
+
+    by_grp = _aggregate_group(records, _variant_group)
+    cats = list(by_grp.keys())
+    ft_vals = [by_grp[k]["ft_acc"] for k in cats]
+    fix_vals = [by_grp[k]["fix_acc"] for k in cats]
+
+    svg = create_bar_chart_svg(
+        title=f"Variant Performance by Fault Category ({run_id})",
+        categories=cats,
+        series=[
+            {"name": "Diagnosis Match (%)", "color": "#3b82f6", "values": ft_vals},
+            {"name": "Fix Keyword Score (%)", "color": "#10b981", "values": fix_vals},
+        ],
+        y_label="Score (%)",
+    )
+    p = CHARTS_DIR / "variants_by_category.svg"
+    p.write_text(svg, encoding="utf-8")
+    return p
 
 
 if __name__ == "__main__":

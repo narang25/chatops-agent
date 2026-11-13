@@ -1,6 +1,8 @@
-{"timestamp": "2026-11-12T12:43:23.463Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=8788 amount=95.93"}
-{"timestamp": "2026-11-12T12:43:23.875Z", "service": "payment-service", "level": "WARNING", "message": "CPU burn completed: 1000ms"}
-{"timestamp": "2026-11-12T12:43:24.366Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=8789 amount=45.52"}
-{"timestamp": "2026-11-12T12:43:24.926Z", "service": "payment-service", "level": "WARNING", "message": "CPU burn completed: 1000ms"}
-{"timestamp": "2026-11-12T12:43:25.467Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=8790 amount=27.75"}
-{"timestamp": "2026-11-12T12:43:25.929Z", "service": "payment-service", "level": "WARNING", "message": "CPU burn completed: 1000ms"}
+{"timestamp": "2026-11-12T14:06:28.133Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=11850 amount=59.13"}
+{"timestamp": "2026-11-12T14:06:28.851Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=11851 amount=18.18"}
+{"timestamp": "2026-11-12T14:06:29.712Z", "service": "payment-service", "level": "WARNING", "message": "CPU burn completed: 1000ms"}
+{"timestamp": "2026-11-12T14:06:29.740Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=11852 amount=15.1"}
+{"timestamp": "2026-11-12T14:06:30.716Z", "service": "payment-service", "level": "WARNING", "message": "CPU burn completed: 1000ms"}
+{"timestamp": "2026-11-12T14:06:30.951Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=11853 amount=38.95"}
+{"timestamp": "2026-11-12T14:06:31.551Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=11854 amount=47.02"}
+{"timestamp": "2026-11-12T14:06:31.719Z", "service": "payment-service", "level": "WARNING", "message": "CPU burn completed: 1000ms"}

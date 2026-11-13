@@ -1,5 +1,6 @@
-{"timestamp": "2026-11-12T12:42:08.412Z", "service": "payment-service", "level": "INFO", "message": "Fault toggles updated: {'slow_db': True}"}
-{"timestamp": "2026-11-12T12:42:11.432Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=8752 amount=10.0"}
-{"timestamp": "2026-11-12T12:42:13.206Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=8753 amount=9.1"}
-{"timestamp": "2026-11-12T12:42:14.453Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=8754 amount=20.0"}
-{"timestamp": "2026-11-12T12:42:17.502Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=8755 amount=30.0"}
+{"timestamp": "2026-11-12T13:44:15.042Z", "service": "payment-service", "level": "INFO", "message": "Fault toggles updated: {'slow_db': True}"}
+{"timestamp": "2026-11-12T13:44:18.059Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=10973 amount=10.0"}
+{"timestamp": "2026-11-12T13:44:18.766Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=10974 amount=17.62"}
+{"timestamp": "2026-11-12T13:44:21.083Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=10975 amount=20.0"}
+{"timestamp": "2026-11-12T13:44:22.889Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=10976 amount=11.64"}
+{"timestamp": "2026-11-12T13:44:24.096Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=10977 amount=30.0"}

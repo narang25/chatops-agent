@@ -1,8 +1,11 @@
-{"timestamp": "2026-11-12T12:43:03.414Z", "service": "inventory-service", "level": "INFO", "message": "Fault toggles updated: {'health_fail': True}"}
-{"timestamp": "2026-11-12T12:43:03.417Z", "service": "inventory-service", "level": "WARNING", "message": "Health check failed (fault injected)"}
-{"timestamp": "2026-11-12T12:43:04.066Z", "service": "inventory-service", "level": "WARNING", "message": "Health check failed (fault injected)"}
-{"timestamp": "2026-11-12T12:43:04.259Z", "service": "inventory-service", "level": "WARNING", "message": "Health check failed (fault injected)"}
-{"timestamp": "2026-11-12T12:43:09.340Z", "service": "inventory-service", "level": "WARNING", "message": "Health check failed (fault injected)"}
-{"timestamp": "2026-11-12T12:43:09.630Z", "service": "inventory-service", "level": "WARNING", "message": "Health check failed (fault injected)"}
-{"timestamp": "2026-11-12T12:43:10.576Z", "service": "inventory-service", "level": "WARNING", "message": "Health check failed (fault injected)"}
-{"timestamp": "2026-11-12T12:43:12.472Z", "service": "inventory-service", "level": "WARNING", "message": "Health check failed (fault injected)"}
+{"timestamp": "2026-11-12T13:46:54.142Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: widget"}
+{"timestamp": "2026-11-12T13:46:54.150Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=widget quantity=100"}
+{"timestamp": "2026-11-12T13:46:54.566Z", "service": "inventory-service", "level": "INFO", "message": "Fault toggles updated: {'health_fail': True}"}
+{"timestamp": "2026-11-12T13:46:54.568Z", "service": "inventory-service", "level": "WARNING", "message": "Health check failed (fault injected)"}
+{"timestamp": "2026-11-12T13:46:56.017Z", "service": "inventory-service", "level": "WARNING", "message": "Health check failed (fault injected)"}
+{"timestamp": "2026-11-12T13:46:56.920Z", "service": "inventory-service", "level": "WARNING", "message": "Health check failed (fault injected)"}
+{"timestamp": "2026-11-12T13:46:59.282Z", "service": "inventory-service", "level": "WARNING", "message": "Health check failed (fault injected)"}
+{"timestamp": "2026-11-12T13:46:59.603Z", "service": "inventory-service", "level": "INFO", "message": "Checking stock for item: gadget"}
+{"timestamp": "2026-11-12T13:46:59.618Z", "service": "inventory-service", "level": "INFO", "message": "Stock retrieved: item=gadget quantity=50"}
+{"timestamp": "2026-11-12T13:47:01.995Z", "service": "inventory-service", "level": "WARNING", "message": "Health check failed (fault injected)"}
+{"timestamp": "2026-11-12T13:47:04.356Z", "service": "inventory-service", "level": "WARNING", "message": "Health check failed (fault injected)"}

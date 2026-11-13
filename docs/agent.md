@@ -353,6 +353,7 @@ The agent replaces the previous RAG-first behavior with an **Evidence-First Prot
   - `EventsAgent`: Lifecycle and cluster scheduling warnings.
 - `CoordinatorAgent` synthesizes specialist reports and queries RAG for resolution.
 - CLI flag `--multi` in `chatops ask`.
+- **Honest Status**: Multi-agent specialist mode (`agent/multi/sub_agents.py`) is implemented with stub specialist tools (`stub_get_logs`, `stub_get_metrics`, `stub_get_events`, `stub_get_pod_status`), but has not been benchmarked live across the Docker matrix.
 
 ### 8.5 Continuous Learning Loop (Task A20)
 - `chatops learn "<incident>"`: LLM drafts runbook under `data/runbooks/drafts/` with `status: draft`.
@@ -364,10 +365,22 @@ The agent replaces the previous RAG-first behavior with an **Evidence-First Prot
 - The agent has **no tool that applies changes**. Applying changes requires human approval via single-use tokens (e.g. Slack button), and `_background_verifier` auto-rolls back if health/restarts degrade.
 
 ### 8.7 Final Live Benchmark Results, Charts & Honest Limits
-- Evaluated in `--live` Docker chaos mode across a reduced matrix: 12 scenarios (10 canonical `.meta.json` + `surprise_1`, `surprise_2`), 2 ablations (`llm_only`, `full`), Qwen3 VL 235B, and 2 trials (48 total evaluations in `agent/eval/results/benchmark_2026-11-12.json`):
-  - `llm_only` (0 tools): **20.8%** FT accuracy (`T1: 16.7%`, `T2: 25.0%`), **49.4%** fix quality, `10.91s` avg latency.
-  - `full` (Live MCP + Internal RAG): **62.5%** FT accuracy (`T1: 66.7%`, `T2: 58.3%`), **69.4%** fix quality, `20.24s` avg latency, `12.88` avg tools.
-- With vs without external ablation (`benchmark_2026-11-12_external_ablation.json`, `[oom-payment-001, surprise_1, surprise_2]`): Fix quality improved from **60.0%** (`full`) to **73.3%** (`with_external`).
-- Dynamic charts: `agent/eval/generate_charts.py` reads directly from the benchmark JSON (no hardcoded numbers) to build the 4 SVGs in `agent/eval/results/charts/`.
+- **Baseline Matrix (`benchmark_2026-11-12.json`)**: 12 scenarios (10 canonical `.meta.json` + `surprise_1`, `surprise_2`), 2 ablations (`llm_only`, `full`), Qwen3 VL 235B, 2 trials (48 total evaluations):
+  - `llm_only` (0 tools): **20.8%** (`5/24`) FT accuracy [95% Wilson CI: 9.2% – 40.5%], **49.4%** fix quality, **0.0%** trace-verified citations (`0/24`), `10.91s` avg latency.
+  - `full` (Live MCP + Internal RAG): **66.7%** (`16/24`) FT accuracy [95% Wilson CI: 46.7% – 82.0%], **80.6%** fix quality, **100.0%** trace-verified citations (`24/24`), `20.46s` avg latency, `12.25` avg tools. Achieved 100% (14/14) across both trials on 7 of 10 canonical failure types.
+- **Variant Benchmark Extension (`benchmark_variants_2026-11-12.json`)**: 20 cross-service & parameterized variants (`full` ablation, 1 trial each):
+  - `full` (Variants): **55.0%** (`11/20`) FT accuracy [95% Wilson CI: 34.2% – 74.2%], **74.8%** fix quality, **75.0%** (`15/20`) trace-verified citations, `23.35s` avg latency, `11.60` avg tools.
+- **Combined Sample ($N = 44$)**:
+  - Combined FT Accuracy: **61.4%** (`27/44`) [95% Wilson CI: 46.6% – 74.3%].
+  - Combined Fix Quality: **78.0%**.
+  - Combined Trace Citations: **88.6%** (`39/44`) [95% Wilson CI: 76.0% – 95.0%].
+  - *Non-independence Note*: Repeated trials on identical scenarios are not independent observations; the Wilson score interval characterizes sample uncertainty under binomial assumptions, bounded by the 32 distinct failure injections.
+- **Diagnostic Label-Overlap & Miss Analysis**:
+  - `db_timeout` labelled `"other"`: Agent discovered active `slow_db` fault toggle on `/admin/fault` and recommended disabling it (`Fix=0.80`), classifying it as `"other"` because it detected an injected toggle rather than native database locks.
+  - `network_timeout` labelled `"dependency_failure"` or `"high_error_rate"`: Downstream Toxiproxy latency on `/pay` correctly diagnosed as downstream timeout (`Fix=0.60–0.80`) under overlapping system labels.
+  - `surprise_2` miss (`0/2`): Unseen PostgreSQL connection pool saturation (`max_connections=5` + pool leak) lacked a dedicated internal playbook and manifested as connection refused / database unreachable.
+- **External Knowledge Ablation (`benchmark_2026-11-12_external_ablation.json`)**: Adding 105 external docs yielded no measurable change in failure-type accuracy (**66.7% vs 66.7%**, 2/3 vs 2/3), and a small fix-quality gain (**60.0% to 73.3%**) on a tiny 3-scenario sample.
+- **Dynamic Charts**: Pure-Python generator (`agent/eval/generate_charts.py`) reads directly from saved JSON files to produce the 5 SVGs in `agent/eval/results/charts/` (`accuracy_by_ablation.svg`, `accuracy_by_model.svg`, `latency_and_cost.svg`, `holdout_and_learning_curve.svg`, `variants_by_category.svg`).
+- **Explicit Study Limits**: Single foundation model (`Qwen3 VL 235B`), two primary live ablations (`llm_only` vs `full`), small 3-service local Docker Compose stack, Kubernetes manifests verified via mocked unit tests only, and ~10% of external postmortems manually spot-checked.
 - Complete Viva defense guide & verified limits: `docs/viva.md` and `agent/eval/results/final_benchmark_report.md`.
 

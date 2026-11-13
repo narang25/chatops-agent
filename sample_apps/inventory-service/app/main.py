@@ -91,7 +91,7 @@ logger = setup_logging(SERVICE_NAME, LOG_LEVEL)
 def _get_connection():
     """Return a psycopg2 connection, respecting fault toggles."""
     if faults.db_error:
-        raise Exception("Simulated database error (db_error fault is ON)")
+        raise Exception("Database connection error: relation query timeout or connection failed")
     if faults.slow_db:
         time.sleep(3)
     return psycopg2.connect(DATABASE_URL)
@@ -220,7 +220,7 @@ def health():
     """Health check. Returns 500 when the health_fail fault is active."""
     if faults.health_fail:
         app_up.labels(service=SERVICE_NAME).set(0)
-        logger.warning("Health check failed (fault injected)")
+        logger.warning("Health check failed: internal service degraded")
         return JSONResponse(status_code=500, content={"status": "unhealthy"})
     return {"status": "ok"}
 
@@ -342,7 +342,6 @@ def set_faults(req: FaultRequest):
     """Toggle runtime fault injection flags."""
     updates = {k: v for k, v in req.model_dump().items() if v is not None}
     faults.update(**updates)
-    logger.info(f"Fault toggles updated: {updates}")
     return {"faults": faults.as_dict()}
 
 

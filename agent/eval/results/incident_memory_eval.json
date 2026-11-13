@@ -1,47 +1,47 @@
 {
-  "timestamp": "2026-11-13 17:27:54Z",
+  "timestamp": "2026-11-13 18:43:01Z",
   "collection_name": "incident_memory",
   "total_incident_memories": 120,
-  "retrieval_accuracy_pct": 100.0,
+  "retrieval_accuracy_pct": 50.0,
   "holdout_demonstration": {
     "query": "order-service failed to start with KeyError PAYMENT_SERVICE_URL",
     "resolved_via_incident_memory": true,
-    "retrieved_precedent": "badenv-order-001",
-    "precedent_failure_type": "bad_config",
-    "similarity_score": 0.7136
+    "retrieved_precedent": "depfail-order-001_r5_1794487220",
+    "precedent_service": "order-service",
+    "similarity_score": 0.6523
   },
   "retrieval_benchmarks": [
     {
       "query": "payment-service container killed by Linux kernel OOM killer",
-      "expected_failure_type": "out_of_memory",
-      "top_hit_scenario": "oom-payment-001",
-      "top_hit_failure_type": "out_of_memory",
-      "top_hit_score": 0.8214,
+      "expected_prefix": "oom-payment",
+      "top_hit_run_id": "oom-payment-48m_r3_1794488597",
+      "top_hit_service": "payment-service",
+      "top_hit_score": 0.6946,
       "match": true
     },
     {
       "query": "order-service missing PAYMENT_SERVICE_URL environment variable startup crash",
-      "expected_failure_type": "bad_config",
-      "top_hit_scenario": "badenv-order-001",
-      "top_hit_failure_type": "bad_config",
-      "top_hit_score": 0.7223,
-      "match": true
+      "expected_prefix": "badenv-order",
+      "top_hit_run_id": "nettimeout-order-001_r3_1794486914",
+      "top_hit_service": "order-service",
+      "top_hit_score": 0.626,
+      "match": false
     },
     {
       "query": "inventory-service disk full errno 28 no space left on device",
-      "expected_failure_type": "disk_full",
-      "top_hit_scenario": "diskfull-inventory-001",
-      "top_hit_failure_type": "disk_full",
-      "top_hit_score": 0.7798,
+      "expected_prefix": "diskfull-inventory",
+      "top_hit_run_id": "diskfull-inventory-001_r1_1794486635",
+      "top_hit_service": "inventory-service",
+      "top_hit_score": 0.6785,
       "match": true
     },
     {
       "query": "order-service high error rate bad deployment rollback",
-      "expected_failure_type": "high_error_rate",
-      "top_hit_scenario": "baddeploy-order-001",
-      "top_hit_failure_type": "high_error_rate",
-      "top_hit_score": 0.7287,
-      "match": true
+      "expected_prefix": "baddeploy-order",
+      "top_hit_run_id": "dberror-order-v1_r3_1794488445",
+      "top_hit_service": "order-service",
+      "top_hit_score": 0.6551,
+      "match": false
     }
   ]
 }

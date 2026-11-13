@@ -48,31 +48,32 @@ def run_evaluation() -> dict:
 
     # 2. Benchmark Retrieval Across 4 Failure Archetypes
     queries = [
-        ("payment-service container killed by Linux kernel OOM killer", "out_of_memory"),
-        ("order-service missing PAYMENT_SERVICE_URL environment variable startup crash", "bad_config"),
-        ("inventory-service disk full errno 28 no space left on device", "disk_full"),
-        ("order-service high error rate bad deployment rollback", "high_error_rate"),
+        ("payment-service container killed by Linux kernel OOM killer", "oom-payment"),
+        ("order-service missing PAYMENT_SERVICE_URL environment variable startup crash", "badenv-order"),
+        ("inventory-service disk full errno 28 no space left on device", "diskfull-inventory"),
+        ("order-service high error rate bad deployment rollback", "baddeploy-order"),
     ]
 
     retrieval_results = []
     print("\n2. Multi-Archetype Retrieval Test:")
-    for q, expected_ft in queries:
+    for q, expected_prefix in queries:
         hits = query_incident_memory(q, top_k=2)
         top_hit = hits[0] if hits else {}
-        matched = top_hit.get("failure_type") == expected_ft
+        run_id = str(top_hit.get("run_id", ""))
+        matched = run_id.startswith(expected_prefix)
         retrieval_results.append({
             "query": q,
-            "expected_failure_type": expected_ft,
-            "top_hit_scenario": top_hit.get("scenario_id"),
-            "top_hit_failure_type": top_hit.get("failure_type"),
+            "expected_prefix": expected_prefix,
+            "top_hit_run_id": run_id,
+            "top_hit_service": top_hit.get("service"),
             "top_hit_score": top_hit.get("score"),
             "match": matched,
         })
         status = "PASS" if matched else "FAIL"
-        print(f"  [{status}] Query: '{q[:45]}...' -> Match: {top_hit.get('scenario_id')} (score={top_hit.get('score')})")
+        print(f"  [{status}] Query: '{q[:45]}...' -> Match: {run_id} (score={top_hit.get('score')})")
 
     # 3. Hold-Out Demonstration: Withheld Runbook Scenario
-    # Simulate an incident where the internal runbook for bad_config is missing from runbooks collection
+    # Verify that incident memory retrieves the past badenv-order telemetry precedent
     print("\n3. Hold-Out Demonstration (Withheld Runbook Scenario):")
     holdout_query = "order-service failed to start with KeyError PAYMENT_SERVICE_URL"
     hits = query_incident_memory(holdout_query, top_k=3)
@@ -80,8 +81,8 @@ def run_evaluation() -> dict:
 
     holdout_hit = hits[0]
     print(f"  Query: '{holdout_query}'")
-    print(f"  Retrieved Precedent: {holdout_hit['scenario_id']} (Score: {holdout_hit['score']})")
-    print(f"  Identified Failure Type: {holdout_hit['failure_type']}")
+    print(f"  Retrieved Precedent: {holdout_hit['run_id']} (Score: {holdout_hit['score']})")
+    print(f"  Service: {holdout_hit['service']}")
     print(f"  Source Type: {holdout_hit['source_type']}")
 
     # 4. Collection Isolation Verification
@@ -100,8 +101,8 @@ def run_evaluation() -> dict:
         "holdout_demonstration": {
             "query": holdout_query,
             "resolved_via_incident_memory": True,
-            "retrieved_precedent": holdout_hit["scenario_id"],
-            "precedent_failure_type": holdout_hit["failure_type"],
+            "retrieved_precedent": holdout_hit["run_id"],
+            "precedent_service": holdout_hit["service"],
             "similarity_score": holdout_hit["score"],
         },
         "retrieval_benchmarks": retrieval_results,

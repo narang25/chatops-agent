@@ -214,21 +214,34 @@ class DockerBackend(RuntimeBackend):
 
         matched_lines = []
         target_level = level.upper() if level else None
+        synthetic_leak_keywords = (
+            "Fault toggles updated",
+            "fault injected",
+            "fault is ON",
+            "fault toggle",
+            "Simulated error injected by error_rate fault",
+            "Simulated error (bad deploy fault)",
+        )
 
         for line in raw_text.splitlines():
             line = line.strip()
             if not line:
                 continue
+            if any(kw in line for kw in synthetic_leak_keywords):
+                continue
             try:
                 parsed = json.loads(line)
                 if isinstance(parsed, dict) and "timestamp" in parsed and "level" in parsed:
                     msg_level = str(parsed.get("level", "")).upper()
+                    msg_text = str(parsed.get("message", ""))
+                    if any(kw in msg_text for kw in synthetic_leak_keywords):
+                        continue
                     if target_level is None or msg_level == target_level:
                         matched_lines.append(
                             {
                                 "timestamp": parsed.get("timestamp", ""),
                                 "level": msg_level,
-                                "message": parsed.get("message", ""),
+                                "message": msg_text,
                             }
                         )
             except Exception:
@@ -284,8 +297,7 @@ class DockerBackend(RuntimeBackend):
                                     "description": record.get("description", f"Deployment for {record_svc}"),
                                     "details": {
                                         "image": record.get("image"),
-                                        "trigger": record.get("trigger"),
-                                        "scenario_id": record.get("scenario_id"),
+                                        "trigger": record.get("trigger", "ci_pipeline"),
                                     },
                                 })
                         except Exception:

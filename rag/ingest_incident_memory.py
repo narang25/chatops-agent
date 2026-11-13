@@ -59,32 +59,20 @@ def get_incident_collection(db_path: Path = DEFAULT_DB_PATH):
 
 
 def build_incident_doc(manifest_row: dict[str, Any]) -> tuple[str, str, dict[str, Any]] | None:
-    """Builds a structured document, ID, and metadata from an incident snapshot."""
+    """Builds a structured telemetry document from an incident snapshot without ground-truth labels."""
     snap_dir_str = manifest_row.get("snapshot_dir")
     if not snap_dir_str:
         return None
 
     snap_dir = Path(snap_dir_str)
-    gt_file = snap_dir / "ground_truth.json"
-    if not gt_file.exists():
-        return None
-
-    try:
-        with open(gt_file, encoding="utf-8") as f:
-            gt = json.load(f)
-    except Exception:
+    if not snap_dir.exists():
         return None
 
     run_id = manifest_row.get("run_id", snap_dir.name)
-    scenario_id = gt.get("scenario_id", manifest_row.get("scenario_id", "unknown"))
-    service = gt.get("service", manifest_row.get("service", "unknown"))
-    failure_type = gt.get("failure_type", manifest_row.get("failure_type", "unknown"))
-    root_cause = gt.get("root_cause", "")
-    expected_fix = gt.get("expected_fix", "")
-    signals = gt.get("signals", [])
+    service = manifest_row.get("service", "unknown")
 
-    # Read pod_status summary if available
-    pod_summary = ""
+    # Read pod_status summary if available (pure runtime telemetry)
+    pod_summary = "status=unknown"
     pod_file = snap_dir / "pod_status.json"
     if pod_file.exists():
         try:
@@ -99,7 +87,33 @@ def build_incident_doc(manifest_row: dict[str, Any]) -> tuple[str, str, dict[str
         except Exception:
             pass
 
-    # Read sample error logs if available
+    # Read metrics summary if available (pure Prometheus numeric samples)
+    metrics_summary = ""
+    metrics_file = snap_dir / "metrics.json"
+    if metrics_file.exists():
+        try:
+            with open(metrics_file, encoding="utf-8") as f:
+                mdata = json.load(f).get("metrics", {})
+                m_parts = [f"{k}={v}" for k, v in mdata.items() if v is not None]
+                if m_parts:
+                    metrics_summary = ", ".join(m_parts)
+        except Exception:
+            pass
+
+    # Read events summary if available (pure container lifecycle events)
+    events_summary = "none"
+    events_file = snap_dir / "events.json"
+    if events_file.exists():
+        try:
+            with open(events_file, encoding="utf-8") as f:
+                edata = json.load(f).get("events", [])
+                e_reasons = [e.get("reason", e.get("type", "")) for e in edata if isinstance(e, dict)]
+                if e_reasons:
+                    events_summary = ", ".join(e_reasons[:5])
+        except Exception:
+            pass
+
+    # Read sample error logs if available (raw application logs)
     error_sample = ""
     logs_file = snap_dir / "logs.jsonl"
     if logs_file.exists():
@@ -109,7 +123,7 @@ def build_incident_doc(manifest_row: dict[str, Any]) -> tuple[str, str, dict[str
                 for line in f:
                     if any(kw in line.upper() for kw in ("ERROR", "CRITICAL", "WARN", "EXCEPTION", "KILL", "TIMEOUT")):
                         err_lines.append(line.strip()[:150])
-                        if len(err_lines) >= 3:
+                        if len(err_lines) >= 4:
                             break
                 if err_lines:
                     error_sample = " | ".join(err_lines)
@@ -117,23 +131,21 @@ def build_incident_doc(manifest_row: dict[str, Any]) -> tuple[str, str, dict[str
             pass
 
     doc_text = (
-        f"# Incident Postmortem: {scenario_id} ({run_id})\n"
+        f"# Historical Incident Telemetry: {run_id}\n"
         f"Service: {service}\n"
-        f"Failure Type: {failure_type}\n"
-        f"Observed Signals: {', '.join(signals) if isinstance(signals, list) else signals}\n"
         f"Runtime Pod State: {pod_summary}\n"
-        f"Root Cause: {root_cause}\n"
-        f"Resolution / Verified Fix: {expected_fix}\n"
     )
+    if metrics_summary:
+        doc_text += f"Observed Metrics: {metrics_summary}\n"
+    if events_summary != "none":
+        doc_text += f"Cluster Events: {events_summary}\n"
     if error_sample:
-        doc_text += f"Key Telemetry Log Snippet: {error_sample}\n"
+        doc_text += f"Raw Application Logs: {error_sample}\n"
 
-    doc_id = f"incident::{scenario_id}::{run_id}"
+    doc_id = f"incident::{run_id}"
     metadata = {
         "run_id": run_id,
-        "scenario_id": scenario_id,
         "service": service,
-        "failure_type": failure_type,
         "source_type": "incident_memory",
         "started_at": manifest_row.get("started_at", ""),
     }
@@ -227,20 +239,17 @@ def query_incident_memory(
             if score < threshold:
                 continue
 
-            sid = meta.get("scenario_id", "")
-            # Deduplicate by scenario_id so top-k returns diverse scenario precedents
-            if sid in seen_scenarios:
+            run_id = meta.get("run_id", "")
+            if run_id in seen_scenarios:
                 continue
-            seen_scenarios.add(sid)
+            seen_scenarios.add(run_id)
 
             hits.append({
-                "scenario_id": sid,
-                "run_id": meta.get("run_id", ""),
+                "run_id": run_id,
                 "service": meta.get("service", ""),
-                "failure_type": meta.get("failure_type", ""),
                 "score": score,
                 "source_type": "incident_memory",
-                "postmortem_snippet": doc[:400],
+                "telemetry_snippet": doc[:400],
             })
             if len(hits) >= top_k:
                 break
@@ -258,4 +267,4 @@ if __name__ == "__main__":
     print(f"Completed in {elapsed}s. Running sample query:")
     sample_hits = query_incident_memory("payment-service OOM killed exit code 137 memory leak")
     for idx, hit in enumerate(sample_hits, 1):
-        print(f"  [{idx}] {hit['scenario_id']} ({hit['failure_type']}) score={hit['score']}")
+        print(f"  [{idx}] {hit['run_id']} ({hit['service']}) score={hit['score']}")

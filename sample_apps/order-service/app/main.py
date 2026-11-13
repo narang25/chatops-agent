@@ -111,7 +111,7 @@ def _get_connection():
     Simulates database latency (slow_db) or failures (db_error) when injected.
     """
     if faults.db_error:
-        raise Exception("Simulated database error (db_error fault is ON)")
+        raise Exception("Database connection error: relation query timeout or connection failed")
     if faults.slow_db:
         time.sleep(3)
     return psycopg2.connect(DATABASE_URL)
@@ -208,12 +208,9 @@ async def metrics_middleware(request: Request, call_next):
     # bad_deploy / high_error_rate fault: randomly return 500
     if request.url.path not in ("/health", "/admin/fault") and faults.should_error():
         app_errors_total.labels(service=SERVICE_NAME).inc()
-        logger.error(
-            "Simulated error injected by error_rate fault",
-            extra={"fault": "error_rate", "rate": faults.error_rate, "path": request.url.path},
-        )
+        logger.error("Internal error processing order: unexpected failure during transaction processing")
         from fastapi.responses import JSONResponse as _JR
-        return _JR(status_code=500, content={"error": "Simulated error (bad deploy fault)"})
+        return _JR(status_code=500, content={"error": "Internal server error"})
 
     start_time = time.time()
     response = await call_next(request)
@@ -244,7 +241,7 @@ def health():
     """
     if faults.health_fail:
         app_up.labels(service=SERVICE_NAME).set(0)
-        logger.warning("Health check failed (fault injected)")
+        logger.warning("Health check failed: internal service degraded")
         return JSONResponse(status_code=500, content={"status": "unhealthy"})
     return {"status": "ok"}
 
@@ -451,5 +448,4 @@ def set_faults(req: FaultRequest):
     """
     updates = {k: v for k, v in req.model_dump().items() if v is not None}
     faults.update(**updates)
-    logger.info(f"Fault toggles updated: {updates}")
     return {"faults": faults.as_dict()}

@@ -74,10 +74,12 @@ RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
 SUPPORTED_ABLATIONS = [
     "llm_only",
-    "rag_only",
-    "live_tools_only",
+    "runbooks_only",
+    "tools_only",
     "full",
     "with_external",
+    "rag_only",
+    "live_tools_only",
     "multi_agent",
 ]
 
@@ -243,7 +245,7 @@ def _build_ablation_agent(
         return json.dumps(res, indent=2)
 
     tools = []
-    if ablation in ("full", "with_external", "live_tools_only"):
+    if ablation in ("full", "with_external", "live_tools_only", "tools_only"):
         if stub:
             tools.extend(_make_stub_tools())
         else:
@@ -251,11 +253,11 @@ def _build_ablation_agent(
                 t for t in _get_live_tools()
                 if t.name != "search_runbooks"
             ]
-            if ablation == "live_tools_only":
+            if ablation in ("live_tools_only", "tools_only"):
                 live_tools = [t for t in live_tools if t.name != "propose_remediation"]
             tools.extend(live_tools)
 
-    if ablation in ("full", "with_external", "rag_only"):
+    if ablation in ("full", "with_external", "rag_only", "runbooks_only"):
         tools.append(search_runbooks)
 
     return create_react_agent(

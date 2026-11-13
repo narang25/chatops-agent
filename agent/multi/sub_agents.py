@@ -84,11 +84,18 @@ Investigation:
 """
 
 
-def _build_log_agent(model_id: str | None = None) -> Any:
-    @tool
-    def get_logs(service: str, minutes: int = 10, level: str | None = "ERROR") -> str:
-        """Fetch application logs filtered by level (ERROR, CRITICAL, WARNING, INFO)."""
-        return json.dumps(stub_get_logs(service, minutes, level), indent=2)
+def _build_log_agent(model_id: str | None = None, stub: bool = True) -> Any:
+    if stub:
+        @tool
+        def get_logs(service: str, minutes: int = 10, level: str | None = "ERROR") -> str:
+            """Fetch application logs filtered by level (ERROR, CRITICAL, WARNING, INFO)."""
+            return json.dumps(stub_get_logs(service, minutes, level), indent=2)
+    else:
+        from mcp_servers.kubernetes.server import get_logs as _real_get_logs
+        @tool
+        def get_logs(service: str, minutes: int = 10, level: str | None = "ERROR") -> str:
+            """Fetch application logs filtered by level (ERROR, CRITICAL, WARNING, INFO)."""
+            return json.dumps(_real_get_logs(service, minutes, level), indent=2)
 
     llm = get_llm(model_id=model_id)
     return create_react_agent(
@@ -116,16 +123,30 @@ Investigation:
 """
 
 
-def _build_metrics_agent(model_id: str | None = None) -> Any:
-    @tool
-    def get_pod_status(service: str) -> str:
-        """Get container pod status: state, exit_code, oom_killed, restart_count, memory_limit_mb."""
-        return json.dumps(stub_get_pod_status(service), indent=2)
+def _build_metrics_agent(model_id: str | None = None, stub: bool = True) -> Any:
+    if stub:
+        @tool
+        def get_pod_status(service: str) -> str:
+            """Get container pod status: state, exit_code, oom_killed, restart_count, memory_limit_mb."""
+            return json.dumps(stub_get_pod_status(service), indent=2)
 
-    @tool
-    def get_metrics(service: str, metric: str, minutes: int = 5) -> str:
-        """Get time-series metric samples for a service (cpu_usage, memory_usage_mb, error_rate, latency_p95_ms)."""
-        return json.dumps(stub_get_metrics(service, metric, minutes), indent=2)
+        @tool
+        def get_metrics(service: str, metric: str, minutes: int = 5) -> str:
+            """Get time-series metric samples for a service (cpu_usage, memory_usage_mb, error_rate, latency_p95_ms)."""
+            return json.dumps(stub_get_metrics(service, metric, minutes), indent=2)
+    else:
+        from mcp_servers.kubernetes.server import get_pod_status as _real_get_pod_status
+        from mcp_servers.prometheus.server import get_metrics as _real_get_metrics
+
+        @tool
+        def get_pod_status(service: str) -> str:
+            """Get container pod status: state, exit_code, oom_killed, restart_count, memory_limit_mb."""
+            return json.dumps(_real_get_pod_status(service), indent=2)
+
+        @tool
+        def get_metrics(service: str, metric: str, minutes: int = 5) -> str:
+            """Get time-series metric samples for a service (cpu_usage, memory_usage_mb, error_rate, latency_p95_ms)."""
+            return json.dumps(_real_get_metrics(service, metric, minutes), indent=2)
 
     llm = get_llm(model_id=model_id)
     return create_react_agent(
@@ -152,16 +173,32 @@ Investigation:
 """
 
 
-def _build_events_agent(model_id: str | None = None) -> Any:
-    @tool
-    def list_services() -> str:
-        """List all microservices and their overall status."""
-        return json.dumps(stub_list_services(), indent=2)
+def _build_events_agent(model_id: str | None = None, stub: bool = True) -> Any:
+    if stub:
+        @tool
+        def list_services() -> str:
+            """List all microservices and their overall status."""
+            return json.dumps(stub_list_services(), indent=2)
 
-    @tool
-    def get_events(service: str, minutes: int = 15) -> str:
-        """Get recent lifecycle events (warnings, restarts) for a service."""
-        return json.dumps(stub_get_events(service, minutes), indent=2)
+        @tool
+        def get_events(service: str, minutes: int = 15) -> str:
+            """Get recent lifecycle events (warnings, restarts) for a service."""
+            return json.dumps(stub_get_events(service, minutes), indent=2)
+    else:
+        from mcp_servers.kubernetes.server import (
+            get_events as _real_get_events,
+            list_services as _real_list_services,
+        )
+
+        @tool
+        def list_services() -> str:
+            """List all microservices and their overall status."""
+            return json.dumps(_real_list_services(), indent=2)
+
+        @tool
+        def get_events(service: str, minutes: int = 15) -> str:
+            """Get recent lifecycle events (warnings, restarts) for a service."""
+            return json.dumps(_real_get_events(service, minutes), indent=2)
 
     llm = get_llm(model_id=model_id)
     return create_react_agent(
@@ -243,9 +280,9 @@ async def multi_agent_ask_async(
     target_service = service or _extract_target_service(question)
     t0 = time.perf_counter()
 
-    log_agent = _build_log_agent(model_id=model_id)
-    metrics_agent = _build_metrics_agent(model_id=model_id)
-    events_agent = _build_events_agent(model_id=model_id)
+    log_agent = _build_log_agent(model_id=model_id, stub=stub)
+    metrics_agent = _build_metrics_agent(model_id=model_id, stub=stub)
+    events_agent = _build_events_agent(model_id=model_id, stub=stub)
 
     log_prompt = f"Target Service: {target_service}\nIncident: {question}\nAnalyze logs for errors and stack traces."
     metrics_prompt = f"Target Service: {target_service}\nIncident: {question}\nAnalyze pod status and Prometheus metrics."

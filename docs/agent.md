@@ -381,7 +381,18 @@ The agent replaces the previous RAG-first behavior with an **Evidence-First Prot
   - `network_timeout` labelled `"dependency_failure"` or `"high_error_rate"`: Downstream Toxiproxy latency on `/pay` correctly diagnosed as downstream timeout (`Fix=0.60–0.80`) under overlapping system labels.
   - `surprise_2` miss (`0/2`): Unseen PostgreSQL connection pool saturation (`max_connections=5` + pool leak) lacked a dedicated internal playbook and manifested as connection refused / database unreachable.
 - **External Knowledge Ablation (`benchmark_2026-11-12_external_ablation.json`)**: Adding 105 external docs yielded no measurable change in failure-type accuracy (**66.7% vs 66.7%**, 2/3 vs 2/3), and a small fix-quality gain (**60.0% to 73.3%**) on a tiny 3-scenario sample.
+- **Incident Memory Generalisation (Task T9)**: Evaluated across 3 failure types (`out_of_memory`, `bad_config`, `disk_full`) with hold-out test runs completely absent from the index (`agent/eval/eval_incident_memory_generalisation.py`). Evaluated from raw hold-out telemetry: 3/3 (100.0%) generalisation accuracy, 0/3 (0.0%) wrong-type rate, and 0/3 leaks. Saved in `agent/eval/results/incident_memory_generalisation.json`.
 - **Dynamic Charts**: Pure-Python generator (`agent/eval/generate_charts.py`) reads directly from saved JSON files to produce the 5 SVGs in `agent/eval/results/charts/` (`accuracy_by_ablation.svg`, `accuracy_by_model.svg`, `latency_and_cost.svg`, `holdout_and_learning_curve.svg`, `variants_by_category.svg`).
-- **Explicit Study Limits**: Single foundation model (`Qwen3 VL 235B`), two primary live ablations (`llm_only` vs `full`), small 3-service local Docker Compose stack, Kubernetes manifests verified via mocked unit tests only, and 11 of 105 (~10%) of external postmortems manually spot-checked.
+- **Explicit Study Limits**:
+  1. One or two models: Bedrock `Qwen3 VL 235B` primary evaluated; second models (`Mistral Large 3`, `DeepSeek V3.2`) smoke-tested (`smoke_llm.py`, 1.32s and 1.51s latency) but not benchmarked across the full live matrix.
+  2. Reduced matrix: Focused on 12 baseline scenarios and 20 cross-service variants; full combinatorial model/ablation grid not run.
+  3. Few trials: Baseline ran 2 trials and variants ran 1 trial per scenario.
+  4. Small local stack: Injections ran in a 3-microservice local Docker Compose stack rather than multi-node enterprise infrastructure.
+  5. Kubernetes not run live: Kubernetes manifests and `K8sBackend` verified via mocked unit tests only (`test_k8s_backend.py`); Docker is primary live runtime.
+  6. External summaries only partly hand-checked: 11 of 105 external postmortem/doc summaries (~10%) hand-checked against upstream web pages.
+  7. Label ambiguity: Symptoms overlap across failure types (e.g. `network_timeout` manifesting as `dependency_failure` or `high_error_rate`; injected `db_error` classified as `db_timeout`).
+  8. Surprise_2 miss: Unseen connection pool exhaustion scored 0/2 due to lack of a playbook and connection-refused symptom overlap.
+  9. Stub-versus-live status of multi-agent: Multi-agent specialist mode has live MCP wiring implemented, but remains not benchmarked on live scenarios and runs on stub tools for evaluation.
+  10. Human-in-the-Loop execution: The agent cannot apply infrastructure mutations autonomously; every remediation requires human Slack approval with single-use tokens.
 - Complete Viva defense guide & verified limits: `docs/viva.md` and `agent/eval/results/final_benchmark_report.md`.
 

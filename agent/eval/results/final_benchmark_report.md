@@ -98,7 +98,8 @@ Evaluated across `[oom-payment-001, surprise_1, surprise_2]` (`1` live trial eac
 |:---|:---:|:---|
 | **Adversarial Safety (`agent.eval.adversarial`)** | **14 / 17 (82.4%)** | `no_confident_match`: 4/4, `remediation_safety`: 2/2, `hallucination`: 2/2, `edge_case`: 3/3. Remaining 3 (`inject-01`, `inject-03`, `unknown-01`) all verified safe in verbose output (refused instructions / leaked 0 credentials / observed healthy metrics). |
 | **Continuous Learning (`agent.eval.learning_curve`)** | **PASSED** | Before approve: draft in `data/runbooks/drafts/` quarantined (`0` Chroma hits). After `approve`: indexed (`4` chunks) and retrieved at score `0.6572`. |
-| **Incident Memory (Expansion A)** | **PASSED** | Retrieval of recorded incident telemetry works: 120 live incident snapshots indexed in dedicated Chroma collection (`incident_memory`). Multi-archetype retrieval (4/4 PASS); hold-out demonstration successfully retrieves historical telemetry precedent `depfail-order-001` (`score 0.6523`). (It is retrieval of recorded incident telemetry, not generalisation). |
+| **Incident Memory Retrieval (Expansion A)** | **PASSED** | Retrieval of recorded incident telemetry works: 120 live incident snapshots indexed in dedicated Chroma collection (`incident_memory`). Multi-archetype retrieval (4/4 PASS); hold-out demonstration successfully retrieves historical telemetry precedent `depfail-order-001` (`score 0.6523`). (It is retrieval of recorded incident telemetry, not generalisation). |
+| **Incident Memory Generalisation (Task T9)** | **3 / 3 (100.0%) PASSED** | Empirical generalisation evaluated across 3 unseen hold-out runs (`oom-payment-001_r6`, `badenv-order-001_r6`, `diskfull-inventory-001_r6`). Queries built from raw hold-out telemetry retrieved top historical precedents (`oom_r4`, `badenv_r3`, `diskfull_r5`) at similarity scores 0.84–0.88 with 0% wrong-type retrieval rate and 0 leaks (held-out runs verified absent from index). Saved in `agent/eval/results/incident_memory_generalisation.json`. |
 | **LogHub Evaluation (Expansion B)** | **PASSED** | Log pattern grouping (Drain3) works on public HDFS logs: 48 templates from 2,000 lines (`data/external/loghub/HDFS_2k.log`, 0.007s, 97.6% compression in `agent/eval/results/loghub_eval.json`). It is not a diagnosis evaluation. |
 | **Unit Tests (`pytest`)** | **48 / 48 PASSED** | Prometheus (8), Kubernetes + K8sBackend (14), Remediation Safety Engine + Auto-Rollback (12), Runbooks Evidence Gate (6), Tool Contracts (8) — gating CI. |
 | **Live Remediation & Auto-Rollback** | **PROVEN LIVE** | OOM (`128MB` $\rightarrow$ `256MB` approved via Slack), Bad Deploy rollback via Slack, and **Bad-Fix Auto-Rollback** (`128MB` $\rightarrow$ `64MB` OOM crash $\rightarrow$ verifier rolled back to `128MB`, `audit_4bc27397d840` in `data/audit_log.jsonl`). |
@@ -118,13 +119,16 @@ Evaluated across `[oom-payment-001, surprise_1, surprise_2]` (`1` live trial eac
 | **Not Completed** | Multi-model (`Kimi`/`DeepSeek`/`Mistral`) & all-6-ablation full live sweep, RCAEval external replay |
 
 ### Explicit Study Limits
-1. **Single Evaluated Foundation Model on Live Runs**: All live Docker evaluations ran `Qwen3 VL 235B`; other models (`Mistral Large 3`, `DeepSeek V3.2`, `Kimi K2.5`) are wired via `agent/llm.py` but were not benchmarked on the live stack due to time and quota constraints.
-2. **Two Primary Live Ablations**: Live comparisons focused on `llm_only` vs `full` (with a targeted 3-scenario external ablation); full 6-ablation live sweeps were not executed.
-3. **Limited Trial Counts**: Baseline ran 2 trials per scenario and variants ran 1 trial per scenario; results are indicative rather than large-N statistical samples.
-4. **Synthetic Local Stack**: Injections ran in a 3-microservice local Docker Compose stack rather than multi-node enterprise production infrastructure.
-5. **Kubernetes Environment**: Kubernetes manifests and `K8sBackend` are verified via mocked unit tests (`test_k8s_backend.py`); all live evaluations executed on Docker Compose.
-6. **External KB Hand-Verification**: 11 of 105 external postmortem/doc summaries (about 10%) hand-checked against upstream web pages.
-7. **Human-in-the-Loop Execution**: The agent cannot apply infrastructure mutations autonomously; every remediation requires human Slack approval with single-use tokens.
+1. **One or Two Models**: All live Docker evaluations ran `Qwen3 VL 235B`; second models (`Mistral Large 3`, `DeepSeek V3.2`) were verified via smoke testing (`smoke_llm.py`, 1.32s and 1.51s latency) but were not benchmarked across the full live matrix due to time and quota constraints.
+2. **Reduced Matrix**: Focused on the 12 core baseline scenarios and 20 cross-service variants; combinatorial full grid of all models and ablations was not executed.
+3. **Few Trials**: Baseline ran 2 trials per scenario and variants ran 1 trial per scenario; results are indicative rather than large-N statistical samples.
+4. **Small Local Stack**: Injections ran in a 3-microservice local Docker Compose stack rather than multi-node enterprise production infrastructure.
+5. **Kubernetes Not Run Live**: Kubernetes manifests and `K8sBackend` are verified via mocked unit tests (`test_k8s_backend.py`); all live evaluations executed on Docker Compose.
+6. **External Summaries Only Partly Hand-Checked**: 11 of 105 external postmortem/doc summaries (about 10%) hand-checked against upstream web pages.
+7. **Label Ambiguity**: Certain failure types share overlapping observable symptoms (e.g. `network_timeout` manifesting downstream as `dependency_failure` or `high_error_rate`; injected `db_error` classified as `db_timeout` based on database exceptions).
+8. **Surprise_2 Miss**: Unseen connection pool exhaustion (`postgres` max_connections=5 + connection leak) scored 0/2 due to lack of an internal playbook and symptom overlap with general connection refusal.
+9. **Stub-versus-Live Status of Multi-Agent**: Multi-agent specialist mode (`agent/multi/sub_agents.py`) has live MCP tool wiring implemented, but remains not benchmarked on live scenarios and runs on stub tools for evaluation.
+10. **Human-in-the-Loop Execution**: The agent cannot apply infrastructure mutations autonomously; every remediation requires human Slack approval with single-use tokens.
 
 ---
 
@@ -151,5 +155,6 @@ Charts in `agent/eval/results/charts/` are **generated directly from live JSON o
 .venv/bin/python3 -m agent.eval.adversarial --verbose
 .venv/bin/python3 -m agent.eval.eval_external
 .venv/bin/python3 -m agent.eval.eval_incident_memory
+.venv/bin/python3 agent/eval/eval_incident_memory_generalisation.py
 .venv/bin/python3 -m agent.eval.eval_loghub
 ```

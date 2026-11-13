@@ -174,11 +174,16 @@ It proved that:
 
 ### Q24: What are the main limitations of the current system?
 **Answer:**
-1. **Reduced Benchmark Matrix**: Live evaluation covered 1 model (`Qwen3 VL 235B`), 2 ablations (`llm_only`, `full`), and 2 trials across 12 baseline scenarios (`48` evaluations total), plus 20 cross-service variant scenarios (44 total `full` evaluations), and a targeted external ablation (`6` runs).
-2. **Synthetic Local Stack**: Failures are injected into a 3-service local Docker Compose stack rather than production multi-node infrastructure.
-3. **Kubernetes Live Cluster**: `K8sBackend` and `infra/k8s/` manifests pass mocked unit tests, but were not run live on Minikube/kind (Docker is the primary runtime).
-4. **Multi-Agent Live Execution**: Multi-agent specialist mode (`agent/multi/sub_agents.py`) is implemented, not benchmarked, runs on stub tools.
-5. **LLM & Approval Boundary**: Frontier model inference relies on AWS Bedrock internet access, and remediation always requires an authorized human Slack click (no autonomous mutation).
+1. **One or Two Models**: All live Docker evaluations ran `Qwen3 VL 235B`; second models (`Mistral Large 3`, `DeepSeek V3.2`) were verified via smoke testing (`smoke_llm.py`, 1.32s and 1.51s latency) but were not benchmarked across the full live matrix.
+2. **Reduced Matrix**: Live evaluation focused on 12 core baseline scenarios (48 evaluations total) and 20 cross-service variant scenarios (44 total `full` evaluations); full combinatorial grid was not run.
+3. **Few Trials**: Baseline ran 2 trials per scenario and variants ran 1 trial per scenario; results are indicative rather than large-N statistical samples.
+4. **Small Local Stack**: Injections ran in a 3-microservice local Docker Compose stack rather than multi-node enterprise production infrastructure.
+5. **Kubernetes Not Run Live**: Kubernetes manifests and `K8sBackend` are verified via mocked unit tests (`test_k8s_backend.py`); all live evaluations executed on Docker Compose.
+6. **External Summaries Only Partly Hand-Checked**: 11 of 105 external postmortem/doc summaries (about 10%) hand-checked against upstream web pages.
+7. **Label Ambiguity**: Certain failure types share overlapping observable symptoms (e.g. `network_timeout` manifesting downstream as `dependency_failure` or `high_error_rate`; injected `db_error` classified as `db_timeout` based on database exceptions).
+8. **Surprise_2 Miss**: Unseen connection pool exhaustion (`postgres` max_connections=5 + connection leak) scored 0/2 due to lack of an internal playbook and symptom overlap with general connection refusal.
+9. **Stub-versus-Live Status of Multi-Agent**: Multi-agent specialist mode (`agent/multi/sub_agents.py`) has live MCP tool wiring implemented, but remains not benchmarked on live scenarios and runs on stub tools for evaluation.
+10. **Human-in-the-Loop Execution**: The agent cannot apply infrastructure mutations autonomously; every remediation requires human Slack approval with single-use tokens.
 
 ---
 
@@ -187,7 +192,7 @@ It proved that:
 > *"Our data has three parts. First, we inject 10 failure types into a running microservice stack, record each run with logs, metrics and events, and label the true root cause, so we can measure accuracy: 120 recorded incidents across all 3 services. Second, a knowledge base of 10 internal runbooks plus 105 public postmortems and official docs, with source URLs. Third, we test on surprise failures with no runbook. We do not have private production data, so we chose a design where the ground truth is known."*
 
 - **Proven Live**: OOM diagnosis + Slack Approve (`docker inspect` 256MB), bad deploy + `rollback_deploy`, Slack thread memory, `surprise_1` Postgres auth failure, **bad-fix auto-rollback (`audit_4bc27397d840` restoring 128MB)**, 48-eval baseline matrix (**66.7% vs 20.8%**), 20-scenario variant benchmark (**55.0%**), and combined 44-eval live matrix (**61.4%** [95% Wilson CI: 46.6% – 74.3%]).
-- **Unit / Script Tested**: `48/48` pytest unit tests (including mocked `K8sBackend`, 12 remediation/safety tests, 6 evidence gate tests), `eval_external` (`4/4`), `learning_curve`, `eval_incident_memory` (120 incidents, retrieval of recorded incident telemetry works, not generalisation), `eval_loghub` (log pattern grouping Drain3 works on public HDFS logs: 48 templates from 2,000 lines; not a diagnosis evaluation), and `adversarial.py` (`14/17`).
+- **Unit / Script Tested**: `48/48` pytest unit tests (including mocked `K8sBackend`, 12 remediation/safety tests, 6 evidence gate tests), `eval_external` (`4/4`), `learning_curve`, `eval_incident_memory` (120 incidents, retrieval of recorded incident telemetry works, not generalisation), `eval_incident_memory_generalisation` (3/3 hold-outs, 100% accuracy, 0% wrong-type rate, 0 leaks), `eval_loghub` (log pattern grouping Drain3 works on public HDFS logs: 48 templates from 2,000 lines; not a diagnosis evaluation), and `adversarial.py` (`14/17`).
 - **Implemented, Not Run Live**: Live Kubernetes Minikube/kind cluster execution; multi-agent mode (implemented, not benchmarked, runs on stub tools).
 - **Future Work**: RCAEval public replay, full multi-model live matrix, and OpenTelemetry trace spans.
 

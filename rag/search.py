@@ -13,8 +13,13 @@ Example:
 from __future__ import annotations
 
 import argparse
+import os
 import sys
 from pathlib import Path
+
+# Force offline embedding model loading (prevents unauthenticated HF requests & latency)
+os.environ.setdefault("HF_HUB_OFFLINE", "1")
+os.environ.setdefault("TRANSFORMERS_OFFLINE", "1")
 
 # Ensure project root is in sys.path
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
@@ -67,3 +72,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+

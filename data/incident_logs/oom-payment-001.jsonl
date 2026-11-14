@@ -1,6 +1,3 @@
-{"timestamp": "2026-11-12T13:48:26.193Z", "service": "payment-service", "level": "WARNING", "message": "Memory leak: allocated 10 MB, total leaked: 10 MB"}
-{"timestamp": "2026-11-12T13:48:27.556Z", "service": "payment-service", "level": "WARNING", "message": "Memory leak: allocated 10 MB, total leaked: 20 MB"}
-{"timestamp": "2026-11-12T13:48:28.862Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=11077 amount=46.26"}
-{"timestamp": "2026-11-12T13:48:29.502Z", "service": "payment-service", "level": "INFO", "message": "Service starting up"}
-{"timestamp": "2026-11-12T13:48:29.505Z", "service": "payment-service", "level": "INFO", "message": "Database initialised successfully"}
-{"timestamp": "2026-11-12T13:48:29.753Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=11078 amount=42.72"}
+{"timestamp": "2026-11-14T18:57:53.256Z", "service": "payment-service", "level": "WARNING", "message": "Memory leak: allocated 10 MB, total leaked: 10 MB"}
+{"timestamp": "2026-11-14T18:57:54.625Z", "service": "payment-service", "level": "WARNING", "message": "Memory leak: allocated 10 MB, total leaked: 20 MB"}
+{"timestamp": "2026-11-14T18:57:55.496Z", "service": "payment-service", "level": "INFO", "message": "Payment created: id=74893 amount=67.09"}

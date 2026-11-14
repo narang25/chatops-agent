@@ -350,3 +350,26 @@ def ask(
         "thread_id":       thread_id,
         "model_id":        model_id,
     }
+
+
+if __name__ == "__main__":
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Query the ChatOps SRE Agent")
+    parser.add_argument("question", type=str, help="Incident question to diagnose")
+    parser.add_argument("--stub", action="store_true", default=False, help="Use stub tools instead of live cluster (default: live)")
+    args = parser.parse_args()
+
+    print(f"\n[Investigating incident on {'stub tools' if args.stub else 'live cluster'}...]")
+    res = ask(args.question, stub=args.stub)
+
+    print("\n" + "=" * 70)
+    print(f"Question:        {res['question']}")
+    print(f"Failure Type:    {res['failure_type']}")
+    print(f"Confidence:      {res['confidence']}")
+    print(f"Proposed Action: {res['proposed_action']}")
+    print(f"Latency:         {res['latency_s']}s")
+    print(f"Tool Trace:      {[t['tool'] for t in res['tool_trace']]}")
+    print("=" * 70 + "\n")
+    print(res["diagnosis"])
+    print("\n" + "=" * 70 + "\n")

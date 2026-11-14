@@ -32,7 +32,7 @@ def test_ood_failure_returns_external_with_url() -> bool:
     """Test 1: Novel failure without internal runbook returns external source with URL."""
     print("\n--- Test 1: Out-of-Distribution Query Returns External Source With URL ---")
     query = "CoreDNS CrashLoopBackOff infinite forwarding loop in kube-system"
-    result = search_runbooks(query, top_k=3, include_external=True)
+    result = search_runbooks(query, top_k=3, include_external=True, enforce_evidence=False)
 
     results = result.get("results", [])
     if not results:
@@ -60,7 +60,7 @@ def test_known_oom_ranks_internal_first() -> bool:
     """Test 2: Known failure (OOM) ranks internal runbook above external hits."""
     print("\n--- Test 2: Known OOM Failure Ranks Internal Runbook Above External Hits ---")
     query = "container killed out of memory exit code 137"
-    result = search_runbooks(query, top_k=3, include_external=True)
+    result = search_runbooks(query, top_k=3, include_external=True, enforce_evidence=False)
 
     results = result.get("results", [])
     if not results:
@@ -91,8 +91,8 @@ def test_toggle_external_knowledge() -> bool:
     print("\n--- Test 3: Toggling include_external=False Disables External Hits ---")
     query = "CoreDNS CrashLoopBackOff infinite forwarding loop"
 
-    with_ext = search_runbooks(query, top_k=3, include_external=True)
-    without_ext = search_runbooks(query, top_k=3, include_external=False)
+    with_ext = search_runbooks(query, top_k=3, include_external=True, enforce_evidence=False)
+    without_ext = search_runbooks(query, top_k=3, include_external=False, enforce_evidence=False)
 
     with_ext_types = [r.get("source_type") for r in with_ext.get("results", [])]
     without_ext_types = [r.get("source_type") for r in without_ext.get("results", [])]

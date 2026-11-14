@@ -34,9 +34,7 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).resolve().parent
 VENV_PYTHON = PROJECT_ROOT / ".venv" / "bin" / "python3"
 VENV_PYTEST = PROJECT_ROOT / ".venv" / "bin" / "pytest"
-
-if VENV_PYTHON.exists() and Path(sys.executable).resolve() != VENV_PYTHON.resolve():
-    os.execv(str(VENV_PYTHON), [str(VENV_PYTHON)] + sys.argv)
+PY_BIN = str(VENV_PYTHON) if VENV_PYTHON.exists() else sys.executable
 
 os.environ.setdefault("PYTHONPATH", str(PROJECT_ROOT))
 os.environ.setdefault("HF_HUB_OFFLINE", "1")
@@ -134,7 +132,7 @@ def check_section_b() -> list[tuple[str, bool]]:
     results = []
 
     # 1. Docker containers
-    ok, out = run_cmd([sys.executable, "infra/manage.py", "ps"], "Check Docker stack (9 containers)")
+    ok, out = run_cmd([PY_BIN, "infra/manage.py", "ps"], "Check Docker stack (9 containers)")
     containers = ["payment-service", "order-service", "inventory-service", "postgres", "prometheus", "grafana", "cadvisor", "toxiproxy", "loadgen"]
     all_present = ok and all(c in out for c in containers)
     results.append(("B.1 9 Containers Running", all_present))
@@ -161,35 +159,37 @@ def check_section_c() -> list[tuple[str, bool]]:
     results = []
 
     # 1. Ingestion check
-    ok, out = run_cmd([sys.executable, "rag/ingest.py"], "Run rag/ingest.py (62 internal + 430 external)")
-    passed = ok and "Internal chunks:" in out and "External chunks:" in out
+    ok, out = run_cmd([PY_BIN, "rag/ingest.py"], "Run rag/ingest.py (62 internal chunks)")
+    passed = ok and "Total chunks to upsert: 62" in out
     results.append(("C.1 Ingestion Idempotence", passed))
 
     # 2. Search OOM (internal runbook first)
     search_script = (
         "from mcp_servers.runbooks.evidence_gate import record_evidence, reset_evidence; "
-        "reset_evidence(); record_evidence('payment-service', 'get_pod_status'); record_evidence('payment-service', 'get_logs'); "
+        "reset_evidence(); record_evidence('get_pod_status', service='payment-service'); record_evidence('get_logs', service='payment-service'); "
         "from mcp_servers.runbooks.server import search_runbooks; "
         "res = search_runbooks('container killed exit code 137 out of memory'); "
-        "assert len(res) > 0 and 'out_of_memory-payment' in res[0].get('source', '')"
+        "items = res.get('results', []); "
+        "assert len(items) > 0 and 'out_of_memory-payment' in items[0].get('source', '')"
     )
-    ok, out = run_cmd([sys.executable, "-c", search_script], "search_runbooks ranks internal OOM runbook #1")
+    ok, out = run_cmd([PY_BIN, "-c", search_script], "search_runbooks ranks internal OOM runbook #1")
     results.append(("C.2 Internal Runbook Priority", ok))
 
     # 3. Gibberish query confidence threshold
     gibberish_script = (
         "from mcp_servers.runbooks.evidence_gate import record_evidence, reset_evidence; "
-        "reset_evidence(); record_evidence('order-service', 'get_pod_status'); record_evidence('order-service', 'get_logs'); "
+        "reset_evidence(); record_evidence('get_pod_status', service='order-service'); record_evidence('get_logs', service='order-service'); "
         "from mcp_servers.runbooks.server import search_runbooks; "
         "res = search_runbooks('asldkjhfaweoiuh non-existent problem qwerty'); "
-        "assert len(res) == 0 or res[0].get('no_confident_match') is True"
+        "items = res.get('results', []); "
+        "assert len(items) == 0 or res.get('no_confident_match') is True"
     )
-    ok, out = run_cmd([sys.executable, "-c", gibberish_script], "search_runbooks returns no_confident_match for gibberish")
+    ok, out = run_cmd([PY_BIN, "-c", gibberish_script], "search_runbooks returns no_confident_match for gibberish")
     results.append(("C.3 Confidence Threshold Fallback", ok))
 
     # 4. eval_external suite
-    ok, out = run_cmd([sys.executable, "-m", "agent.eval.eval_external"], "Run eval_external suite (4/4)")
-    passed = ok and "4/4" in out
+    ok, out = run_cmd([PY_BIN, "-m", "agent.eval.eval_external"], "Run eval_external suite (4/4)")
+    passed = ok and "External Knowledge Tests: ALL PASSED" in out
     results.append(("C.4 External RAG Suite (4/4)", passed))
 
     return results
@@ -202,7 +202,7 @@ def check_section_d() -> list[tuple[str, bool]]:
     print_header("Section D: Foundation Model Smoke Verification")
     results = []
 
-    ok, out = run_cmd([sys.executable, "agent/scripts/smoke_llm.py"], "Bedrock smoke test (Hello, tool call, no leak)", timeout=60)
+    ok, out = run_cmd([PY_BIN, "agent/scripts/smoke_llm.py"], "Bedrock smoke test (Hello, tool call, no leak)", timeout=60)
     passed = ok and "ALL CHECKS PASSED" in out
     results.append(("D.1 Bedrock Model Smoke Test", passed))
 
@@ -223,11 +223,11 @@ def check_section_f() -> list[tuple[str, bool]]:
         "res = search_runbooks('payment-service OOM killed'); "
         "assert 'error' in res and 'gather evidence first' in res['error']"
     )
-    ok, out = run_cmd([sys.executable, "-c", gate_script], "Evidence gate blocks premature runbook search")
+    ok, out = run_cmd([PY_BIN, "-c", gate_script], "Evidence gate blocks premature runbook search")
     results.append(("F.1 Evidence Gate Hard Enforcement", ok))
 
     # 2. Adversarial evaluation
-    ok, out = run_cmd([sys.executable, "-m", "agent.eval.adversarial"], "Run adversarial safety suite", timeout=120)
+    ok, out = run_cmd([PY_BIN, "-m", "agent.eval.adversarial"], "Run adversarial safety suite", timeout=120)
     passed = ok and ("14 / 17" in out or "PASSED" in out)
     results.append(("F.2 Adversarial Safety Suite (14/17)", passed))
 
@@ -255,7 +255,7 @@ def check_section_h() -> list[tuple[str, bool]]:
         "res_replay = apply_remediation(pid, t, approver='sre_lead'); "
         "assert res_replay.get('error') == 'invalid_or_used_token';"
     )
-    ok, out = run_cmd([sys.executable, "-c", safety_script], "Verify Token, Approver & Tamper Boundaries")
+    ok, out = run_cmd([PY_BIN, "-c", safety_script], "Verify Token, Approver & Tamper Boundaries")
     results.append(("H.1 Remediation Token & Tamper Hardening", ok))
 
     return results
@@ -268,7 +268,7 @@ def check_section_i() -> list[tuple[str, bool]]:
     print_header("Section I: Continuous Learning Loop")
     results = []
 
-    ok, out = run_cmd([sys.executable, "-m", "agent.eval.learning_curve"], "Continuous learning curve test", timeout=60)
+    ok, out = run_cmd([PY_BIN, "-m", "agent.eval.learning_curve"], "Continuous learning curve test", timeout=60)
     passed = ok and "PASSED" in out
     results.append(("I.1 Learning Curve Quarantine & Promotion", passed))
 
@@ -283,17 +283,17 @@ def check_section_j() -> list[tuple[str, bool]]:
     results = []
 
     # 1. Incident memory retrieval
-    ok, out = run_cmd([sys.executable, "-m", "agent.eval.eval_incident_memory"], "Incident memory telemetry retrieval", timeout=60)
+    ok, out = run_cmd([PY_BIN, "-m", "agent.eval.eval_incident_memory"], "Incident memory telemetry retrieval", timeout=60)
     passed = ok and "4 / 4 PASSED" in out
     results.append(("J.1 Incident Memory Telemetry Retrieval (4/4)", passed))
 
     # 2. Generalisation test (T9)
-    ok, out = run_cmd([sys.executable, "agent/eval/eval_incident_memory_generalisation.py"], "Incident memory hold-out generalisation (T9)", timeout=60)
+    ok, out = run_cmd([PY_BIN, "agent/eval/eval_incident_memory_generalisation.py"], "Incident memory hold-out generalisation (T9)", timeout=60)
     passed = ok and "3/3 (100.0%)" in out and "0/3 leaks" in out
     results.append(("J.2 Incident Memory Hold-Out Generalisation (3/3)", passed))
 
     # 3. LogHub Drain3
-    ok, out = run_cmd([sys.executable, "-m", "agent.eval.eval_loghub"], "LogHub Drain3 log pattern mining", timeout=30)
+    ok, out = run_cmd([PY_BIN, "-m", "agent.eval.eval_loghub"], "LogHub Drain3 log pattern mining", timeout=30)
     passed = ok and "48 structured templates" in out
     results.append(("J.3 LogHub Drain3 Template Mining", passed))
 
@@ -320,7 +320,7 @@ def check_section_k() -> list[tuple[str, bool]]:
     results.append(("K.1 Raw Benchmark JSON Files Present", all_exist))
 
     # 2. Regenerate charts
-    ok, out = run_cmd([sys.executable, "agent/eval/generate_charts.py"], "Regenerate 5 SVG charts from JSON")
+    ok, out = run_cmd([PY_BIN, "agent/eval/generate_charts.py"], "Regenerate 5 SVG charts from JSON")
     passed = ok and "Generated 5 chart(s)" in out
     results.append(("K.2 Regenerate 5 SVG Charts", passed))
 
@@ -334,10 +334,10 @@ def run_scenario_test(scenario_id: str) -> None:
     print_header(f"Live Chaos Scenario Test: {scenario_id}")
 
     print(f"1. Injecting fault scenario: {scenario_id}...")
-    ok, out = run_cmd([sys.executable, "infra/failures/run_scenario.py", "run", scenario_id], f"Inject {scenario_id}")
+    ok, out = run_cmd([PY_BIN, "infra/failures/run_scenario.py", "run", scenario_id], f"Inject {scenario_id}")
     if not ok:
         print(f"{RED}Failed to inject {scenario_id}. Restoring...{RESET}")
-        run_cmd([sys.executable, "infra/failures/run_scenario.py", "restore"], "Restore baseline")
+        run_cmd([PY_BIN, "infra/failures/run_scenario.py", "restore"], "Restore baseline")
         return
 
     time.sleep(3)
@@ -345,10 +345,10 @@ def run_scenario_test(scenario_id: str) -> None:
     query = f"why is {target_service} failing?"
 
     print(f"\n2. Querying ChatOps SRE Agent: '{query}'...")
-    ok, out = run_cmd([sys.executable, "-m", "agent.api", query], "Query ChatOps Agent", timeout=90)
+    ok, out = run_cmd([PY_BIN, "-m", "agent.api", query], "Query ChatOps Agent", timeout=90)
 
     print(f"\n3. Restoring cluster to clean baseline...")
-    run_cmd([sys.executable, "infra/failures/run_scenario.py", "restore"], "Restore containers to healthy")
+    run_cmd([PY_BIN, "infra/failures/run_scenario.py", "restore"], "Restore containers to healthy")
 
     # Verify health
     ok_h, _ = run_cmd("curl -s http://localhost:8001/health && curl -s http://localhost:8002/health && curl -s http://localhost:8003/health", "Verify 200 OK after restore", shell=True)

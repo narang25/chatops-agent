@@ -369,3 +369,4 @@ Follow the full rehearsal script in [docs/demo_script.md](file:///Users/nikhi/De
 - Scenario 2: Bad deploy & rollback.
 - Scenario 3: Bad-fix auto-rollback verification (`audit_4bc27397d840`).
 - Viva Defense: Deliver the dataset statement verbatim.
+

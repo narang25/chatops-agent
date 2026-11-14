@@ -190,7 +190,7 @@ def search(
 
     console.print()
     with Status("[bold green]Searching runbooks...[/bold green]", console=console, spinner="dots"):
-        result = search_runbooks(query=query, top_k=top_k)
+        result = search_runbooks(query=query, top_k=top_k, enforce_evidence=False)
 
     if "error" in result:
         console.print(f"[bold red]Error:[/bold red] {result['error']}")

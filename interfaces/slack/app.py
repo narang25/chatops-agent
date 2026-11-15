@@ -334,6 +334,24 @@ def handle_mention(event: dict, client: Any) -> None:
     _dispatch(client, channel, thread_ts, question)
 
 
+@app.event("message")
+def handle_thread_message(event: dict, client: Any) -> None:
+    # Ignore bot messages, message updates/subtypes, or top-level messages
+    if event.get("subtype") or event.get("bot_id"):
+        return
+    thread_ts = event.get("thread_ts")
+    # Only respond if inside an existing thread
+    if not thread_ts or thread_ts == event.get("ts"):
+        return
+    text = event.get("text", "")
+    # If the bot is explicitly mentioned, app_mention handles it to avoid double dispatch
+    if "<@" in text:
+        return
+    question = text.strip()
+    if question:
+        _dispatch(client, event["channel"], thread_ts, question)
+
+
 @app.command("/chatops")
 def handle_chatops_command(ack: Any, body: Any, client: Any) -> None:
     ack()

@@ -219,12 +219,12 @@ python -m agent.api "why is payment-service restarting repeatedly?"
 python infra/failures/run_scenario.py restore
 
 # 11. Surprise 1: Postgres Authentication Failure
-python infra/failures/run_scenario.py run surprise_1
-python -m agent.api "payment-service cannot process transactions"
+python infra/failures/surprise_1.py
+python -m agent.api "why is order-service failing to connect to the database?"
 python infra/failures/run_scenario.py restore
 
 # 12. Surprise 2: Postgres Connection Pool Saturation
-python infra/failures/run_scenario.py run surprise_2
+python infra/failures/surprise_2.py
 python -m agent.api "payment-service reports connection refused"
 python infra/failures/run_scenario.py restore
 ```
@@ -278,9 +278,11 @@ python infra/failures/run_scenario.py restore
 ### Section H: Safe Remediation & Auto-Rollback Engine
 1. **Propose Remediation (Dry Run):**
    ```python
-   from mcp_servers.remediation.server import propose_remediation, apply_remediation
-   p = propose_remediation("payment-service", "set_memory_limit", {"memory_mb": 256}, "OOM fix")
-   print(p)  # Shows dry_run, risk: "medium", and approval_token
+   from mcp_servers.remediation.server import propose_remediation, apply_remediation, _PROPOSALS
+   p = propose_remediation("payment-service", "set_memory_limit", {"memory_mb": 256}, allowed_approvers=["sre_lead"])
+   pid = p["proposal_id"]
+   token = _PROPOSALS[pid]["token"]
+   print(p)  # Shows dry_run, risk: "medium"
    ```
    Verify Docker memory limit is untouched:
    ```bash
@@ -288,19 +290,21 @@ python infra/failures/run_scenario.py restore
    ```
 2. **Apply Remediation with Single-Use Token:**
    ```python
-   res = apply_remediation(p["proposal_id"], p["approval_token"], approver="sre_lead")
+   res = apply_remediation(pid, token, approver="sre_lead")
    print(res)  # status: "applied"
    ```
 3. **Verify Bad-Fix Automatic Rollback:**
    ```python
-   p_bad = propose_remediation("payment-service", "set_memory_limit", {"memory_mb": 32}, "flawed fix")
-   res_bad = apply_remediation(p_bad["proposal_id"], p_bad["approval_token"], approver="sre_lead")
+   p_bad = propose_remediation("payment-service", "set_memory_limit", {"memory_mb": 32}, allowed_approvers=["sre_lead"])
+   pid_bad = p_bad["proposal_id"]
+   token_bad = _PROPOSALS[pid_bad]["token"]
+   res_bad = apply_remediation(pid_bad, token_bad, approver="sre_lead")
    ```
    Inspect `data/audit_log.jsonl`: observe `verification_degraded` followed by `auto_rollback_completed`.
 4. **Safety Boundaries:**
-   - Parameter tampering: Refused (`parameter_tampering_detected`).
-   - Unauthorized approver: Refused (`unauthorized_approver`).
-   - Token re-use: Refused (`invalid_or_used_token`).
+   - Parameter tampering: Refused (`Parameter tampering detected: apply parameters do not match approved proposal.`).
+   - Unauthorized approver: Refused (`Unauthorized approver`).
+   - Token re-use: Refused (`Approval token has already been used.`).
 
 ---
 

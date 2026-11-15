@@ -19,8 +19,12 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import os
 import sys
 from pathlib import Path
+
+os.environ.setdefault("HF_HUB_OFFLINE", "1")
+os.environ.setdefault("TRANSFORMERS_OFFLINE", "1")
 
 _PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 if str(_PROJECT_ROOT) not in sys.path:
@@ -45,7 +49,7 @@ def run_learning_curve_evaluation(target_type: str = "out_of_memory") -> bool:
     novel_symptom_query = "payment-service exotic heap fragmentation lockup exit code 143"
     print(f"1. BEFORE LEARNING: Investigating novel symptom query:\n   '{novel_symptom_query}'")
 
-    before_res = search_runbooks(novel_symptom_query, top_k=3, include_external=False)
+    before_res = search_runbooks(novel_symptom_query, top_k=3, include_external=False, enforce_evidence=False)
     before_ncm = before_res.get("no_confident_match", False)
     before_score = before_res["results"][0]["score"] if before_res.get("results") else 0.0
     before_title = before_res["results"][0]["title"] if before_res.get("results") else "None"
@@ -73,7 +77,7 @@ def run_learning_curve_evaluation(target_type: str = "out_of_memory") -> bool:
     print(f"   File exists:   {draft_path.exists()}")
 
     # Verify draft is NOT searchable
-    draft_search = search_runbooks("heap fragmentation jemalloc allocator", top_k=3, include_external=False)
+    draft_search = search_runbooks("heap fragmentation jemalloc allocator", top_k=3, include_external=False, enforce_evidence=False)
     draft_matched = any("fragmentation" in r["title"].lower() for r in draft_search.get("results", []))
     print(f"   Draft searchable in Chroma before approval: {draft_matched}")
     assert not draft_matched, "Draft should NOT be searchable before approval!"
@@ -92,7 +96,7 @@ def run_learning_curve_evaluation(target_type: str = "out_of_memory") -> bool:
     # Step 4: After Phase (verify runbook is now live and searchable)
     # -----------------------------------------------------------------------
     print("4. AFTER LEARNING: Re-querying with novel symptom...")
-    after_res = search_runbooks("heap fragmentation jemalloc allocator", top_k=3, include_external=False)
+    after_res = search_runbooks("heap fragmentation jemalloc allocator", top_k=3, include_external=False, enforce_evidence=False)
     after_ncm = after_res.get("no_confident_match", True)
     after_top = after_res["results"][0] if after_res.get("results") else {}
     after_title = after_top.get("title", "None")

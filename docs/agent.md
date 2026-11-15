@@ -360,9 +360,14 @@ The agent replaces the previous RAG-first behavior with an **Evidence-First Prot
 - Automatic quarantine: `rag/ingest.py` skips drafts to protect knowledge base integrity.
 - `chatops approve "<draft_file>"`: Human approval moves file to `data/runbooks/` and triggers instantaneous Chroma upsert.
 
-### 8.6 Remediation Proposal & Safety (Task A21)
-- Agent can call `propose_remediation(service, action, params)` for non-destructive dry-run changes and risk ratings.
-- The agent has **no tool that applies changes**. Applying changes requires human approval via single-use tokens (e.g. Slack button), and `_background_verifier` auto-rolls back if health/restarts degrade.
+### 8.6 Remediation Proposal & Safety (Task A21 & T3 Hardening)
+- Agent can call `propose_remediation(service, action, params, allowed_approvers)` for non-destructive dry-run changes and risk ratings.
+- The agent has **no tool that applies changes** in its schema.
+- **Cryptographic Token & Tamper Hardening (Task T3)**:
+  - `compute_param_hash`: Every proposal computes a deterministic SHA-256 hash over `(action, service, params)`. When `apply_remediation` is invoked, it verifies that the incoming execution parameters match this hash; if tampered with, it rejects with `Parameter tampering detected`.
+  - **Single-Use Token Security**: `approval_token` is generated server-side, never leaked in the LLM tool return dict, and immediately marked `used=True` upon first execution, preventing token replay attacks.
+  - **Role-Based Access Control**: `allowed_approvers` restricts execution to authorized users (verified via `APPROVER_SLACK_IDS`).
+  - **Auto-Rollback & Service Blocking**: `_background_verifier` monitors post-fix health for 30 seconds; if degraded, it triggers `_rollback_action` to restore previous container limits/state. If rollback fails, the service is locked in `_BLOCKED_SERVICES`, blocking future autonomous actions until human manual intervention.
 
 ### 8.7 Final Live Benchmark Results, Charts & Honest Limits
 - **Evidence-First Protocol**: Enforced by a code gate plus the prompt, verified from tool traces.
